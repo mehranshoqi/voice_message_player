@@ -1,10 +1,9 @@
-import 'dart:ui';
-
-import 'package:voice_message/helpers/style.dart';
-import 'package:voice_message/helpers/widgets.dart';
-import 'package:voice_message/widgets/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import '../helpers/style.dart';
+import '../helpers/widgets.dart';
+import '../widgets/bubble.dart';
 
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) =>
       Scaffold(body: _messagesWithUserInfo(context));
 
-  _messagesWithUserInfo(BuildContext context) => SafeArea(
+  Widget _messagesWithUserInfo(BuildContext context) => SafeArea(
         child: Column(
           children: [
             _userInformation(context),
@@ -29,7 +28,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
-  _userInformation(BuildContext context) => Padding(
+  Widget _userInformation(BuildContext context) => Padding(
         padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 8.w),
         child: Row(
           children: [
@@ -81,7 +80,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
-  _buildContainer(BuildContext context) => Expanded(
+  Widget _buildContainer(BuildContext context) => Expanded(
         child: Container(
           padding: const EdgeInsets.only(top: 18),
           decoration: BoxDecoration(
@@ -95,7 +94,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
-  _messagesList(BuildContext context) => ListView.builder(
+  Widget _messagesList(BuildContext context) => ListView.builder(
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) => Bubble(
           index == 1 || index == 4 || index == 6, // for two chat side.

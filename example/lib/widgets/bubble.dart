@@ -27,7 +27,7 @@ class Bubble extends StatelessWidget {
         ),
       );
 
-  _bubble(BuildContext context) => Container(
+  Widget _bubble(BuildContext context) => Container(
         constraints: BoxConstraints(maxWidth: 100.w * .7),
         padding: EdgeInsets.symmetric(
           horizontal: 4.w,
@@ -47,9 +47,7 @@ class Bubble extends StatelessWidget {
         ),
         child: voice
             ? const VoiceMessage(
-                audioSrc:
-                    'https://dl6.shirazsong.in/dl/music/00-11/Alireza%20Mahan%20-%20Faramooshi%20%5B128%5D.mp3',
-              )
+                audioSrc: 'https://sounds-mp3.com/mp3/0012660.mp3')
             : Text(
                 me
                     ? 'Hello, How are u?'
@@ -63,7 +61,7 @@ class Bubble extends StatelessWidget {
               ),
       );
 
-  _seenWithTime(BuildContext context) => Column(
+  Widget _seenWithTime(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
