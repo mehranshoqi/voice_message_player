@@ -18,6 +18,7 @@ dependencies:
 Next, install package from the command line
 ```sh
 flutter packages get
+```
 
 And all you need is pass your audio file src to VoiceMessage widget:
 ```dart
