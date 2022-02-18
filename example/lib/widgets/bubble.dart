@@ -1,0 +1,83 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+import 'package:voice_message_package/voice_message_package.dart';
+
+import '../helpers/colors.dart';
+import '../helpers/style.dart';
+
+// ignore: must_be_immutable
+class Bubble extends StatelessWidget {
+  Bubble(this.me, this.index, {Key? key, this.voice = false}) : super(key: key);
+  bool me, voice;
+  int index;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.2.w, vertical: 2.w),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.end,
+          textDirection: me ? TextDirection.rtl : TextDirection.ltr,
+          children: [
+            _bubble(context),
+            SizedBox(width: 2.w),
+            _seenWithTime(context),
+          ],
+        ),
+      );
+
+  _bubble(BuildContext context) => Container(
+        constraints: BoxConstraints(maxWidth: 100.w * .7),
+        padding: EdgeInsets.symmetric(
+          horizontal: 4.w,
+          vertical: voice ? 2.8.w : 2.5.w,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(6.w),
+            bottomLeft: me ? Radius.circular(6.w) : Radius.circular(2.w),
+            bottomRight: !me ? Radius.circular(6.w) : Radius.circular(1.2.w),
+            topRight: Radius.circular(6.w),
+          ),
+          color: me ? AppColors.pink : Colors.white,
+          boxShadow: me
+              ? S.pinkShadow(shadow: AppColors.pink100)
+              : [S.boxShadow(context, opacity: .05)],
+        ),
+        child: voice
+            ? const VoiceMessage(
+                audioSrc:
+                    'https://dl6.shirazsong.in/dl/music/00-11/Alireza%20Mahan%20-%20Faramooshi%20%5B128%5D.mp3',
+              )
+            : Text(
+                me
+                    ? 'Hello, How are u?'
+                    : Random().nextBool()
+                        ? 'It\'s Rainy!'
+                        : Random().nextBool()
+                            ? 'Ok! got it.'
+                            : 'How was going bro ?',
+                style: TextStyle(
+                    fontSize: 13.2, color: me ? Colors.white : Colors.black),
+              ),
+      );
+
+  _seenWithTime(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (me)
+            Icon(
+              Icons.done_all_outlined,
+              color: AppColors.pink,
+              size: 3.4.w,
+            ),
+          Text(
+            '1:' '${index + 30}' ' PM',
+            style: const TextStyle(fontSize: 11.8),
+          ),
+          SizedBox(height: .2.w)
+        ],
+      );
+}
