@@ -8,7 +8,6 @@ import '../widgets/bubble.dart';
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -39,10 +38,7 @@ class _ChatPageState extends State<ChatPage> {
                 color: Colors.black.withOpacity(.07),
               ),
               padding: EdgeInsets.symmetric(horizontal: 3.8.w, vertical: 3.1.w),
-              child: Icon(
-                Icons.arrow_back_ios_outlined,
-                size: 3.7.w,
-              ),
+              child: Icon(Icons.arrow_back_ios_outlined, size: 3.7.w),
             ),
             SizedBox(width: 5.5.w),
             //* avatar.

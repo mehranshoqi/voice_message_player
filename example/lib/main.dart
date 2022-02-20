@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => Sizer(
-        builder: (_, __, ___) =>
-            const MaterialApp(debugShowCheckedModeBanner: false, home: ChatPage()),
+        builder: (_, __, ___) => const MaterialApp(
+            debugShowCheckedModeBanner: false, home: ChatPage()),
       );
 }

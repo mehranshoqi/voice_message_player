@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Widgets {
-   static circle(
+  static circle(
     BuildContext context,
     double width,
     Color color, {

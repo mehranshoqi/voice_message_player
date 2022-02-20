@@ -3,8 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-
-
 class Noises extends StatelessWidget {
   const Noises({Key? key}) : super(key: key);
 

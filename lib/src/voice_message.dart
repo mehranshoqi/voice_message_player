@@ -1,4 +1,3 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:voice_message_package/src/helpers/colors.dart';
 import './duration.dart';
@@ -9,8 +8,6 @@ import 'package:sizer/sizer.dart';
 
 import './helpers/widgets.dart';
 import './noises.dart';
-
-
 
 class VoiceMessage extends StatefulWidget {
   const VoiceMessage({
