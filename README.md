@@ -1,5 +1,5 @@
 
-Cool flutter package to playing voice messages in chats!
+Cool flutter package to playing voice messages in chats with x1/x2 rate!
 
 
 # Demo
@@ -27,7 +27,7 @@ VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 ```
 
 
-:pushpin: me at [mehran-dev.web.app](https://mehran-dev.web.app)
+:pushpin:Find me at [mehran-dev.web.app](https://mehran-dev.web.app)
 
 
 
