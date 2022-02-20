@@ -4,7 +4,7 @@ Cool flutter package to playing voice messages in chats!
 
 ## Demo
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Demo](https://github.com/mehranshoqi/voice_message_player/blob/master/voice_message_demo.gif)
 
 
 ## Getting started
