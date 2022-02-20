@@ -2,12 +2,12 @@
 Cool flutter package to playing voice messages in chats!
 
 
-## Demo
+# Demo
 
 ![Demo](https://github.com/mehranshoqi/voice_message_player/blob/master/voice_message_intro.gif)
 
 
-## Getting started
+# Getting started
 
 First add this line to pubsbec.yaml file:
 
@@ -26,7 +26,6 @@ And all you need is pass your audio file src to VoiceMessage widget:
 VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 ```
 
-### Find me 
-> https://mehran-dev.web.app
+## Find me at [mehran-dev.web.app](https://mehran-dev.web.app)
 
 
