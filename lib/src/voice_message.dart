@@ -128,10 +128,10 @@ class _VoiceMessageState extends State<VoiceMessage>
             borderRadius: BorderRadius.circular(2.8.w),
             color: widget.fgColor.withOpacity(.28),
           ),
-          width: 9.3.w,
+          width: 9.8.w,
           child: Text(
             !x2 ? '1X' : '2X',
-            style: TextStyle(fontSize: 10, color: widget.fgColor),
+            style: TextStyle(fontSize: 9.8, color: widget.fgColor),
           ),
         ),
       );
