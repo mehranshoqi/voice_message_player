@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// @nodoc
+/// document will be added
 class Widgets {
-  /// @nodoc
+  /// document will be added
   static circle(
     BuildContext context,
     double width,

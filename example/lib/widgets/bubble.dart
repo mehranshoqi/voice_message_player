@@ -7,6 +7,7 @@ import 'package:voice_message_package/voice_message_package.dart';
 import '../helpers/colors.dart';
 import '../helpers/style.dart';
 
+/// document will be added
 // ignore: must_be_immutable
 class Bubble extends StatelessWidget {
   Bubble(this.me, this.index, {Key? key, this.voice = false}) : super(key: key);
