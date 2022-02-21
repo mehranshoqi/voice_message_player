@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// @nodoc
 class AppColors {
   //* Pink.
   static const Color pink = Color(0xFFFF4550);

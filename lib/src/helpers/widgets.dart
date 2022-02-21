@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// @nodoc
 class Widgets {
+  /// @nodoc
   static circle(
     BuildContext context,
     double width,
