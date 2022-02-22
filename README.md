@@ -4,24 +4,15 @@
     <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%;">
 </p>
 <div style="height:6px;"></div>
-<div style="display: flex;flex-wrap: wrap;justify-content: center;">
-<img alt="GitHub" src="https://img.shields.io/github/license/mehranshoqi/voice_message_player?color=FF5D73&style=for-the-badge">
-<div style="width:12px;"></div>
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/mehranshoqi/voice_message_player?color=6FD08C&label=Size&style=for-the-badge">
-<div style="width:12px;"></div>
-<img alt="Pub Version" src="https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge">
 
-<div style="width:12px;"></div>
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/mehranshoqi/voice_message_player?color=E7E393&style=for-the-badge">
-<div style="width:12px;"></div>
-<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge">
-<div style="width:12px;"></div>
-<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/mehranshoghii?color=2AF5FF&logoColor=2AF5FF&style=for-the-badge">
-
-</div>
 <div style="height:32px;"></div>
 
-![]("https://img.shields.io/twitter/follow/mehranshoghii?color=2AF5FF&logoColor=2AF5FF&style=for-the-badge")
+![](https://img.shields.io/github/license/mehranshoqi/voice_message_player?color=FF5D73&style=for-the-badge)
+![](https://img.shields.io/github/languages/code-size/mehranshoqi/voice_message_player?color=6FD08C&label=Size&style=for-the-badge)
+![](https://img.shields.io/github/issues/mehranshoqi/voice_message_player?color=E7E393&style=for-the-badge)
+![](https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge)
+![](https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge)
+![](https://img.shields.io/twitter/follow/mehranshoghii?color=2AF5FF&logoColor=2AF5FF&style=for-the-badge)
 
 # Demo
 
@@ -35,34 +26,53 @@ Voicey is a flutter package to play voice messages in chats with playback rates 
 </p>
 <div style="height:40px;"></div>
 
-# How to use
+# Platform Support
+
+| Android | iOS | MacOS | Web |
+| :-----: | :-: | :---: | :-: |
+|   ✔️    | ✔️  |  ✔️   | ✔️  |
+
+<div style="height:16px;"></div>
+
+# Installation
 
 First add voicey to your pubsbec.yaml file:
 
-```dart
+```yml
 dependencies:
   voice_message_package: <latest-version>
 ```
+<div style="height:12px;"></div>
 
-Next, install package from the command line
+Next, get package from pub dependencies:
 ```dart
-flutter packages get
+flutter pub get
 ```
 
-And all you need is pass your audio file src to VoiceMessage widget:
+<div style="height:40px;"></div>
+
+# How to use
+
+All you need is pass your audio file src to VoiceMessage widget:
 ```dart
 VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 ```
 
-# FAQ
-
 # Todo
 
-# Donation
+- [ ] generate noises according to real voice noise.
+- [x] add x2 playback speed.
+- [ ] dynamic size for voice widget.
+- [ ] dynamic size for noises.
 
-# License
 
-# Donation
+## Donation
+
+**DOGECOIN!:** DTGjx8KKDCUkSEbtVHgQx1GYEnNaVVuXLa<br />
+**BITCOIN:** bc1qknjsmsa98lljwxjwl4pmjh48s8su8r8ajkqd8w<br />
+**ETHEREUM:** 0x018fbf3fAC7165b2c85f856cC90E2d9410415150<br />
+
+## Me
 
 :pushpin:Find me at [mehran-dev.web.app](https://mehran-dev.web.app)
 
