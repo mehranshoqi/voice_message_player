@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 import './helpers/widgets.dart';
 import './noises.dart';
 
-/// @nodoc
+/// document will be added
 class VoiceMessage extends StatefulWidget {
   const VoiceMessage({
     Key? key,
