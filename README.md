@@ -1,7 +1,7 @@
 
 # Voicey
 <p align="center">
-    <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%;">
+    <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%; overflow:hidden;">
 </p>
 <div style="height:6px;"></div>
 
@@ -12,7 +12,6 @@
 ![](https://img.shields.io/github/issues/mehranshoqi/voice_message_player?color=E7E393&style=for-the-badge)
 ![](https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge)
 ![](https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge)
-![](https://img.shields.io/twitter/follow/mehranshoghii?color=2AF5FF&logoColor=2AF5FF&style=for-the-badge)
 
 # Demo
 
@@ -26,7 +25,7 @@ Voicey is a flutter package to play voice messages in chats with playback rates 
 </p>
 <div style="height:40px;"></div>
 
-# Platform Support
+## Platform Support
 
 | Android | iOS | MacOS | Web |
 | :-----: | :-: | :---: | :-: |
@@ -34,7 +33,7 @@ Voicey is a flutter package to play voice messages in chats with playback rates 
 
 <div style="height:16px;"></div>
 
-# Installation
+## Installation
 
 First add voicey to your pubsbec.yaml file:
 
@@ -51,14 +50,14 @@ flutter pub get
 
 <div style="height:40px;"></div>
 
-# How to use
+## How to use
 
 All you need is pass your audio file src to VoiceMessage widget:
 ```dart
 VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 ```
 
-# Todo
+## Todo
 
 - [ ] generate noises according to real voice noise.
 - [x] add x2 playback speed.
