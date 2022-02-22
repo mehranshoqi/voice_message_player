@@ -1,5 +1,5 @@
 
-# Voicey
+## Voicey - Flutter voice message player
 <p align="center">
     <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%; overflow:hidden;">
 </p>
@@ -13,7 +13,7 @@
 ![](https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge)
 ![](https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge)
 
-# Demo
+## Demo
 
 <div style="height:24px;"></div>
 <p align="center">
