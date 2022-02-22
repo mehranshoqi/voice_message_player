@@ -64,6 +64,11 @@ VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 - [ ] dynamic size for voice widget.
 - [ ] dynamic size for noises.
 
+<div style="height:40px;"></div>
+
+## License
+
+Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voice_message_player/blob/master/LICENSE "LICENSE").
 
 <!-- ## Donation
 
