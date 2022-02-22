@@ -66,11 +66,10 @@ VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 - [ ] dynamic size for noises.
 
 
-## Donation
+<!-- ## Donation
 
-**DOGECOIN!:** DTGjx8KKDCUkSEbtVHgQx1GYEnNaVVuXLa<br />
-**BITCOIN:** bc1qknjsmsa98lljwxjwl4pmjh48s8su8r8ajkqd8w<br />
-**ETHEREUM:** 0x018fbf3fAC7165b2c85f856cC90E2d9410415150<br />
+[![Donate with Ripple](https://en.cryptobadges.io/badge/big/r3EazHwqTd7ifeCJj5gm3xdRna71vwmhwp)](https://en.cryptobadges.io/donate/r3EazHwqTd7ifeCJj5gm3xdRna71vwmhwp) -->
+
 
 ## Me
 
