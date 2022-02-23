@@ -1,8 +1,8 @@
 
 ## Voicey - Flutter voice message player
-<p align="center">
+<!-- <p align="center">
     <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%; overflow:hidden;">
-</p>
+</p> -->
 <div style="height:6px;"></div>
 
 <div style="height:32px;"></div>
@@ -13,11 +13,15 @@
 ![](https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge)
 ![](https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge)
 
+
 ## Demo
 
 <div style="height:24px;"></div>
 <p align="center">
-    <img src="voice_message_intro.gif" alt="flutter voice message player demo" style="margin-top: 24px;">
+
+![](voice_message_intro.gif)
+
+    <!-- <img src="voice_message_intro.gif" alt="flutter voice message player demo" style="margin-top: 24px;"> -->
 </p>
 <div style="height:12px;"></div>
 <p style="font-size: 18px"/>
