@@ -17,12 +17,9 @@
 ## Demo
 
 <div style="height:24px;"></div>
-<p align="center">
 
 ![](voice_message_intro.gif)
 
-    <!-- <img src="voice_message_intro.gif" alt="flutter voice message player demo" style="margin-top: 24px;"> -->
-</p>
 <div style="height:12px;"></div>
 <p style="font-size: 18px"/>
 Voicey is a flutter package to play voice messages in chats with playback rates x1/x2.
