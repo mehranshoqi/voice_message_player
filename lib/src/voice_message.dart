@@ -150,6 +150,7 @@ class _VoiceMessageState extends State<VoiceMessage>
         minThumbSeparation: 0,
       ),
     );
+
     /// document will be added
     return Theme(
       data: newTHeme,
@@ -231,6 +232,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
     duration = _audioDuration!.inSeconds;
     maxDurationForSlider = duration + .0;
+
     /// document will be added
     _controller = AnimationController(
       vsync: this,
@@ -238,6 +240,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       upperBound: noiseWidth,
       duration: _audioDuration,
     );
+
     /// document will be added
     _controller!.addListener(() {
       if (_controller!.isCompleted) {
