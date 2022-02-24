@@ -1,5 +1,4 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
@@ -12,6 +11,7 @@ import 'duration.dart';
 import 'helpers/colors.dart';
 
 /// document will be added
+// ignore: must_be_immutable
 class VoiceMessage extends StatefulWidget {
   VoiceMessage({
     Key? key,
@@ -28,7 +28,7 @@ class VoiceMessage extends StatefulWidget {
   final String audioSrc;
   final int noiseCount;
   final Color meBgColor, meFgColor, contactBgColor, contactFgColor;
-  bool played, me;
+  final bool played, me;
 
   @override
   _VoiceMessageState createState() => _VoiceMessageState();
@@ -141,6 +141,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       );
 
   _noise(BuildContext context) {
+    /// document will be added
     final ThemeData theme = Theme.of(context);
     final newTHeme = theme.copyWith(
       sliderTheme: SliderThemeData(
@@ -149,6 +150,7 @@ class _VoiceMessageState extends State<VoiceMessage>
         minThumbSeparation: 0,
       ),
     );
+    /// document will be added
     return Theme(
       data: newTHeme,
       child: SizedBox(
@@ -229,12 +231,14 @@ class _VoiceMessageState extends State<VoiceMessage>
     _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
     duration = _audioDuration!.inSeconds;
     maxDurationForSlider = duration + .0;
+    /// document will be added
     _controller = AnimationController(
       vsync: this,
       lowerBound: 0,
       upperBound: noiseWidth,
       duration: _audioDuration,
     );
+    /// document will be added
     _controller!.addListener(() {
       if (_controller!.isCompleted) {
         _controller!.reset();
@@ -284,6 +288,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     });
   }
 
+  /// document will be added
   _onChangeSlider(double d) async {
     if (_isPlaying) _changePlayingStatus();
     duration = d.round();
@@ -294,7 +299,9 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 }
 
+/// document will be added
 class CustomTrackShape extends RoundedRectSliderTrackShape {
+  /// document will be added
   Rect getPreferredRect({
     required RenderBox parentBox,
     Offset offset = Offset.zero,
