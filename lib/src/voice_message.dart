@@ -1,27 +1,34 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:voice_message_package/src/helpers/colors.dart';
-import './duration.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:sizer/sizer.dart';
+import 'package:voice_message_package/src/contact_noise.dart';
 
 import './helpers/widgets.dart';
 import './noises.dart';
+import 'duration.dart';
+import 'helpers/colors.dart';
 
 /// document will be added
 class VoiceMessage extends StatefulWidget {
-  const VoiceMessage({
+  VoiceMessage({
     Key? key,
     required this.audioSrc,
+    required this.me,
     this.noiseCount = 27,
-    this.bgColor = AppColors.pink,
-    this.fgColor = const Color(0xffffffff),
+    this.meBgColor = AppColors.pink,
+    this.contactBgColor = const Color(0xffffffff),
+    this.contactFgColor = AppColors.pink,
+    this.meFgColor = const Color(0xffffffff),
+    this.played = false,
   }) : super(key: key);
 
   final String audioSrc;
   final int noiseCount;
-  final Color bgColor, fgColor;
+  final Color meBgColor, meFgColor, contactBgColor, contactFgColor;
+  bool played, me;
 
   @override
   _VoiceMessageState createState() => _VoiceMessageState();
@@ -30,8 +37,9 @@ class VoiceMessage extends StatefulWidget {
 class _VoiceMessageState extends State<VoiceMessage>
     with SingleTickerProviderStateMixin {
   final AudioPlayer _player = AudioPlayer();
-  final double maxNoiseHeight = 6.w, noiseWidth = 27.w;
+  final double maxNoiseHeight = 6.w, noiseWidth = 26.5.w;
   Duration? _audioDuration;
+  double maxDurationForSlider = .0000001;
   bool _isPlaying = false, x2 = false, _audioConfigurationDone = false;
   int _playingStatus = 0, duration = 00;
   String _remaingTime = '';
@@ -44,33 +52,68 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(BuildContext context) => Container(
         padding: EdgeInsets.symmetric(horizontal: .8.w),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _playButton(context),
-            SizedBox(width: 3.w),
-            _durationWithNoise(context),
-            SizedBox(width: 2.2.w),
-            _speed(context),
-          ],
+        constraints: BoxConstraints(maxWidth: 100.w * .7),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(6.w),
+            bottomLeft: widget.me ? Radius.circular(6.w) : Radius.circular(2.w),
+            bottomRight:
+                !widget.me ? Radius.circular(6.w) : Radius.circular(1.2.w),
+            topRight: Radius.circular(6.w),
+          ),
+          color: widget.me ? widget.meBgColor : widget.contactBgColor,
+          // boxShadow: widget.me
+          //     ? S.pinkShadow(shadow: AppColors.pink100)
+          //     : [S.boxShadow(context, opacity: .05)],
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 4.w,
+            vertical: 2.8.w,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _playButton(context),
+              SizedBox(width: 3.w),
+              _durationWithNoise(context),
+              SizedBox(width: 2.2.w),
+              // _speed(context),
+            ],
+          ),
         ),
       );
 
   _playButton(BuildContext context) => InkWell(
         child: Container(
           decoration:
-              BoxDecoration(shape: BoxShape.circle, color: widget.fgColor),
+              BoxDecoration(
+            shape: BoxShape.circle,
+            color: widget.me ? widget.meFgColor : widget.contactFgColor,
+          ),
           width: 8.w,
           height: 8.w,
           child: InkWell(
-            onTap: () => _changePlayingStatus(),
-            child: Icon(
-              _isPlaying ? Icons.pause : Icons.play_arrow,
-              color: widget.bgColor,
-              size: 5.w,
-            ),
+            onTap: () =>
+                !_audioConfigurationDone ? null : _changePlayingStatus(),
+            child: !_audioConfigurationDone
+                ? Container(
+                    padding: const EdgeInsets.all(8),
+                    width: 10,
+                    height: 0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                      color:
+                          widget.me ? widget.meFgColor : widget.contactFgColor,
+                    ),
+                  )
+                : Icon(
+                    _isPlaying ? Icons.pause : Icons.play_arrow,
+                    color: widget.me ? widget.meBgColor : widget.contactBgColor,
+                    size: 5.w,
+                  ),
           ),
         ),
       );
@@ -82,24 +125,40 @@ class _VoiceMessageState extends State<VoiceMessage>
           SizedBox(height: .3.w),
           Row(
             children: [
-              Widgets.circle(context, 1.w, widget.fgColor),
+              if (!widget.played)
+                Widgets.circle(context, 1.w,
+                    widget.me ? widget.meFgColor : widget.contactFgColor),
               SizedBox(width: 1.2.w),
               Text(
                 _remaingTime,
-                style: TextStyle(fontSize: 10, color: widget.fgColor),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: widget.me ? widget.meFgColor : widget.contactFgColor,
+                ),
               )
             ],
           ),
         ],
       );
 
-  _noise(BuildContext context) => SizedBox(
+  _noise(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final newTHeme = theme.copyWith(
+      sliderTheme: SliderThemeData(
+        trackShape: CustomTrackShape(),
+        thumbShape: SliderComponentShape.noThumb,
+        minThumbSeparation: 0,
+      ),
+    );
+    return Theme(
+      data: newTHeme,
+      child: SizedBox(
         height: 6.5.w,
         width: noiseWidth,
         child: Stack(
           clipBehavior: Clip.hardEdge,
           children: [
-            const Noises(),
+            widget.me ? const Noises() : const ContactNoise(),
             if (_audioConfigurationDone)
               AnimatedBuilder(
                 animation:
@@ -110,14 +169,32 @@ class _VoiceMessageState extends State<VoiceMessage>
                     child: Container(
                       width: noiseWidth,
                       height: 6.w,
-                      color: widget.bgColor.withOpacity(.4),
+                      color: widget.me
+                          ? widget.meBgColor.withOpacity(.4)
+                          : widget.contactBgColor.withOpacity(.35),
                     ),
                   );
                 },
               ),
+            Opacity(
+              opacity: .0,
+              child: Container(
+                width: noiseWidth,
+                color: Colors.amber.withOpacity(1),
+                child: Slider(
+                  min: 0.0,
+                  max: maxDurationForSlider,
+                  onChangeStart: (__) => _stopPlaying(),
+                  onChanged: (_) => _onChangeSlider(_),
+                  value: duration + .0,
+                ),
+              ),
+            ),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   _speed(BuildContext context) => InkWell(
         onTap: () => _toggle2x(),
@@ -126,12 +203,12 @@ class _VoiceMessageState extends State<VoiceMessage>
           padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.6.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(2.8.w),
-            color: widget.fgColor.withOpacity(.28),
+            color: widget.meFgColor.withOpacity(.28),
           ),
           width: 9.8.w,
           child: Text(
             !x2 ? '1X' : '2X',
-            style: TextStyle(fontSize: 9.8, color: widget.fgColor),
+            style: TextStyle(fontSize: 9.8, color: widget.meFgColor),
           ),
         ),
       );
@@ -152,15 +229,12 @@ class _VoiceMessageState extends State<VoiceMessage>
   void _setDuration() async {
     _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
     duration = _audioDuration!.inSeconds;
-    _setAnimationCunfiguration(_audioDuration);
-  }
-
-  void _setAnimationCunfiguration(Duration? audioDuration) {
+    maxDurationForSlider = duration + .0;
     _controller = AnimationController(
       vsync: this,
       lowerBound: 0,
       upperBound: noiseWidth,
-      duration: audioDuration,
+      duration: _audioDuration,
     );
     _controller!.addListener(() {
       if (_controller!.isCompleted) {
@@ -170,6 +244,10 @@ class _VoiceMessageState extends State<VoiceMessage>
         setState(() {});
       }
     });
+    _setAnimationCunfiguration(_audioDuration);
+  }
+
+  void _setAnimationCunfiguration(Duration? audioDuration) async {
     _listenToRemaningTime();
     _remaingTime = VoiceDuration.getDuration(duration);
     _completeAnimationConfiguration();
@@ -205,5 +283,31 @@ class _VoiceMessageState extends State<VoiceMessage>
       if (_newRemaingTime2 != _remaingTime)
         setState(() => _remaingTime = _newRemaingTime2);
     });
+  }
+
+  _onChangeSlider(double d) async {
+    if (_isPlaying) _changePlayingStatus();
+    duration = d.round();
+    _controller?.value = (noiseWidth) * duration / maxDurationForSlider;
+    _remaingTime = VoiceDuration.getDuration(duration);
+    await _player.seek(Duration(seconds: duration));
+    setState(() {});
+  }
+}
+
+class CustomTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    const double trackHeight = 10;
+    final double trackLeft = offset.dx;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
 }
