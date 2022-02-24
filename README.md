@@ -55,7 +55,11 @@ flutter pub get
 
 All you need is pass your audio file src to VoiceMessage widget:
 ```dart
-VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
+VoiceMessage(
+  audioSrc: 'YOUR_AUDIO_URL',
+  played: false, // to show played badge or not.
+  me: true, // set message side.
+);
 ```
 
 ## Todo

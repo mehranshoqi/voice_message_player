@@ -377,7 +377,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.5"
+    version: "0.0.51"
   win32:
     dependency: transitive
     description:
