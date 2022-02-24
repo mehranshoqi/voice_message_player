@@ -1,4 +1,4 @@
-import './colors.dart';
+import 'colors.dart';
 import 'package:flutter/material.dart';
 
 /// document will be added

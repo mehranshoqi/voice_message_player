@@ -34,35 +34,35 @@ class Bubble extends StatelessWidget {
           me: index == 5 ? false : true,
         )
       : Container(
-        constraints: BoxConstraints(maxWidth: 100.w * .7),
-        padding: EdgeInsets.symmetric(
-          horizontal: 4.w,
-          vertical: voice ? 2.8.w : 2.5.w,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(6.w),
-            bottomLeft: me ? Radius.circular(6.w) : Radius.circular(2.w),
-            bottomRight: !me ? Radius.circular(6.w) : Radius.circular(1.2.w),
-            topRight: Radius.circular(6.w),
+          constraints: BoxConstraints(maxWidth: 100.w * .7),
+          padding: EdgeInsets.symmetric(
+            horizontal: 4.w,
+            vertical: voice ? 2.8.w : 2.5.w,
           ),
-          color: me ? AppColors.pink : Colors.white,
-          boxShadow: me
-              ? S.pinkShadow(shadow: AppColors.pink100)
-              : [S.boxShadow(context, opacity: .05)],
-        ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(6.w),
+              bottomLeft: me ? Radius.circular(6.w) : Radius.circular(2.w),
+              bottomRight: !me ? Radius.circular(6.w) : Radius.circular(1.2.w),
+              topRight: Radius.circular(6.w),
+            ),
+            color: me ? AppColors.pink : Colors.white,
+            boxShadow: me
+                ? S.pinkShadow(shadow: AppColors.pink100)
+                : [S.boxShadow(context, opacity: .05)],
+          ),
           child: Text(
-                me
-                    ? 'Hello, How are u?'
+            me
+                ? 'Hello, How are u?'
+                : Random().nextBool()
+                    ? 'It\'s Rainy!'
                     : Random().nextBool()
-                        ? 'It\'s Rainy!'
-                        : Random().nextBool()
-                            ? 'Ok! got it.'
-                            : 'How was going bro ?',
-                style: TextStyle(
-                    fontSize: 13.2, color: me ? Colors.white : Colors.black),
-              ),
-      );
+                        ? 'Ok! got it.'
+                        : 'How was going bro ?',
+            style: TextStyle(
+                fontSize: 13.2, color: me ? Colors.white : Colors.black),
+          ),
+        );
 
   Widget _seenWithTime(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.end,

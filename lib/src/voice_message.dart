@@ -88,8 +88,7 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   _playButton(BuildContext context) => InkWell(
         child: Container(
-          decoration:
-              BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: widget.me ? widget.meFgColor : widget.contactFgColor,
           ),
