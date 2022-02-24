@@ -198,22 +198,22 @@ class _VoiceMessageState extends State<VoiceMessage>
     );
   }
 
-  _speed(BuildContext context) => InkWell(
-        onTap: () => _toggle2x(),
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.6.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2.8.w),
-            color: widget.meFgColor.withOpacity(.28),
-          ),
-          width: 9.8.w,
-          child: Text(
-            !x2 ? '1X' : '2X',
-            style: TextStyle(fontSize: 9.8, color: widget.meFgColor),
-          ),
-        ),
-      );
+  // _speed(BuildContext context) => InkWell(
+  //       onTap: () => _toggle2x(),
+  //       child: Container(
+  //         alignment: Alignment.center,
+  //         padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.6.w),
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(2.8.w),
+  //           color: widget.meFgColor.withOpacity(.28),
+  //         ),
+  //         width: 9.8.w,
+  //         child: Text(
+  //           !x2 ? '1X' : '2X',
+  //           style: TextStyle(fontSize: 9.8, color: widget.meFgColor),
+  //         ),
+  //       ),
+  //     );
 
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
