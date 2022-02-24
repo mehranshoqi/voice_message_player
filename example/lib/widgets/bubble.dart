@@ -28,7 +28,12 @@ class Bubble extends StatelessWidget {
         ),
       );
 
-  Widget _bubble(BuildContext context) => Container(
+  Widget _bubble(BuildContext context) => voice
+      ? VoiceMessage(
+          audioSrc: 'https://sounds-mp3.com/mp3/0012660.mp3',
+          me: index == 5 ? false : true,
+        )
+      : Container(
         constraints: BoxConstraints(maxWidth: 100.w * .7),
         padding: EdgeInsets.symmetric(
           horizontal: 4.w,
@@ -46,10 +51,7 @@ class Bubble extends StatelessWidget {
               ? S.pinkShadow(shadow: AppColors.pink100)
               : [S.boxShadow(context, opacity: .05)],
         ),
-        child: voice
-            ? const VoiceMessage(
-                audioSrc: 'https://sounds-mp3.com/mp3/0012660.mp3')
-            : Text(
+          child: Text(
                 me
                     ? 'Hello, How are u?'
                     : Random().nextBool()

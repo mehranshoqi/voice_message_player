@@ -91,11 +91,11 @@ class _ChatPageState extends State<ChatPage> {
       );
 
   Widget _messagesList(BuildContext context) => ListView.builder(
-        itemCount: 6,
+        itemCount: 7,
         itemBuilder: (BuildContext context, int index) => Bubble(
           index == 1 || index == 4 || index == 6, // for two chat side.
           index,
-          voice: index == 4,
+          voice: index == 4 || index == 5,
         ),
       );
 }
