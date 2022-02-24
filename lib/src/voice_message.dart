@@ -262,13 +262,13 @@ class _VoiceMessageState extends State<VoiceMessage>
   void _completeAnimationConfiguration() =>
       setState(() => _audioConfigurationDone = true);
 
-  void _toggle2x() {
-    x2 = !x2;
-    _controller!.duration = Duration(seconds: x2 ? duration ~/ 2 : duration);
-    if (_controller!.isAnimating) _controller!.forward();
-    _player.setPlaybackRate(x2 ? 2 : 1);
-    setState(() {});
-  }
+  // void _toggle2x() {
+  //   x2 = !x2;
+  //   _controller!.duration = Duration(seconds: x2 ? duration ~/ 2 : duration);
+  //   if (_controller!.isAnimating) _controller!.forward();
+  //   _player.setPlaybackRate(x2 ? 2 : 1);
+  //   setState(() {});
+  // }
 
   void _changePlayingStatus() async {
     _isPlaying ? _stopPlaying() : _startPlaying();
