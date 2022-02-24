@@ -60,7 +60,7 @@ VoiceMessage(audioSrc: 'YOUR_AUDIO_URL');
 
 ## Todo
 
-- [x] seeking on message by drag on noises.
+- [x] seeking on audio by drag on noises.
 - [ ] add x2 playback speed.
 - [ ] generate noises according to real voice noise.
 - [ ] dynamic size for voice widget.
