@@ -23,12 +23,14 @@ class VoiceMessage extends StatefulWidget {
     this.contactFgColor = AppColors.pink,
     this.meFgColor = const Color(0xffffffff),
     this.played = false,
+    this.onPlay,
   }) : super(key: key);
 
   final String audioSrc;
   final int noiseCount;
   final Color meBgColor, meFgColor, contactBgColor, contactFgColor;
   final bool played, me;
+  Function()? onPlay;
 
   @override
   _VoiceMessageState createState() => _VoiceMessageState();
@@ -271,6 +273,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   // }
 
   void _changePlayingStatus() async {
+    if (widget.onPlay != null) widget.onPlay!();
     _isPlaying ? _stopPlaying() : _startPlaying();
     setState(() => _isPlaying = !_isPlaying);
   }
