@@ -59,6 +59,7 @@ VoiceMessage(
   audioSrc: 'YOUR_AUDIO_URL',
   played: false, // to show played badge or not.
   me: true, // set message side.
+  onPlay: () {}, // do somethin when voice played.
 );
 ```
 
