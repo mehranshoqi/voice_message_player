@@ -22,7 +22,7 @@
 
 <div style="height:12px;"></div>
 <p style="font-size: 18px"/>
-Voicey is a flutter package to play voice messages in chats with playback rates x1/x2.
+Voicey is a flutter package to play voice messages in chats. Also, you can sicking by dragging on voice noises.
 </p>
 <div style="height:40px;"></div>
 
