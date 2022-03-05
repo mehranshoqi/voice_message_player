@@ -21,6 +21,8 @@ class VoiceMessage extends StatefulWidget {
     this.meBgColor = AppColors.pink,
     this.contactBgColor = const Color(0xffffffff),
     this.contactFgColor = AppColors.pink,
+    this.mePlayIconColor = Colors.black,
+    this.contactPlayIconColor = Colors.black26,
     this.meFgColor = const Color(0xffffffff),
     this.played = false,
     this.onPlay,
@@ -28,7 +30,12 @@ class VoiceMessage extends StatefulWidget {
 
   final String audioSrc;
   final int noiseCount;
-  final Color meBgColor, meFgColor, contactBgColor, contactFgColor;
+  final Color meBgColor,
+      meFgColor,
+      contactBgColor,
+      contactFgColor,
+      mePlayIconColor,
+      contactPlayIconColor;
   final bool played, me;
   Function()? onPlay;
 
@@ -63,7 +70,8 @@ class _VoiceMessageState extends State<VoiceMessage>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(6.w()),
-          bottomLeft: widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
+          bottomLeft:
+              widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
           bottomRight:
               !widget.me ? Radius.circular(6.w()) : Radius.circular(1.2.w()),
           topRight: Radius.circular(6.w()),
