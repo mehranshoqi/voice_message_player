@@ -54,39 +54,42 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: .8.w),
-        constraints: BoxConstraints(maxWidth: 100.w * .7),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(6.w),
-            bottomLeft: widget.me ? Radius.circular(6.w) : Radius.circular(2.w),
-            bottomRight:
-                !widget.me ? Radius.circular(6.w) : Radius.circular(1.2.w),
-            topRight: Radius.circular(6.w),
-          ),
-          color: widget.me ? widget.meBgColor : widget.contactBgColor,
-          // boxShadow: widget.me
-          //     ? S.pinkShadow(shadow: AppColors.pink100)
-          //     : [S.boxShadow(context, opacity: .05)],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 4.w,
-            vertical: 2.8.w,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _playButton(context),
-              SizedBox(width: 3.w),
-              _durationWithNoise(context),
-              SizedBox(width: 2.2.w),
-              // _speed(context),
-            ],
-          ),
-        ),
+  Widget build(BuildContext context) => Sizer(
+        builder: (_, __, ___) => _sizerChild(context),
       );
+
+  Container _sizerChild(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: .8.w),
+      constraints: BoxConstraints(maxWidth: 100.w * .7),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(6.w),
+          bottomLeft: widget.me ? Radius.circular(6.w) : Radius.circular(2.w),
+          bottomRight:
+              !widget.me ? Radius.circular(6.w) : Radius.circular(1.2.w),
+          topRight: Radius.circular(6.w),
+        ),
+        color: widget.me ? widget.meBgColor : widget.contactBgColor,
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 4.w,
+          vertical: 2.8.w,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _playButton(context),
+            SizedBox(width: 3.w),
+            _durationWithNoise(context),
+            SizedBox(width: 2.2.w),
+            // _speed(context),
+          ],
+        ),
+      ),
+    );
+  }
 
   _playButton(BuildContext context) => InkWell(
         child: Container(
