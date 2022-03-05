@@ -121,7 +121,9 @@ class _VoiceMessageState extends State<VoiceMessage>
                   )
                 : Icon(
                     _isPlaying ? Icons.pause : Icons.play_arrow,
-                    color: widget.me ? widget.meBgColor : widget.contactBgColor,
+                    color: widget.me
+                        ? widget.mePlayIconColor
+                        : widget.contactPlayIconColor,
                     size: 5.w(),
                   ),
           ),
