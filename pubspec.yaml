@@ -1,6 +1,6 @@
 name: voice_message_package
 description: Flutter package to play voice message in chats with playback speed x1/x2.
-version: 0.0.61
+version: 0.0.62
 homepage: https://github.com/mehranshoqi/voice_message_player
 
 environment:
@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   audioplayers: ^0.20.0
   just_audio: ^0.9.20
-  sizer: ^2.0.15
   syncfusion_flutter_sliders: ^19.4.53
 
 dev_dependencies:
