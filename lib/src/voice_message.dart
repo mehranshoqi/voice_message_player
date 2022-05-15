@@ -10,7 +10,8 @@ import './noises.dart';
 import 'duration.dart';
 import 'helpers/colors.dart';
 
-/// document will be added
+/// This is the main widget.
+///
 // ignore: must_be_immutable
 class VoiceMessage extends StatefulWidget {
   VoiceMessage({
@@ -79,10 +80,7 @@ class _VoiceMessageState extends State<VoiceMessage>
         color: widget.me ? widget.meBgColor : widget.contactBgColor,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 4.w(),
-          vertical: 2.8.w(),
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 4.w(), vertical: 2.8.w()),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -90,6 +88,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             SizedBox(width: 3.w()),
             _durationWithNoise(context),
             SizedBox(width: 2.2.w()),
+
+            /// x2 button will be added here.
             // _speed(context),
           ],
         ),
@@ -153,8 +153,8 @@ class _VoiceMessageState extends State<VoiceMessage>
         ],
       );
 
+  /// Noise widget of audio.
   _noise(BuildContext context) {
-    /// document will be added
     final ThemeData theme = Theme.of(context);
     final newTHeme = theme.copyWith(
       sliderTheme: SliderThemeData(
@@ -300,8 +300,9 @@ class _VoiceMessageState extends State<VoiceMessage>
       final _newRemaingTime1 = p.toString().split('.')[0];
       final _newRemaingTime2 =
           _newRemaingTime1.substring(_newRemaingTime1.length - 5);
-      if (_newRemaingTime2 != _remaingTime)
+      if (_newRemaingTime2 != _remaingTime) {
         setState(() => _remaingTime = _newRemaingTime2);
+      }
     });
   }
 
@@ -319,6 +320,7 @@ class _VoiceMessageState extends State<VoiceMessage>
 /// document will be added
 class CustomTrackShape extends RoundedRectSliderTrackShape {
   /// document will be added
+  @override
   Rect getPreferredRect({
     required RenderBox parentBox,
     Offset offset = Offset.zero,

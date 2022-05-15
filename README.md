@@ -57,9 +57,9 @@ All you need is pass your audio file src to VoiceMessage widget:
 ```dart
 VoiceMessage(
   audioSrc: 'YOUR_AUDIO_URL',
-  played: false, // to show played badge or not.
-  me: true, // set message side.
-  onPlay: () {}, // do somethin when voice played.
+  played: false, // To show played badge or not.
+  me: true, // Set message side.
+  onPlay: () {}, // Do something when voice played.
 );
 ```
 
