@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:voice_message_package/src/contact_noise.dart';
@@ -27,10 +28,12 @@ class VoiceMessage extends StatefulWidget {
     this.meFgColor = const Color(0xffffffff),
     this.played = false,
     this.onPlay,
+    this.isLocalUri = false,
   }) : super(key: key);
 
   final String audioSrc;
   final int noiseCount;
+  final bool isLocalUri;
   final Color meBgColor,
       meFgColor,
       contactBgColor,
@@ -231,18 +234,29 @@ class _VoiceMessageState extends State<VoiceMessage>
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
-    _playingStatus = await _player.play(widget.audioSrc);
+    if (widget.isLocalUri) {
+      await _player.play(DeviceFileSource(widget.audioSrc));
+    } else {
+      await _player.play(UrlSource(widget.audioSrc));
+    }
+    _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
   }
 
   _stopPlaying() async {
-    _playingStatus = await _player.pause();
+    await _player.pause();
+    _playingStatus = 0;
     _controller!.stop();
   }
 
   void _setDuration() async {
-    _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
+    if (widget.isLocalUri) {
+      _audioDuration = await jsAudio.AudioPlayer().setFilePath(widget.audioSrc);
+    } else {
+      _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
+    }
+
     duration = _audioDuration!.inSeconds;
     maxDurationForSlider = duration + .0;
 
@@ -296,7 +310,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   void _listenToRemaningTime() {
-    _player.onAudioPositionChanged.listen((Duration p) {
+    _player.onPositionChanged.listen((Duration p) {
       final _newRemaingTime1 = p.toString().split('.')[0];
       final _newRemaingTime2 =
           _newRemaingTime1.substring(_newRemaingTime1.length - 5);
