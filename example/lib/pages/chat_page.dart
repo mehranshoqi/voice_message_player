@@ -47,7 +47,7 @@ class _ChatPageState extends State<ChatPage> {
               child: CircleAvatar(
                 radius: 5.w,
                 child: Image.network(
-                  'https://media-exp1.licdn.com/dms/image/C4E03AQEL_Gzug73LaQ/profile-displayphoto-shrink_400_400/0/1645345884553?e=1651104000&v=beta&t=zTI_ZpRBstjAOoCtETIFCANGGjLIm7ueMW7MyDIBLlM',
+                  'https://icon-library.com/images/default-user-icon/default-user-icon-7.jpg',
                 ),
               ),
             ),
