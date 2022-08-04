@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   audioplayers: ^1.0.1
-  just_audio: ^0.9.21
+#  just_audio: ^0.9.21
   syncfusion_flutter_sliders: ^20.1.55
 
 dev_dependencies:

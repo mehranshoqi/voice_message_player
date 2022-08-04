@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 // ignore: library_prefixes
-import 'package:just_audio/just_audio.dart' as jsAudio;
+
 import 'package:voice_message_package/src/contact_noise.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 
@@ -18,6 +18,7 @@ class VoiceMessage extends StatefulWidget {
   VoiceMessage({
     Key? key,
     required this.audioSrc,
+    required this.duration,
     required this.me,
     this.noiseCount = 27,
     this.meBgColor = AppColors.pink,
@@ -33,6 +34,7 @@ class VoiceMessage extends StatefulWidget {
 
   final String audioSrc;
   final int noiseCount;
+  final Duration duration;
   final bool isLocalUri;
   final Color meBgColor,
       meFgColor,
@@ -250,12 +252,8 @@ class _VoiceMessageState extends State<VoiceMessage>
     _controller!.stop();
   }
 
-  void _setDuration() async {
-    if (widget.isLocalUri) {
-      _audioDuration = await jsAudio.AudioPlayer().setFilePath(widget.audioSrc);
-    } else {
-      _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
-    }
+  void _setDuration()   {
+    _audioDuration = widget.duration;
 
     duration = _audioDuration!.inSeconds;
     maxDurationForSlider = duration + .0;
