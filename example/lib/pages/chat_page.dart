@@ -90,6 +90,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
+
   Widget _messagesList(BuildContext context) => ListView.builder(
         itemCount: 7,
         itemBuilder: (BuildContext context, int index) => Bubble(
