@@ -327,11 +327,15 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   void _listenToRemaningTime() {
     _player.onPositionChanged.listen((Duration p) {
-      final _newRemaingTime1 = p.toString().split('.')[0];
-      final _newRemaingTime2 =
-          _newRemaingTime1.substring(_newRemaingTime1.length - 5);
-      if (_newRemaingTime2 != _remaingTime) {
-        setState(() => _remaingTime = _newRemaingTime2);
+      try{
+        final _newRemaingTime1 = p.toString().split('.')[0];
+        final _newRemaingTime2 =
+        _newRemaingTime1.substring(_newRemaingTime1.length - 5);
+        if (_newRemaingTime2 != _remaingTime) {
+          setState(() => _remaingTime = _newRemaingTime2);
+        }
+      }catch(err){
+        //
       }
     });
   }
