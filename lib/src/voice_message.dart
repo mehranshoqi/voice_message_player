@@ -49,11 +49,29 @@ class VoiceMessage extends StatefulWidget {
   _VoiceMessageState createState() => _VoiceMessageState();
 }
 
+final _audioContext = AudioContext(
+  iOS: AudioContextIOS(
+    defaultToSpeaker: true,
+    category: AVAudioSessionCategory.ambient,
+    options: [
+      AVAudioSessionOptions.defaultToSpeaker,
+      AVAudioSessionOptions.mixWithOthers,
+    ],
+  ),
+  android: AudioContextAndroid(
+    isSpeakerphoneOn: true,
+    stayAwake: true,
+    contentType: AndroidContentType.sonification,
+    usageType: AndroidUsageType.assistanceSonification,
+    audioFocus: AndroidAudioFocus.gain,
+  ),
+);
+
 class _VoiceMessageState extends State<VoiceMessage>
     with SingleTickerProviderStateMixin {
   final AudioPlayer _player = AudioPlayer();
   final double maxNoiseHeight = 6.w(), noiseWidth = 26.5.w();
-  Duration? _audioDuration;
+  late Duration _audioDuration;
   double maxDurationForSlider = .0000001;
   bool _isPlaying = false, x2 = false, _audioConfigurationDone = false;
   int _playingStatus = 0, duration = 00;
@@ -63,24 +81,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   @override
   void initState() {
     _setDuration();
-    final AudioContext audioContext = AudioContext(
-      iOS: AudioContextIOS(
-        defaultToSpeaker: true,
-        category: AVAudioSessionCategory.ambient,
-        options: [
-          AVAudioSessionOptions.defaultToSpeaker,
-          AVAudioSessionOptions.mixWithOthers,
-        ],
-      ),
-      android: AudioContextAndroid(
-        isSpeakerphoneOn: true,
-        stayAwake: true,
-        contentType: AndroidContentType.sonification,
-        usageType: AndroidUsageType.assistanceSonification,
-        audioFocus: AndroidAudioFocus.none,
-      ),
-    );
-    AudioPlayer.global.setGlobalAudioContext(audioContext);
+   AudioPlayer.global.setGlobalAudioContext(_audioContext);
     super.initState();
   }
 
@@ -270,10 +271,9 @@ class _VoiceMessageState extends State<VoiceMessage>
     _controller!.stop();
   }
 
-  void _setDuration()   {
+  void _setDuration() {
     _audioDuration = widget.duration;
-
-    duration = _audioDuration!.inSeconds;
+    duration = _audioDuration.inSeconds;
     maxDurationForSlider = duration + .0;
 
     /// document will be added
@@ -327,14 +327,14 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   void _listenToRemaningTime() {
     _player.onPositionChanged.listen((Duration p) {
-      try{
+      try {
         final _newRemaingTime1 = p.toString().split('.')[0];
         final _newRemaingTime2 =
-        _newRemaingTime1.substring(_newRemaingTime1.length - 5);
+            _newRemaingTime1.substring(_newRemaingTime1.length - 5);
         if (_newRemaingTime2 != _remaingTime) {
           setState(() => _remaingTime = _newRemaingTime2);
         }
-      }catch(err){
+      } catch (err) {
         //
       }
     });
