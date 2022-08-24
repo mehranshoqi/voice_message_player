@@ -244,14 +244,14 @@ class _VoiceMessageState extends State<VoiceMessage>
         Uri.parse(widget.audioSrc),
       ));
     }
-     _player.play();
+    _player.play();
     _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
   }
 
   _stopPlaying() async {
-    await _player.pause();
+    _player.pause();
     _playingStatus = 0;
     _controller!.stop();
   }
@@ -331,7 +331,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     duration = d.round();
     _controller?.value = (noiseWidth) * duration / maxDurationForSlider;
     _remaingTime = VoiceDuration.getDuration(duration);
-    await _player.seek(Duration(seconds: duration));
+    _player.seek(Duration(seconds: duration));
     setState(() {});
   }
 
