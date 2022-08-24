@@ -244,7 +244,7 @@ class _VoiceMessageState extends State<VoiceMessage>
         Uri.parse(widget.audioSrc),
       ));
     }
-    await _player.play();
+     _player.play();
     _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
