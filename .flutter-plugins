@@ -1,13 +1,10 @@
 # This is a generated file; do not edit or check into version control.
-audioplayers=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-1.0.1/
-audioplayers_android=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.0.1/
-audioplayers_darwin=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-1.0.1/
-audioplayers_linux=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_linux-1.0.0/
-audioplayers_web=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_web-1.0.0/
-audioplayers_windows=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_windows-1.0.0/
+audio_session=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/audio_session-0.1.10/
+just_audio=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio-0.9.28/
+just_audio_web=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_web-0.4.7/
 path_provider=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.11/
-path_provider_android=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.17/
-path_provider_ios=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.11/
+path_provider_android=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.16/
+path_provider_ios=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.10/
 path_provider_linux=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.7/
 path_provider_macos=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.6/
-path_provider_windows=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.1/
+path_provider_windows=/Users/hatemragap/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.0/

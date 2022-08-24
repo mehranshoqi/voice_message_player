@@ -1,6 +1,5 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-
+import 'package:just_audio/just_audio.dart';
 // ignore: library_prefixes
 
 import 'package:voice_message_package/src/contact_noise.dart';
@@ -49,24 +48,6 @@ class VoiceMessage extends StatefulWidget {
   _VoiceMessageState createState() => _VoiceMessageState();
 }
 
-final _audioContext = AudioContext(
-  iOS: AudioContextIOS(
-    defaultToSpeaker: true,
-    category: AVAudioSessionCategory.ambient,
-    options: [
-      AVAudioSessionOptions.defaultToSpeaker,
-      AVAudioSessionOptions.mixWithOthers,
-    ],
-  ),
-  android: AudioContextAndroid(
-    isSpeakerphoneOn: true,
-    stayAwake: true,
-    contentType: AndroidContentType.sonification,
-    usageType: AndroidUsageType.assistanceSonification,
-    audioFocus: AndroidAudioFocus.gain,
-  ),
-);
-
 class _VoiceMessageState extends State<VoiceMessage>
     with SingleTickerProviderStateMixin {
   final AudioPlayer _player = AudioPlayer();
@@ -81,7 +62,6 @@ class _VoiceMessageState extends State<VoiceMessage>
   @override
   void initState() {
     _setDuration();
-   AudioPlayer.global.setGlobalAudioContext(_audioContext);
     super.initState();
   }
 
@@ -114,7 +94,7 @@ class _VoiceMessageState extends State<VoiceMessage>
             SizedBox(width: 2.2.w()),
 
             /// x2 button will be added here.
-            // _speed(context),
+            _speed(context),
           ],
         ),
       ),
@@ -235,31 +215,36 @@ class _VoiceMessageState extends State<VoiceMessage>
     );
   }
 
-  // _speed(BuildContext context) => InkWell(
-  //       onTap: () => _toggle2x(),
-  //       child: Container(
-  //         alignment: Alignment.center,
-  //         padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.6.w),
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(2.8.w),
-  //           color: widget.meFgColor.withOpacity(.28),
-  //         ),
-  //         width: 9.8.w,
-  //         child: Text(
-  //           !x2 ? '1X' : '2X',
-  //           style: TextStyle(fontSize: 9.8, color: widget.meFgColor),
-  //         ),
-  //       ),
-  //     );
+  _speed(BuildContext context) => InkWell(
+        onTap: () => _toggle2x(),
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 3.w(), vertical: 1.6.w()),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2.8.w()),
+            color: widget.meFgColor.withOpacity(.28),
+          ),
+          width: 9.8.w(),
+          child: Text(
+            !x2 ? '1X' : '2X',
+            style: TextStyle(fontSize: 9.8, color: widget.meFgColor),
+          ),
+        ),
+      );
 
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
     if (widget.isLocalUri) {
-      await _player.play(DeviceFileSource(widget.audioSrc));
+      await _player.setAudioSource(AudioSource.uri(
+        Uri.file(widget.audioSrc),
+      ));
     } else {
-      await _player.play(UrlSource(widget.audioSrc));
+      await _player.setAudioSource(AudioSource.uri(
+        Uri.parse(widget.audioSrc),
+      ));
     }
+    await _player.play();
     _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
@@ -326,7 +311,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   void _listenToRemaningTime() {
-    _player.onPositionChanged.listen((Duration p) {
+    _player.positionStream.listen((Duration p) {
       try {
         final _newRemaingTime1 = p.toString().split('.')[0];
         final _newRemaingTime2 =
@@ -349,6 +334,8 @@ class _VoiceMessageState extends State<VoiceMessage>
     await _player.seek(Duration(seconds: duration));
     setState(() {});
   }
+
+  _toggle2x() {}
 }
 
 /// document will be added
