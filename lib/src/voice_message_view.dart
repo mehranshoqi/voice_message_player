@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'voice_message_controller.dart';
 
+
+
+
+
 class VoiceMessageView extends StatefulWidget {
   final VoiceMessageController controller;
 
@@ -30,7 +34,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
   Widget build(BuildContext context) {
     return SafeArea(
       child: ValueListenableBuilder(
-        valueListenable: controller.updater!,
+        valueListenable: controller.updater,
         builder: (context, value, child) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +42,13 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
               const SizedBox(
                 width: 5,
               ),
-              if (controller.isPlaying)
+              if (controller.isDownloading)
+                const SizedBox(
+                  height: 38,
+                  width: 38,
+                  child: CupertinoActivityIndicator(),
+                )
+              else if (controller.isPlaying)
                 InkWell(
                   onTap: controller.pausePlaying,
                   child: const Icon(
@@ -47,11 +57,14 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
                     color: Colors.red,
                   ),
                 )
-              else if (controller.isDownloading)
-                const SizedBox(
-                  height: 38,
-                  width: 38,
-                  child: CupertinoActivityIndicator(),
+              else if (controller.isDownloadError)
+                InkWell(
+                  onTap: controller.initAndPlay,
+                  child: const Icon(
+                    Icons.replay_circle_filled_outlined,
+                    size: 38,
+                    color: Colors.red,
+                  ),
                 )
               else
                 InkWell(
@@ -68,23 +81,21 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IgnorePointer(
-                    child: ProgressBar(
-                      progress: controller.currentDuration,
-                      total: controller.maxDuration,
-                      barCapShape: BarCapShape.square,
-                      baseBarColor: Colors.grey,
-                      barHeight: 10,
-                      progressBarColor: Colors.redAccent,
-                      thumbGlowColor: Colors.red,
-                      thumbGlowRadius: 12,
-                      timeLabelLocation: TimeLabelLocation.below,
-                      thumbColor: Colors.green,
-                      timeLabelType: TimeLabelType.totalTime,
-                      onSeek: (duration) {
-                        controller.onSeek(duration);
-                      },
-                    ),
+                  child: ProgressBar(
+                    progress: controller.currentDuration,
+                    total: controller.maxDuration,
+                    barCapShape: BarCapShape.square,
+                    baseBarColor: Colors.grey,
+                    barHeight: 10,
+                    progressBarColor: Colors.redAccent,
+                    thumbGlowColor: Colors.red,
+                    thumbGlowRadius: 12,
+                    timeLabelLocation: TimeLabelLocation.below,
+                    thumbColor: Colors.green,
+                    timeLabelType: TimeLabelType.totalTime,
+                    onSeek: (duration) {
+                      controller.onSeek(duration);
+                    },
                   ),
                 ),
               ),

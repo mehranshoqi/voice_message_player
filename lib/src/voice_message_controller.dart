@@ -23,7 +23,7 @@ class VoiceMessageController {
 
   late PlaySpeed speed = PlaySpeed.x1;
 
-  late ValueNotifier? updater = ValueNotifier(null);
+  late ValueNotifier updater = ValueNotifier(null);
 
   //late final StreamSubscription? positionStream;
   //late final StreamSubscription? playerStateStream;
@@ -33,11 +33,13 @@ class VoiceMessageController {
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
 
+  bool get isDownloading => playStatus == PlayStatus.downloading;
+
+  bool get isDownloadError => playStatus == PlayStatus.downloadError;
+
   bool get isStop => playStatus == PlayStatus.stop;
 
   bool get isPause => playStatus == PlayStatus.pause;
-
-  bool isDownloading = false;
 
   VoiceMessageController({
     required this.id,
@@ -50,38 +52,37 @@ class VoiceMessageController {
   });
 
   Future initAndPlay() async {
-    if (!isPlayerInit) {
-      isDownloading = true;
+    playStatus = PlayStatus.downloading;
+    _updateUi();
+    try {
+      if (!isPlayerInit) {
+        _player = AudioPlayer();
+        final path = await _getFileFromCache();
+        startPlaying(path);
+        onPlaying(id);
+        _listenToRemindingTime();
+        _listenToPlayerState();
+        isPlayerInit = true;
+      } else {
+        final path = await _getFileFromCache();
+        startPlaying(path);
+        onPlaying(id);
+      }
+      playStatus = PlayStatus.playing;
       _updateUi();
-      _player = AudioPlayer();
-      final path = await _getFileFromCache();
-      startPlaying(path);
-      onPlaying(id);
-      _listenToRemindingTime();
-      _listenToPlayerState();
-      isPlayerInit = true;
-    } else {
-      final path = await _getFileFromCache();
-      startPlaying(path);
-      onPlaying(id);
+    } catch (err) {
+      playStatus = PlayStatus.downloadError;
+      _updateUi();
+      rethrow;
     }
   }
 
   Future<String> _getFileFromCache() async {
     if (isFile) {
-      isDownloading = false;
-      _updateUi();
       return audioSrc;
     }
-    try {
-      final p = await DefaultCacheManager().getSingleFile(audioSrc);
-      return p.path;
-    } catch (err) {
-      rethrow;
-    } finally {
-      isDownloading = false;
-      _updateUi();
-    }
+    final p = await DefaultCacheManager().getSingleFile(audioSrc);
+    return p.path;
   }
 
   void _listenToRemindingTime() {
@@ -92,9 +93,7 @@ class VoiceMessageController {
   }
 
   void _updateUi() {
-    if (updater != null) {
-      updater!.notifyListeners();
-    }
+    updater.notifyListeners();
   }
 
   Future<void> onChangeSlider(double d) async {
@@ -117,8 +116,6 @@ class VoiceMessageController {
     );
     _player!.play();
     _player!.setSpeed(speed.getSpeed);
-    playStatus = PlayStatus.playing;
-    _updateUi();
     //controller!.forward();
   }
 
