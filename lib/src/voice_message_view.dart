@@ -68,21 +68,23 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ProgressBar(
-                    progress: controller.currentDuration,
-                    total: controller.maxDuration,
-                    barCapShape: BarCapShape.square,
-                    baseBarColor: Colors.grey,
-                    barHeight: 10,
-                    progressBarColor: Colors.redAccent,
-                    thumbGlowColor: Colors.red,
-                    thumbGlowRadius: 12,
-                    timeLabelLocation: TimeLabelLocation.below,
-                    thumbColor: Colors.green,
-                    timeLabelType: TimeLabelType.totalTime,
-                    onSeek: (duration) {
-                      controller.onSeek(duration);
-                    },
+                  child: IgnorePointer(
+                    child: ProgressBar(
+                      progress: controller.currentDuration,
+                      total: controller.maxDuration,
+                      barCapShape: BarCapShape.square,
+                      baseBarColor: Colors.grey,
+                      barHeight: 10,
+                      progressBarColor: Colors.redAccent,
+                      thumbGlowColor: Colors.red,
+                      thumbGlowRadius: 12,
+                      timeLabelLocation: TimeLabelLocation.below,
+                      thumbColor: Colors.green,
+                      timeLabelType: TimeLabelType.totalTime,
+                      onSeek: (duration) {
+                        controller.onSeek(duration);
+                      },
+                    ),
                   ),
                 ),
               ),
