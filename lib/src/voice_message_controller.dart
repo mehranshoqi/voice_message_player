@@ -28,8 +28,6 @@ class VoiceMessageController {
   //late final StreamSubscription? positionStream;
   //late final StreamSubscription? playerStateStream;
 
-  bool isPlayerInit = false;
-
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
 
@@ -55,18 +53,11 @@ class VoiceMessageController {
     playStatus = PlayStatus.downloading;
     _updateUi();
     try {
-      if (!isPlayerInit) {
-        final path = await _getFileFromCache();
-        await startPlaying(path);
-        onPlaying(id);
-        _listenToRemindingTime();
-        _listenToPlayerState();
-        isPlayerInit = true;
-      } else {
-        final path = await _getFileFromCache();
-        startPlaying(path);
-        onPlaying(id);
-      }
+      final path = await _getFileFromCache();
+      await startPlaying(path);
+      _listenToRemindingTime();
+      _listenToPlayerState();
+      onPlaying(id);
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -119,8 +110,8 @@ class VoiceMessageController {
   void dispose() {
     //positionStream?.cancel();
     // playerStateStream?.cancel();
-   // _player.dispose();
-    isPlayerInit = false;
+    // _player.dispose();
+    // isPlayerInit = false;
   }
 
   Future<Duration> getMaxDuration() async {
@@ -130,11 +121,8 @@ class VoiceMessageController {
 
   void onSeek(Duration duration) {
     currentDuration = duration;
-
     _updateUi();
-    if (isPlayerInit) {
-      _player.seek(duration);
-    }
+    _player.seek(duration);
   }
 
   void pausePlaying() {
@@ -147,7 +135,7 @@ class VoiceMessageController {
   void _listenToPlayerState() {
     _player.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
-        await _player.stop();
+        _player.stop();
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
         _updateUi();
@@ -198,9 +186,7 @@ class VoiceMessageController {
         speed = PlaySpeed.x1;
         break;
     }
-    if (isPlayerInit) {
-      _player.setSpeed(speed.getSpeed);
-    }
+    _player.setSpeed(speed.getSpeed);
     _updateUi();
   }
 }

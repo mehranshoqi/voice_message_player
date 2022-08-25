@@ -40,8 +40,14 @@ class _ChatPageState extends State<ChatPage> {
 
   void onComplete(String id) {
     final cIndex = list.indexWhere((e) => e.id == id);
+    if (cIndex == -1) {
+      return;
+    }
+    if (cIndex == list.length - 1) {
+      return;
+    }
     if (list.length - 1 != cIndex) {
-      list[cIndex + 1].controller.initAndPlay();
+     list[cIndex + 1].controller.initAndPlay();
     }
   }
 
