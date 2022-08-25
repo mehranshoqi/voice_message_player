@@ -42,10 +42,21 @@ class _VoicePlayerState extends State<VoicePlayer> {
                   const CircularProgressIndicator.adaptive()
                 else
                   VoiceMessageView(
-                    duration: widget.duration,
-                    me: false,
-                    isFile: true,
-                    audioSrc: path,
+                    controller: VoiceMessageController(
+                      isFile: true,
+                      audioSrc: path,
+                      maxDuration: widget.duration,
+                      id: "1",
+                      onPlaying: (id) {
+
+                      },
+                      onComplete: (id) {
+
+                      },
+                      onPause: (id) {
+
+                      },
+                    ),
                   ),
                 const SizedBox(
                   height: 15,

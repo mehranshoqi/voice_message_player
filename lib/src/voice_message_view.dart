@@ -1,36 +1,28 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'voice_message_controller.dart';
 
 class VoiceMessageView extends StatefulWidget {
-  final String audioSrc;
-  final Duration duration;
-  final bool me;
-  final bool isFile;
+  final VoiceMessageController controller;
 
   const VoiceMessageView({
     Key? key,
-    required this.audioSrc,
-    required this.duration,
-    required this.me,
-    required this.isFile,
+    required this.controller,
   }) : super(key: key);
 
   @override
   _VoiceMessageViewState createState() => _VoiceMessageViewState();
 }
 
-class _VoiceMessageViewState extends State<VoiceMessageView> {
+class _VoiceMessageViewState extends State<VoiceMessageView>
+    with AutomaticKeepAliveClientMixin {
   late final VoiceMessageController controller;
 
   @override
   void initState() {
-    controller = VoiceMessageController(
-     audioSrc:  widget.audioSrc,
-     maxDuration:  widget.duration,
-    isFile:   widget.isFile,
-    );
+    controller = widget.controller;
     super.initState();
   }
 
@@ -55,9 +47,15 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
                     color: Colors.red,
                   ),
                 )
+              else if (controller.isDownloading)
+                const SizedBox(
+                  height: 38,
+                  width: 38,
+                  child: CupertinoActivityIndicator(),
+                )
               else
                 InkWell(
-                  onTap: controller.startPlaying,
+                  onTap: controller.initAndPlay,
                   child: const Icon(
                     Icons.play_circle,
                     color: Colors.red,
@@ -128,6 +126,9 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     controller.dispose();
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {

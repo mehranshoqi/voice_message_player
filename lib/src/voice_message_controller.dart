@@ -1,21 +1,34 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio/just_audio.dart';
 import 'helpers/play_status.dart';
 
 class VoiceMessageController {
   final String audioSrc;
   final Duration maxDuration;
-  Duration currentDuration = Duration.zero;
-  final _player = AudioPlayer();
+  late Duration currentDuration = Duration.zero;
+  final Function(String id) onComplete;
+  final Function(String id) onPlaying;
+  final Function(String id) onPause;
+
+  final String id;
+
+  late final AudioPlayer? _player;
   final bool isFile;
-  PlayStatus playStatus = PlayStatus.init;
-  PlaySpeed speed = PlaySpeed.x1;
+  late PlayStatus playStatus = PlayStatus.init;
+
+  late PlaySpeed speed = PlaySpeed.x1;
+
   late ValueNotifier? updater = ValueNotifier(null);
-  late final StreamSubscription positionStream;
-  late final StreamSubscription playerStateStream;
+
+  late final StreamSubscription? positionStream;
+  late final StreamSubscription? playerStateStream;
+
+  bool isPlayerInit = false;
 
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
@@ -24,34 +37,61 @@ class VoiceMessageController {
 
   bool get isPause => playStatus == PlayStatus.pause;
 
-  bool get isInit => playStatus == PlayStatus.init;
+  bool isDownloading = false;
 
   VoiceMessageController({
+    required this.id,
     required this.audioSrc,
     required this.maxDuration,
     required this.isFile,
-  }) {
-    init();
+    required this.onComplete,
+    required this.onPause,
+    required this.onPlaying,
+  });
+
+  Future initAndPlay() async {
+    if (!isPlayerInit) {
+      isDownloading = true;
+      _updateUi();
+      _player = AudioPlayer();
+      final path = await _getFileFromCache();
+      startPlaying(path);
+      onPlaying(id);
+      _listenToRemindingTime();
+      _listenToPlayerState();
+      isPlayerInit = true;
+    } else {
+      final path = await _getFileFromCache();
+      startPlaying(path);
+      onPlaying(id);
+    }
   }
 
-  Future init() async {
-    // controller = AnimationController(
-    //   vsync: MyTicker(),
-    //   upperBound: noiseWidth,
-    //   duration: maxDuration,
-    // );
-    _listenToRemindingTime();
-    _listenToPlayerState();
+  Future<String> _getFileFromCache() async {
+    if (isFile) {
+      isDownloading = false;
+      _updateUi();
+      return audioSrc;
+    }
+    try {
+      final p = await DefaultCacheManager().getSingleFile(audioSrc);
+      return p.path;
+    } catch (err) {
+      rethrow;
+    } finally {
+      isDownloading = false;
+      _updateUi();
+    }
   }
 
   void _listenToRemindingTime() {
-    positionStream = _player.positionStream.listen((Duration p) {
+    positionStream = _player!.positionStream.listen((Duration p) {
       currentDuration = p;
-      updateUi();
+      _updateUi();
     });
   }
 
-  void updateUi() {
+  void _updateUi() {
     if (updater != null) {
       updater!.notifyListeners();
     }
@@ -61,60 +101,63 @@ class VoiceMessageController {
     if (isPlaying) {
       playStatus = PlayStatus.pause;
     }
-    updateUi();
+    _updateUi();
   }
 
   Future stopPlaying() async {
-    _player.pause();
+    _player!.pause();
     playStatus = PlayStatus.stop;
     //  controller!.stop();
   }
 
-  Future startPlaying() async {
-    await _player.setAudioSource(
-      AudioSource.uri(Uri.parse(audioSrc)),
+  Future startPlaying(String path) async {
+    await _player!.setAudioSource(
+      AudioSource.uri(Uri.parse(path)),
       initialPosition: currentDuration,
     );
-    _player.play();
-    _player.setSpeed(speed.getSpeed);
+    _player!.play();
+    _player!.setSpeed(speed.getSpeed);
     playStatus = PlayStatus.playing;
-    updateUi();
+    _updateUi();
     //controller!.forward();
   }
 
   void dispose() {
-    //  controller?.dispose();
-    positionStream.cancel();
-    playerStateStream.cancel();
-    _player.dispose();
-    updater?.dispose();
-    updater = null;
+    positionStream?.cancel();
+    playerStateStream?.cancel();
+    _player?.dispose();
+    isPlayerInit = false;
   }
 
   Future<Duration> getMaxDuration() async {
-    final voiceD = await _player.setFilePath(audioSrc);
+    final voiceD = await _player!.setFilePath(audioSrc);
     return voiceD!;
   }
 
   void onSeek(Duration duration) {
     currentDuration = duration;
-    updateUi();
-    _player.seek(duration);
+    print(currentDuration);
+    _updateUi();
+    if (isPlayerInit) {
+      _player!.seek(duration);
+    }
   }
 
   void pausePlaying() {
-    _player.pause();
+    _player!.pause();
     playStatus = PlayStatus.pause;
-    updateUi();
+    _updateUi();
+    onPause(id);
   }
 
   void _listenToPlayerState() {
-    playerStateStream = _player.playerStateStream.listen((event) async {
+    playerStateStream = _player!.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
-        await _player.stop();
+        await _player!.stop();
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
-        updateUi();
+        _updateUi();
+        onComplete(id);
       }
     });
   }
@@ -140,30 +183,27 @@ class VoiceMessageController {
     switch (speed) {
       case PlaySpeed.x1:
         speed = PlaySpeed.x1_25;
-        _player.setSpeed(1.25);
         break;
       case PlaySpeed.x1_25:
         speed = PlaySpeed.x1_5;
-        _player.setSpeed(1.5);
         break;
       case PlaySpeed.x1_5:
-        _player.setSpeed(1.75);
         speed = PlaySpeed.x1_75;
         break;
       case PlaySpeed.x1_75:
-        _player.setSpeed(2);
         speed = PlaySpeed.x2;
         break;
       case PlaySpeed.x2:
-        _player.setSpeed(2.25);
         speed = PlaySpeed.x2_25;
         break;
       case PlaySpeed.x2_25:
-        _player.setSpeed(1);
         speed = PlaySpeed.x1;
         break;
     }
-    updateUi();
+    if (isPlayerInit) {
+      _player!.setSpeed(speed.getSpeed);
+    }
+    _updateUi();
   }
 }
 
