@@ -25,8 +25,8 @@ class VoiceMessageController {
 
   ValueNotifier updater = ValueNotifier(null);
 
-  late final StreamSubscription? positionStream;
-  late final StreamSubscription? playerStateStream;
+  //late final StreamSubscription? positionStream;
+  //late final StreamSubscription? playerStateStream;
 
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
@@ -74,7 +74,7 @@ class VoiceMessageController {
   }
 
   void _listenToRemindingTime() {
-    positionStream = _player.positionStream.listen((Duration p) {
+    _player.positionStream.listen((Duration p) {
       currentDuration = p;
       _updateUi();
     });
@@ -108,8 +108,8 @@ class VoiceMessageController {
   }
 
   void dispose() {
-    positionStream?.cancel();
-    playerStateStream?.cancel();
+    // positionStream?.cancel();
+    //playerStateStream?.cancel();
     _player.dispose();
     // isPlayerInit = false;
   }
@@ -133,7 +133,7 @@ class VoiceMessageController {
   }
 
   void _listenToPlayerState() {
-    playerStateStream = _player.playerStateStream.listen((event) async {
+    _player.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
         _player.stop();
         currentDuration = Duration.zero;
