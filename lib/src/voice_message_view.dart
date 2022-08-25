@@ -130,11 +130,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
     );
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+
 
   @override
   bool get wantKeepAlive => true;
