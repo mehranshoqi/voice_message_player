@@ -26,11 +26,11 @@ class VoiceMessageController {
 
   bool get isInit => playStatus == PlayStatus.init;
 
-  VoiceMessageController(
-    this.audioSrc,
-    this.maxDuration,
-    this.isFile,
-  ) {
+  VoiceMessageController({
+    required this.audioSrc,
+    required this.maxDuration,
+    required this.isFile,
+  }) {
     init();
   }
 
@@ -76,7 +76,7 @@ class VoiceMessageController {
       initialPosition: currentDuration,
     );
     _player.play();
-    _player.setSpeed(2.5);
+    _player.setSpeed(speed.getSpeed);
     playStatus = PlayStatus.playing;
     updateUi();
     //controller!.forward();

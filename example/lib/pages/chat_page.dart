@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 import 'package:voice_message/pages/voice_player.dart';
-
-import '../helpers/style.dart';
-import '../helpers/widgets.dart';
-import '../widgets/bubble.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
@@ -15,104 +11,74 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final l = List.generate(
+    100,
+    (i) => VModel(
+      id: i,
+      url: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
+      d: const Duration(
+        seconds: 7,
+        minutes: 3,
+      ),
+      controller: VoiceMessageController(
+        audioSrc: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
+        isFile: true,
+        maxDuration: const Duration(
+          seconds: 7,
+          minutes: 3,
+        ),
+      ),
+    ),
+  );
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: const SizedBox(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const VoicePlayer(
-                  duration: Duration(seconds: 7,minutes: 3),
-                  url: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
-                );
-              },
-            );
-          },
-          child: const Icon(Icons.music_note),
-        ),
-      );
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Example"),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const VoicePlayer(
+                duration: Duration(seconds: 7, minutes: 3),
+                url: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.music_note),
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(10),
+        separatorBuilder: (context, index) => const Divider(),
+        itemBuilder: (context, i) {
+          return VoiceMessageView(
+            audioSrc: l[i].url,
+            duration: l[i].d,
+            me: true,
+            isFile: false,
+          );
+        },
+        itemCount: l.length,
+      ),
+    );
+  }
+}
 
-  Widget _messagesWithUserInfo(BuildContext context) => SafeArea(
-        child: Column(
-          children: [
-            _userInformation(context),
-            const SizedBox(height: 8),
-            _buildContainer(context),
-          ],
-        ),
-      );
+class VModel {
+  final int id;
+  final String url;
+  final Duration d;
+  final VoiceMessageController controller;
 
-  Widget _userInformation(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 8.w),
-        child: Row(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.4.w),
-                color: Colors.black.withOpacity(.07),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 3.8.w, vertical: 3.1.w),
-              child: Icon(Icons.arrow_back_ios_outlined, size: 3.7.w),
-            ),
-            SizedBox(width: 5.5.w),
-            //* avatar.
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: CircleAvatar(
-                radius: 5.w,
-                child: Image.network(
-                  'https://icon-library.com/images/default-user-icon/default-user-icon-7.jpg',
-                ),
-              ),
-            ),
-            SizedBox(width: 3.7.w),
-            //* name & activity.
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: .3.w),
-                const Text('Mehran Shoghi', style: TextStyle(fontSize: 13.5)),
-                SizedBox(height: 1.1.w),
-                Row(
-                  children: [
-                    Widgets.circle(context, 1.7.w, Colors.greenAccent),
-                    SizedBox(width: 1.75.w),
-                    Text(
-                      'Active Now',
-                      style: TextStyle(
-                          fontSize: 12.2, color: Colors.grey.shade600),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
-
-  Widget _buildContainer(BuildContext context) => Expanded(
-        child: Container(
-          padding: const EdgeInsets.only(top: 18),
-          decoration: BoxDecoration(
-            boxShadow: S.innerBoxShadow(),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(S.radius38(context)),
-              topRight: Radius.circular(S.radius38(context)),
-            ),
-          ),
-          child: _messagesList(context),
-        ),
-      );
-
-  Widget _messagesList(BuildContext context) => ListView.builder(
-        itemCount: 7,
-        itemBuilder: (BuildContext context, int index) => Bubble(
-          index == 1 || index == 4 || index == 6, // for two chat side.
-          index,
-          voice: index == 4 || index == 5,
-        ),
-      );
+  const VModel({
+    required this.id,
+    required this.url,
+    required this.d,
+    required this.controller,
+  });
 }

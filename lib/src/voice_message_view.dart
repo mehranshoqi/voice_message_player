@@ -27,9 +27,9 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
   @override
   void initState() {
     controller = VoiceMessageController(
-      widget.audioSrc,
-      widget.duration,
-      widget.isFile,
+     audioSrc:  widget.audioSrc,
+     maxDuration:  widget.duration,
+    isFile:   widget.isFile,
     );
     super.initState();
   }
