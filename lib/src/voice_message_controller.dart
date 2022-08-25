@@ -119,8 +119,7 @@ class VoiceMessageController {
   void dispose() {
     //positionStream?.cancel();
     // playerStateStream?.cancel();
-
-    _player.dispose();
+   // _player.dispose();
     isPlayerInit = false;
   }
 
