@@ -17,7 +17,7 @@ class VoiceMessageController {
 
   final String id;
 
-  late final AudioPlayer? _player;
+  final AudioPlayer _player = AudioPlayer();
   final bool isFile;
   late PlayStatus playStatus = PlayStatus.init;
 
@@ -56,7 +56,6 @@ class VoiceMessageController {
     _updateUi();
     try {
       if (!isPlayerInit) {
-        _player = AudioPlayer();
         final path = await _getFileFromCache();
         startPlaying(path);
         onPlaying(id);
@@ -86,7 +85,7 @@ class VoiceMessageController {
   }
 
   void _listenToRemindingTime() {
-    _player!.positionStream.listen((Duration p) {
+    _player.positionStream.listen((Duration p) {
       currentDuration = p;
       _updateUi();
     });
@@ -104,32 +103,32 @@ class VoiceMessageController {
   }
 
   Future stopPlaying() async {
-    _player!.pause();
+    _player.pause();
     playStatus = PlayStatus.stop;
     //  controller!.stop();
   }
 
   Future startPlaying(String path) async {
-    await _player!.setAudioSource(
+    await _player.setAudioSource(
       AudioSource.uri(Uri.parse(path)),
       initialPosition: currentDuration,
     );
-    _player!.play();
-    _player!.setSpeed(speed.getSpeed);
+    _player.play();
+    _player.setSpeed(speed.getSpeed);
     //controller!.forward();
   }
 
   void dispose() {
     //positionStream?.cancel();
     // playerStateStream?.cancel();
-    if (isPlayerInit) {
-      _player?.dispose();
+
+      _player.dispose();
       isPlayerInit = false;
-    }
+
   }
 
   Future<Duration> getMaxDuration() async {
-    final voiceD = await _player!.setFilePath(audioSrc);
+    final voiceD = await _player.setFilePath(audioSrc);
     return voiceD!;
   }
 
@@ -138,21 +137,21 @@ class VoiceMessageController {
     print(currentDuration);
     _updateUi();
     if (isPlayerInit) {
-      _player!.seek(duration);
+      _player.seek(duration);
     }
   }
 
   void pausePlaying() {
-    _player!.pause();
+    _player.pause();
     playStatus = PlayStatus.pause;
     _updateUi();
     onPause(id);
   }
 
   void _listenToPlayerState() {
-    _player!.playerStateStream.listen((event) async {
+    _player.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
-        await _player!.stop();
+        await _player.stop();
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
         _updateUi();
@@ -200,7 +199,7 @@ class VoiceMessageController {
         break;
     }
     if (isPlayerInit) {
-      _player!.setSpeed(speed.getSpeed);
+      _player.setSpeed(speed.getSpeed);
     }
     _updateUi();
   }
