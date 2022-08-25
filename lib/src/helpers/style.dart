@@ -1,10 +1,11 @@
-import 'colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 /// document will be added
 class S {
   /// document will be added
-  static innerBoxShadow() => [
+  static List<BoxShadow> innerBoxShadow() => [
         BoxShadow(color: Colors.black.withOpacity(.13)),
         BoxShadow(
           color: Colors.grey.shade200.withOpacity(1),
@@ -27,11 +28,11 @@ class S {
       ];
 
   /// document will be added
-  static radius38(BuildContext context) =>
+  static double radius38(BuildContext context) =>
       S.min(38, MediaQuery.of(context).size.width * .08);
 
   /// document will be added
-  static boxShadow(
+  static BoxShadow boxShadow(
     BuildContext context, {
     double opacity = .2,
     Color color = Colors.black87,
@@ -44,7 +45,7 @@ class S {
       );
 
   /// document will be added
-  static pinkShadow({Color? shadow}) => [
+  static List<BoxShadow> pinkShadow({Color? shadow}) => [
         BoxShadow(
           color: shadow ?? AppColors.pink300,
           blurRadius: 56,

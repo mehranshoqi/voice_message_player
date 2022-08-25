@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:voice_message/pages/voice_player.dart';
 
 import '../helpers/style.dart';
 import '../helpers/widgets.dart';
@@ -8,14 +9,30 @@ import '../widgets/bubble.dart';
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(body: _messagesWithUserInfo(context));
+  Widget build(BuildContext context) => Scaffold(
+        body: const SizedBox(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const VoicePlayer(
+                  duration: Duration(seconds: 7,minutes: 3),
+                  url: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
+                );
+              },
+            );
+          },
+          child: const Icon(Icons.music_note),
+        ),
+      );
 
   Widget _messagesWithUserInfo(BuildContext context) => SafeArea(
         child: Column(
@@ -89,7 +106,6 @@ class _ChatPageState extends State<ChatPage> {
           child: _messagesList(context),
         ),
       );
-
 
   Widget _messagesList(BuildContext context) => ListView.builder(
         itemCount: 7,

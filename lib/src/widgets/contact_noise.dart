@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:voice_message_package/src/helpers/utils.dart';
+import '../helpers/utils.dart';
 
 /// document will be added
 class ContactNoise extends StatelessWidget {
@@ -15,7 +15,7 @@ class ContactNoise extends StatelessWidget {
     );
   }
 
-  _singleNoise(BuildContext context) {
+  Widget _singleNoise(BuildContext context) {
     final double height = 5.74.w() * math.Random().nextDouble() + .26.w();
     return Container(
       margin: EdgeInsets.symmetric(horizontal: .2.w()),

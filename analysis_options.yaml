@@ -1,4 +1,14 @@
-include: package:flutter_lints/flutter.yaml
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+include: package:lint/analysis_options.yaml
+analyzer:
+  exclude:
+    - packages/**
+    - lib/app/packages/**
+linter:
+  rules:
+    prefer_relative_imports: true
+    always_use_package_imports: false
+    avoid_classes_with_only_static_members: false
+    use_setters_to_change_properties: false
+    avoid_positional_boolean_parameters: false
+    sort_pub_dependencies: false
+    avoid_dynamic_calls: false
