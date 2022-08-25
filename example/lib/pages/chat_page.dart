@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:voice_message/pages/voice_player.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -11,21 +13,20 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final l = <VModel>[];
-  VModel? currentPlay;
+  final list = <VModel>[];
 
   @override
   void initState() {
     super.initState();
-    l.addAll(List.generate(
+    list.addAll(List.generate(
       1,
       (i) => VModel(
-        id: i.toString(),
+        id: "${Random().nextInt(456747455)}".toString(),
         controller: VoiceMessageController(
           audioSrc: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
-          isFile: true,
+          isFile: false,
           onPlaying: onPlaying,
-          id: i.toString(),
+          id: "${Random().nextInt(567567745)}".toString(),
           maxDuration: const Duration(
             seconds: 7,
             minutes: 3,
@@ -38,14 +39,14 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void onComplete(String id) {
-    final cIndex = l.indexWhere((e) => e.id == id);
-    if (l.length - 1 != cIndex) {
-      l[cIndex + 1].controller.initAndPlay();
+    final cIndex = list.indexWhere((e) => e.id == id);
+    if (list.length - 1 != cIndex) {
+      list[cIndex + 1].controller.initAndPlay();
     }
   }
 
   void onPlaying(String id) {
-    for (var e in l) {
+    for (var e in list) {
       if (e.id != id) {
         if (e.controller.isPlaying) {
           e.controller.pausePlaying();
@@ -62,25 +63,25 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
       ),
       floatingActionButton: Row(
-
         children: [
           FloatingActionButton(
             onPressed: () {
-              l.add(
+              list.insert(
+                0,
                 VModel(
-                  id: "i".toString(),
+                  id: "${Random().nextInt(2364566745)}".toString(),
                   controller: VoiceMessageController(
                     audioSrc:
                         "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
-                    isFile: true,
-                    onPlaying: onPlaying,
-                    id: "i".toString(),
+                    isFile: false,
+                    onPlaying: (id) {},
+                    id: "${Random().nextInt(1000546345)}".toString(),
                     maxDuration: const Duration(
                       seconds: 7,
                       minutes: 3,
                     ),
                     onPause: (String id) {},
-                    onComplete: onComplete,
+                    onComplete: (id) {},
                   ),
                 ),
               );
@@ -88,7 +89,7 @@ class _ChatPageState extends State<ChatPage> {
             },
             child: const Icon(Icons.add),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           FloatingActionButton(
@@ -110,14 +111,15 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(10),
+        reverse: false,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, i) {
-          return Builder(builder: (context) =>VoiceMessageView(
-            controller: l[i].controller,
-          ) ,);
-
+          return VoiceMessageView(
+            controller: list[i].controller,
+            key: ValueKey(list[i].id),
+          );
         },
-        itemCount: l.length,
+        itemCount: list.length,
       ),
     );
   }
@@ -128,7 +130,7 @@ class VModel {
 
   final VoiceMessageController controller;
 
-  const VModel({
+  VModel({
     required this.id,
     required this.controller,
   });

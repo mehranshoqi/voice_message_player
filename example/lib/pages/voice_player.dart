@@ -6,7 +6,8 @@ class VoicePlayer extends StatefulWidget {
   final String url;
   final Duration duration;
 
-  const VoicePlayer({required this.url, required this.duration, Key? key}) : super(key: key);
+  const VoicePlayer({required this.url, required this.duration, Key? key})
+      : super(key: key);
 
   @override
   _VoicePlayerState createState() => _VoicePlayerState();
@@ -43,19 +44,13 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 else
                   VoiceMessageView(
                     controller: VoiceMessageController(
-                      isFile: true,
+                      isFile: false,
                       audioSrc: path,
                       maxDuration: widget.duration,
                       id: "1",
-                      onPlaying: (id) {
-
-                      },
-                      onComplete: (id) {
-
-                      },
-                      onPause: (id) {
-
-                      },
+                      onPlaying: (id) {},
+                      onComplete: (id) {},
+                      onPause: (id) {},
                     ),
                   ),
                 const SizedBox(

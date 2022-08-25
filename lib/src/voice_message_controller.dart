@@ -10,7 +10,7 @@ import 'helpers/play_status.dart';
 class VoiceMessageController {
   final String audioSrc;
   final Duration maxDuration;
-  late Duration currentDuration = Duration.zero;
+  Duration currentDuration = Duration.zero;
   final Function(String id) onComplete;
   final Function(String id) onPlaying;
   final Function(String id) onPause;
@@ -19,11 +19,11 @@ class VoiceMessageController {
 
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
-  late PlayStatus playStatus = PlayStatus.init;
+  PlayStatus playStatus = PlayStatus.init;
 
-  late PlaySpeed speed = PlaySpeed.x1;
+  PlaySpeed speed = PlaySpeed.x1;
 
-  late ValueNotifier updater = ValueNotifier(null);
+  ValueNotifier updater = ValueNotifier(null);
 
   //late final StreamSubscription? positionStream;
   //late final StreamSubscription? playerStateStream;
@@ -57,7 +57,7 @@ class VoiceMessageController {
     try {
       if (!isPlayerInit) {
         final path = await _getFileFromCache();
-        startPlaying(path);
+        await startPlaying(path);
         onPlaying(id);
         _listenToRemindingTime();
         _listenToPlayerState();
@@ -67,8 +67,6 @@ class VoiceMessageController {
         startPlaying(path);
         onPlaying(id);
       }
-      playStatus = PlayStatus.playing;
-      _updateUi();
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -122,9 +120,8 @@ class VoiceMessageController {
     //positionStream?.cancel();
     // playerStateStream?.cancel();
 
-      _player.dispose();
-      isPlayerInit = false;
-
+    _player.dispose();
+    isPlayerInit = false;
   }
 
   Future<Duration> getMaxDuration() async {
@@ -134,7 +131,7 @@ class VoiceMessageController {
 
   void onSeek(Duration duration) {
     currentDuration = duration;
-    print(currentDuration);
+
     _updateUi();
     if (isPlayerInit) {
       _player.seek(duration);
@@ -156,6 +153,10 @@ class VoiceMessageController {
         playStatus = PlayStatus.init;
         _updateUi();
         onComplete(id);
+      }
+      if (event.playing) {
+        playStatus = PlayStatus.playing;
+        _updateUi();
       }
     });
   }

@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'voice_message_controller.dart';
 
-
-
-
-
 class VoiceMessageView extends StatefulWidget {
   final VoiceMessageController controller;
 
