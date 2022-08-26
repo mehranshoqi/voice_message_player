@@ -5,25 +5,27 @@ import '../helpers/utils.dart';
 
 /// document will be added
 class Noises extends StatelessWidget {
-  const Noises({Key? key}) : super(key: key);
+  final List<double> rList;
+  final Color activeSliderColor;
+
+  const Noises({Key? key, required this.rList, required this.activeSliderColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [for (int i = 0; i < 27; i++) _singleNoise(context)],
+      children: rList.map((e) => _singleNoise(e)).toList(),
     );
   }
 
-  Widget _singleNoise(BuildContext context) {
-    final double height = 5.74.w() * math.Random().nextDouble() + .26.w();
+  Widget _singleNoise(double height) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: .2.w()),
-      width: .56.w(),
+      width: .5.w(),
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(1000),
-        color: Colors.white,
+        color: activeSliderColor,
       ),
     );
   }

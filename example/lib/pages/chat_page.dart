@@ -21,15 +21,14 @@ class _ChatPageState extends State<ChatPage> {
     list.addAll(List.generate(
       100,
       (i) => VModel(
-        id: "${Random().nextInt(456747455)}".toString(),
+        id: "$i".toString(),
         controller: VoiceMessageController(
           audioSrc: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
           isFile: false,
           onPlaying: onPlaying,
-          id: "${Random().nextInt(567567745)}".toString(),
+          id: "$i".toString(),
           maxDuration: const Duration(
-            seconds: 7,
-            minutes: 3,
+            milliseconds: 187115
           ),
           onPause: (String id) {},
           onComplete: onComplete,
@@ -68,23 +67,25 @@ class _ChatPageState extends State<ChatPage> {
         title: const Text("Example"),
         centerTitle: true,
       ),
-      floatingActionButton: Row(
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            elevation: 0,
             onPressed: () {
+              final id = "${Random().nextInt(2364566745)}".toString();
               list.insert(
                 0,
                 VModel(
-                  id: "${Random().nextInt(2364566745)}".toString(),
+                  id:id ,
                   controller: VoiceMessageController(
                     audioSrc:
                         "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
                     isFile: false,
                     onPlaying: (id) {},
-                    id: "${Random().nextInt(1000546345)}".toString(),
+                    id: id,
                     maxDuration: const Duration(
-                      seconds: 7,
-                      minutes: 3,
+                        milliseconds: 187115
                     ),
                     onPause: (String id) {},
                     onComplete: (id) {},
@@ -96,9 +97,10 @@ class _ChatPageState extends State<ChatPage> {
             child: const Icon(Icons.add),
           ),
           const SizedBox(
-            width: 20,
+            height: 10,
           ),
           FloatingActionButton(
+            elevation: 0,
             onPressed: () {
               showDialog(
                 context: context,

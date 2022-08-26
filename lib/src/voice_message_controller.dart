@@ -1,20 +1,26 @@
 import 'dart:async';
-
+import 'dart:math';
+import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio/just_audio.dart';
 import 'helpers/play_status.dart';
+import 'helpers/utils.dart';
 
-class VoiceMessageController {
+class VoiceMessageController extends MyTicker {
   final String audioSrc;
-  final Duration maxDuration;
+  late Duration maxDuration;
   Duration currentDuration = Duration.zero;
   final Function(String id) onComplete;
   final Function(String id) onPlaying;
   final Function(String id) onPause;
 
+  //100.5
+  final double noiseWidth = 50.5.w();
+
   final String id;
+  late AnimationController animController;
 
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
@@ -23,12 +29,14 @@ class VoiceMessageController {
   PlaySpeed speed = PlaySpeed.x1;
 
   ValueNotifier updater = ValueNotifier(null);
+  final randoms = <double>[];
 
   //late final StreamSubscription? positionStream;
   //late final StreamSubscription? playerStateStream;
 
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
+  bool get isInit => playStatus == PlayStatus.init;
 
   bool get isDownloading => playStatus == PlayStatus.downloading;
 
@@ -36,7 +44,17 @@ class VoiceMessageController {
 
   bool get isStop => playStatus == PlayStatus.stop;
 
+  double get currentMillSeconds {
+    final c = currentDuration.inMilliseconds.toDouble();
+    if (c >= maxMillSeconds) {
+      return maxMillSeconds;
+    }
+    return c;
+  }
+
   bool get isPause => playStatus == PlayStatus.pause;
+
+  double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
 
   VoiceMessageController({
     required this.id,
@@ -46,17 +64,33 @@ class VoiceMessageController {
     required this.onComplete,
     required this.onPause,
     required this.onPlaying,
-  });
+  }) {
+    _setRandoms();
+    animController = AnimationController(
+      vsync: this,
+      upperBound: noiseWidth,
+      duration: maxDuration,
+    );
+    // animController.addListener(() {
+    //   print("value is "+animController.value.toString());
+    // });
+  }
 
   Future initAndPlay() async {
     playStatus = PlayStatus.downloading;
     _updateUi();
     try {
       final path = await _getFileFromCache();
+      final maxDuration = await jsAudio.AudioPlayer().setFilePath(path);
+      if (maxDuration != null) {
+        this.maxDuration = maxDuration;
+        animController.duration = maxDuration;
+      }
       await startPlaying(path);
       _listenToRemindingTime();
       _listenToPlayerState();
       onPlaying(id);
+      //animController.forward();
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -75,19 +109,14 @@ class VoiceMessageController {
   void _listenToRemindingTime() {
     _player.positionStream.listen((Duration p) {
       currentDuration = p;
+      final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
+      animController.value = value;
       _updateUi();
     });
   }
 
   void _updateUi() {
     updater.notifyListeners();
-  }
-
-  Future<void> onChangeSlider(double d) async {
-    if (isPlaying) {
-      playStatus = PlayStatus.pause;
-    }
-    _updateUi();
   }
 
   Future stopPlaying() async {
@@ -110,18 +139,18 @@ class VoiceMessageController {
     // positionStream?.cancel();
     //playerStateStream?.cancel();
     _player.dispose();
+    animController.dispose();
     // isPlayerInit = false;
-  }
-
-  Future<Duration> getMaxDuration() async {
-    final voiceD = await _player.setFilePath(audioSrc);
-    return voiceD!;
   }
 
   void onSeek(Duration duration) {
     currentDuration = duration;
     _updateUi();
     _player.seek(duration);
+    if (playStatus == PlayStatus.pause) {
+      _player.play();
+    }
+    //animController.forward();
   }
 
   void pausePlaying() {
@@ -138,6 +167,7 @@ class VoiceMessageController {
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
         _updateUi();
+        animController.reset();
         onComplete(id);
       }
       if (event.playing) {
@@ -187,6 +217,35 @@ class VoiceMessageController {
     }
     _player.setSpeed(speed.getSpeed);
     _updateUi();
+  }
+
+  void onChangeStart(double value) {
+    pausePlaying();
+    //animController.stop();
+  }
+
+  void _setRandoms() {
+    for (var i = 0; i < 50; i++) {
+      randoms.add(5.74.w() * Random().nextDouble() + .26.w());
+    }
+  }
+
+  void onChangeSlider(double d) {
+    currentDuration = Duration(milliseconds: d.toInt());
+    final value = (noiseWidth * d) / maxMillSeconds;
+    // print("Durantion is "+value.toString() + "Value is $d " +" currentMillSeconds $currentMillSeconds" );
+    animController.value = value;
+    _updateUi();
+  }
+
+  String get remindingTime {
+    if (currentDuration == Duration.zero) {
+      return maxDuration.getStringTime;
+    }
+    if (isPause || isInit) {
+      return maxDuration.getStringTime;
+    }
+    return currentDuration.getStringTime;
   }
 }
 
