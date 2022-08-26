@@ -44,7 +44,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 else
                   VoiceMessageView(
                     controller: VoiceMessageController(
-                      isFile: false,
+                      isFile: true,
                       audioSrc: path,
                       maxDuration: widget.duration,
                       id: "1",

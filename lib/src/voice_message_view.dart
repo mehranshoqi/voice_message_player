@@ -1,6 +1,7 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'voice_message_controller.dart';
 
@@ -16,8 +17,7 @@ class VoiceMessageView extends StatefulWidget {
   _VoiceMessageViewState createState() => _VoiceMessageViewState();
 }
 
-class _VoiceMessageViewState extends State<VoiceMessageView>
-    with AutomaticKeepAliveClientMixin {
+class _VoiceMessageViewState extends State<VoiceMessageView> {
   late final VoiceMessageController controller;
 
   @override
@@ -28,6 +28,9 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).brightness == Brightness.dark
+        ? Colors.green
+        : Colors.red;
     return SafeArea(
       child: ValueListenableBuilder(
         valueListenable: controller.updater,
@@ -47,27 +50,21 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
               else if (controller.isPlaying)
                 InkWell(
                   onTap: controller.pausePlaying,
-                  child: const Icon(
-                    Icons.pause_circle,
-                    size: 38,
-                    color: Colors.red,
-                  ),
+                  child:
+                      Icon(PhosphorIcons.pauseCircle, size: 38, color: color),
                 )
               else if (controller.isDownloadError)
                 InkWell(
                   onTap: controller.initAndPlay,
-                  child: const Icon(
-                    Icons.replay_circle_filled_outlined,
-                    size: 38,
-                    color: Colors.red,
-                  ),
+                  child: Icon(Icons.replay_circle_filled_outlined,
+                      size: 38, color: color),
                 )
               else
                 InkWell(
                   onTap: controller.initAndPlay,
-                  child: const Icon(
-                    Icons.play_circle,
-                    color: Colors.red,
+                  child: Icon(
+                    PhosphorIcons.playCircle,
+                    color: color,
                     size: 38,
                   ),
                 ),
@@ -82,7 +79,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
                     total: controller.maxDuration,
                     barCapShape: BarCapShape.square,
                     baseBarColor: Colors.grey,
-                    barHeight: 10,
+                    barHeight: 3,
                     progressBarColor: Colors.redAccent,
                     thumbGlowColor: Colors.red,
                     thumbGlowRadius: 12,
@@ -106,7 +103,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: color,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -129,11 +126,6 @@ class _VoiceMessageViewState extends State<VoiceMessageView>
       ),
     );
   }
-
-
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {

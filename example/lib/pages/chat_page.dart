@@ -19,7 +19,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     list.addAll(List.generate(
-      1,
+      100,
       (i) => VModel(
         id: "${Random().nextInt(456747455)}".toString(),
         controller: VoiceMessageController(
