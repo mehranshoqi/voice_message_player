@@ -1,11 +1,8 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:voice_message_package/voice_message_package.dart';
 
 import '../helpers/colors.dart';
-import '../helpers/style.dart';
 
 /// document will be added
 // ignore: must_be_immutable

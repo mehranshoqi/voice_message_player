@@ -1,7 +1,6 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'voice_message_controller.dart';
 
@@ -50,26 +49,47 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
               else if (controller.isPlaying)
                 InkWell(
                   onTap: controller.pausePlaying,
-                  child:
-                      Icon(PhosphorIcons.pauseCircle, size: 38, color: color),
+                  child: Container(
+                    height: 38,
+                    width: 38,
+                    decoration:
+                        BoxDecoration(color: color, shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.pause_rounded,
+                      color: Colors.white,
+                    ),
+                  ),
                 )
               else if (controller.isDownloadError)
                 InkWell(
                   onTap: controller.initAndPlay,
-                  child: Icon(Icons.replay_circle_filled_outlined,
-                      size: 38, color: color),
+                  child:  Container(
+                    height: 38,
+                    width: 38,
+                    decoration:
+                    BoxDecoration(color: color, shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
+                  ),
                 )
               else
                 InkWell(
                   onTap: controller.initAndPlay,
-                  child: Icon(
-                    PhosphorIcons.playCircle,
-                    color: color,
-                    size: 38,
+                  child: Container(
+                    height: 38,
+                    width: 38,
+                    decoration:
+                        BoxDecoration(color: color, shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               const SizedBox(
-                width: 2,
+                width: 5,
               ),
               Expanded(
                 child: Padding(
@@ -80,7 +100,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
                     barCapShape: BarCapShape.square,
                     baseBarColor: Colors.grey,
                     barHeight: 3,
-                    progressBarColor: Colors.redAccent,
+                    progressBarColor: Colors.orange,
                     thumbGlowColor: Colors.red,
                     thumbGlowRadius: 12,
                     timeLabelLocation: TimeLabelLocation.below,
