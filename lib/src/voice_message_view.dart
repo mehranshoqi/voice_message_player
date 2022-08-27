@@ -147,7 +147,7 @@ class VoiceMessageView extends StatelessWidget {
                               color: Colors.amber.withOpacity(1),
                               child: Theme(
                                 data: newTHeme,
-                                child: Slider.adaptive(
+                                child: Slider(
                                   value: controller.currentMillSeconds,
                                   max: controller.maxMillSeconds,
                                   onChangeStart: controller.onChangeSliderStart,
