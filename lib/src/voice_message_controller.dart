@@ -127,7 +127,7 @@ class VoiceMessageController extends MyTicker {
 
   Future startPlaying(String path) async {
     await _player.setAudioSource(
-      AudioSource.uri(Uri.parse(path)),
+      AudioSource.uri(Uri.file(path)),
       initialPosition: currentDuration,
     );
     _player.play();
