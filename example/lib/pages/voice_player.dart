@@ -16,51 +16,50 @@ class VoicePlayer extends StatefulWidget {
 class _VoicePlayerState extends State<VoicePlayer> {
   bool isLoading = true;
   late String path;
+  late final VoiceMessageController messageController;
 
   @override
   void initState() {
     super.initState();
-    download();
+    init();
   }
 
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Material(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                if (isLoading)
-                  const CircularProgressIndicator.adaptive()
-                else
-                  VoiceMessageView(
-                    controller: VoiceMessageController(
-                      isFile: true,
-                      audioSrc: path,
-                      maxDuration: widget.duration,
-                      id: "1",
-                      onPlaying: (id) {},
-                      onComplete: (id) {},
-                      onPause: (id) {},
-                    ),
+    return WillPopScope(
+      onWillPop: () async {
+        messageController.dispose();
+        return true;
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Material(
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                const SizedBox(
-                  height: 15,
-                ),
-              ],
+                  if (isLoading)
+                    const CircularProgressIndicator.adaptive()
+                  else
+                    VoiceMessageView(
+                      controller: messageController,
+                    ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -70,12 +69,27 @@ class _VoicePlayerState extends State<VoicePlayer> {
         widget.url,
       );
       path = file.path;
-      setState(() {
-        isLoading = false;
-      });
     } catch (err) {
       //
       rethrow;
     }
+  }
+
+  void init() async {
+    await download();
+    messageController = VoiceMessageController(
+      isFile: true,
+      audioSrc: path,
+      maxDuration: widget.duration,
+      id: "1",
+      onPlaying: (id) {},
+      onComplete: (id) {
+        print("On onComplete called ! $id");
+      },
+      onPause: (id) {},
+    );
+    setState(() {
+      isLoading = false;
+    });
   }
 }

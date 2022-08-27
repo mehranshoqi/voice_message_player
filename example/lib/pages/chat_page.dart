@@ -27,9 +27,7 @@ class _ChatPageState extends State<ChatPage> {
           isFile: false,
           onPlaying: onPlaying,
           id: "$i".toString(),
-          maxDuration: const Duration(
-            milliseconds: 187115
-          ),
+          maxDuration: const Duration(milliseconds: 187115),
           onPause: (String id) {},
           onComplete: onComplete,
         ),
@@ -46,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       return;
     }
     if (list.length - 1 != cIndex) {
-     list[cIndex + 1].controller.initAndPlay();
+      list[cIndex + 1].controller.initAndPlay();
     }
   }
 
@@ -77,16 +75,14 @@ class _ChatPageState extends State<ChatPage> {
               list.insert(
                 0,
                 VModel(
-                  id:id ,
+                  id: id,
                   controller: VoiceMessageController(
                     audioSrc:
                         "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3",
                     isFile: false,
                     onPlaying: (id) {},
                     id: id,
-                    maxDuration: const Duration(
-                        milliseconds: 187115
-                    ),
+                    maxDuration: const Duration(milliseconds: 187115),
                     onPause: (String id) {},
                     onComplete: (id) {},
                   ),
@@ -101,8 +97,8 @@ class _ChatPageState extends State<ChatPage> {
           ),
           FloatingActionButton(
             elevation: 0,
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              await showDialog(
                 context: context,
                 builder: (context) {
                   return const VoicePlayer(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,27 +16,23 @@ class VoiceMessageController extends MyTicker {
   final Function(String id) onComplete;
   final Function(String id) onPlaying;
   final Function(String id) onPause;
-
-  //100.5
   final double noiseWidth = 50.5.w();
-
   final String id;
   late AnimationController animController;
-
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
   PlayStatus playStatus = PlayStatus.init;
-
   PlaySpeed speed = PlaySpeed.x1;
-
   ValueNotifier updater = ValueNotifier(null);
   final randoms = <double>[];
+  StreamSubscription? positionStream;
+  StreamSubscription? playerStateStream;
 
-  //late final StreamSubscription? positionStream;
-  //late final StreamSubscription? playerStateStream;
+  bool isSeeking = false;
 
   ///state
   bool get isPlaying => playStatus == PlayStatus.playing;
+
   bool get isInit => playStatus == PlayStatus.init;
 
   bool get isDownloading => playStatus == PlayStatus.downloading;
@@ -71,6 +68,8 @@ class VoiceMessageController extends MyTicker {
       upperBound: noiseWidth,
       duration: maxDuration,
     );
+    _listenToRemindingTime();
+    _listenToPlayerState();
     // animController.addListener(() {
     //   print("value is "+animController.value.toString());
     // });
@@ -81,16 +80,10 @@ class VoiceMessageController extends MyTicker {
     _updateUi();
     try {
       final path = await _getFileFromCache();
-      final maxDuration = await jsAudio.AudioPlayer().setFilePath(path);
-      if (maxDuration != null) {
-        this.maxDuration = maxDuration;
-        animController.duration = maxDuration;
-      }
+      await setMaxDuration(path);
       await startPlaying(path);
-      _listenToRemindingTime();
-      _listenToPlayerState();
+
       onPlaying(id);
-      //animController.forward();
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -107,11 +100,19 @@ class VoiceMessageController extends MyTicker {
   }
 
   void _listenToRemindingTime() {
-    _player.positionStream.listen((Duration p) {
+    positionStream = _player.positionStream.listen((Duration p) async {
       currentDuration = p;
       final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
       animController.value = value;
       _updateUi();
+      if (p.inMilliseconds >= maxMillSeconds) {
+        await _player.stop();
+        currentDuration = Duration.zero;
+        playStatus = PlayStatus.init;
+        animController.reset();
+        _updateUi();
+        onComplete(id);
+      }
     });
   }
 
@@ -122,7 +123,6 @@ class VoiceMessageController extends MyTicker {
   Future stopPlaying() async {
     _player.pause();
     playStatus = PlayStatus.stop;
-    //  controller!.stop();
   }
 
   Future startPlaying(String path) async {
@@ -132,25 +132,20 @@ class VoiceMessageController extends MyTicker {
     );
     _player.play();
     _player.setSpeed(speed.getSpeed);
-    //controller!.forward();
   }
 
-  void dispose() {
-    // positionStream?.cancel();
-    //playerStateStream?.cancel();
-    _player.dispose();
+  Future<void> dispose() async {
+    await _player.dispose();
+    positionStream?.cancel();
+    playerStateStream?.cancel();
     animController.dispose();
-    // isPlayerInit = false;
   }
 
   void onSeek(Duration duration) {
+    isSeeking = false;
     currentDuration = duration;
     _updateUi();
     _player.seek(duration);
-    if (playStatus == PlayStatus.pause) {
-      _player.play();
-    }
-    //animController.forward();
   }
 
   void pausePlaying() {
@@ -161,16 +156,15 @@ class VoiceMessageController extends MyTicker {
   }
 
   void _listenToPlayerState() {
-    _player.playerStateStream.listen((event) async {
+    playerStateStream = _player.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
-        _player.stop();
-        currentDuration = Duration.zero;
-        playStatus = PlayStatus.init;
-        _updateUi();
-        animController.reset();
-        onComplete(id);
-      }
-      if (event.playing) {
+          // await _player.stop();
+          // currentDuration = Duration.zero;
+          // playStatus = PlayStatus.init;
+          // animController.reset();
+          // _updateUi();
+          // onComplete(id);
+      } else if (event.playing) {
         playStatus = PlayStatus.playing;
         _updateUi();
       }
@@ -219,9 +213,9 @@ class VoiceMessageController extends MyTicker {
     _updateUi();
   }
 
-  void onChangeStart(double value) {
+  void onChangeSliderStart(double value) {
+    isSeeking = true;
     pausePlaying();
-    //animController.stop();
   }
 
   void _setRandoms() {
@@ -230,10 +224,9 @@ class VoiceMessageController extends MyTicker {
     }
   }
 
-  void onChangeSlider(double d) {
+  void onChanging(double d) {
     currentDuration = Duration(milliseconds: d.toInt());
     final value = (noiseWidth * d) / maxMillSeconds;
-    // print("Durantion is "+value.toString() + "Value is $d " +" currentMillSeconds $currentMillSeconds" );
     animController.value = value;
     _updateUi();
   }
@@ -242,10 +235,27 @@ class VoiceMessageController extends MyTicker {
     if (currentDuration == Duration.zero) {
       return maxDuration.getStringTime;
     }
+    if (isSeeking) {
+      return currentDuration.getStringTime;
+    }
     if (isPause || isInit) {
       return maxDuration.getStringTime;
     }
     return currentDuration.getStringTime;
+  }
+
+  Future setMaxDuration(String path) async {
+    try {
+      final maxDuration = await jsAudio.AudioPlayer().setFilePath(path);
+      if (maxDuration != null) {
+        this.maxDuration = maxDuration;
+        animController.duration = maxDuration;
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print("cant get the max duration from the path $path");
+      }
+    }
   }
 }
 

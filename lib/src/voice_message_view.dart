@@ -150,8 +150,8 @@ class VoiceMessageView extends StatelessWidget {
                                 child: Slider.adaptive(
                                   value: controller.currentMillSeconds,
                                   max: controller.maxMillSeconds,
-                                  onChangeStart: controller.onChangeStart,
-                                  onChanged: controller.onChangeSlider,
+                                  onChangeStart: controller.onChangeSliderStart,
+                                  onChanged: controller.onChanging,
                                   onChangeEnd: (value) {
                                     controller.onSeek(
                                       Duration(milliseconds: value.toInt()),
