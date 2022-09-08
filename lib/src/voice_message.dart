@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
@@ -91,8 +90,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: widget.me ? widget.meFgColor : widget.contactFgColor,
           ),
-          width: 7.w(),
-          height: 7.w(),
+          width: 9.w(),
+          height: 9.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -108,7 +107,7 @@ class _VoiceMessageState extends State<VoiceMessage>
                     ),
                   )
                 : Icon(
-                    _isPlaying ? Iconsax.pause2 : Iconsax.play2,
+                    _isPlaying ? Icons.pause : Icons.play_arrow,
                     color: widget.me
                         ? widget.mePlayIconColor
                         : widget.contactPlayIconColor,
@@ -122,9 +121,13 @@ class _VoiceMessageState extends State<VoiceMessage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _noise(context),
-          SizedBox(height: .1.w()),
+          SizedBox(height: .3.w()),
           Row(
             children: [
+              if (!widget.played)
+                Widgets.circle(context, 1.w(),
+                    widget.me ? widget.meFgColor : widget.contactFgColor),
+              SizedBox(width: 1.2.w()),
               Text(
                 _remaingTime,
                 style: TextStyle(
