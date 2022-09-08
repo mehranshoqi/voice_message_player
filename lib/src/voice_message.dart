@@ -124,10 +124,6 @@ class _VoiceMessageState extends State<VoiceMessage>
           SizedBox(height: .3.w()),
           Row(
             children: [
-              if (!widget.played)
-                Widgets.circle(context, 1.w(),
-                    widget.me ? widget.meFgColor : widget.contactFgColor),
-              SizedBox(width: 1.2.w()),
               Text(
                 _remaingTime,
                 style: TextStyle(
