@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:voice_message_package/src/contact_noise.dart';
@@ -68,7 +69,6 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   Container _sizerChild(BuildContext context) {
     return Container(
-        color: widget.me ? widget.meBgColor : widget.contactBgColor,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -90,8 +90,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: widget.me ? widget.meFgColor : widget.contactFgColor,
           ),
-          width: 8.w(),
-          height: 8.w(),
+          width: 10.w(),
+          height: 10.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -121,20 +121,17 @@ class _VoiceMessageState extends State<VoiceMessage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _noise(context),
-          SizedBox(height: .3.w()),
+          SizedBox(height: .1.w()),
           Row(
             children: [
-              if (!widget.played)
-                Widgets.circle(context, 1.w(),
-                    widget.me ? widget.meFgColor : widget.contactFgColor),
-              SizedBox(width: 1.2.w()),
               Text(
                 _remaingTime,
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 12,
                   color: widget.me ? widget.meFgColor : widget.contactFgColor,
                 ),
-              )
+              ),
+              SizedBox(width: 1.2.w()),
             ],
           ),
         ],
@@ -171,9 +168,6 @@ class _VoiceMessageState extends State<VoiceMessage>
                     child: Container(
                       width: noiseWidth,
                       height: 6.w(),
-                      color: widget.me
-                          ? widget.meBgColor.withOpacity(.4)
-                          : widget.contactBgColor.withOpacity(.35),
                     ),
                   );
                 },
