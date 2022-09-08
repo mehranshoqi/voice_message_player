@@ -27,6 +27,7 @@ class VoiceMessage extends StatefulWidget {
     this.meFgColor = const Color(0xffffffff),
     this.played = false,
     this.onPlay,
+    this.messageBoxDecoration,
   }) : super(key: key);
 
   final String audioSrc;
@@ -39,6 +40,7 @@ class VoiceMessage extends StatefulWidget {
       contactPlayIconColor;
   final bool played, me;
   Function()? onPlay;
+  BoxDecoration? messageBoxDecoration;
 
   @override
   _VoiceMessageState createState() => _VoiceMessageState();
@@ -66,33 +68,18 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   Container _sizerChild(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: .8.w()),
-      constraints: BoxConstraints(maxWidth: 100.w() * .7),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(6.w()),
-          bottomLeft:
-              widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
-          bottomRight:
-              !widget.me ? Radius.circular(6.w()) : Radius.circular(1.2.w()),
-          topRight: Radius.circular(6.w()),
-        ),
         color: widget.me ? widget.meBgColor : widget.contactBgColor,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w(), vertical: 2.8.w()),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _playButton(context),
-            SizedBox(width: 3.w()),
-            _durationWithNoise(context),
-            SizedBox(width: 2.2.w()),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _playButton(context),
+          SizedBox(width: 3.w()),
+          _durationWithNoise(context),
+          SizedBox(width: 2.2.w()),
 
-            /// x2 button will be added here.
-            // _speed(context),
-          ],
-        ),
+          /// x2 button will be added here.
+          // _speed(context),
+        ],
       ),
     );
   }

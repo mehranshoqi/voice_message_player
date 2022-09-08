@@ -15,7 +15,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) =>
-      Scaffold(body: _messagesWithUserInfo(context));
+      Scaffold(
+          body: _messagesWithUserInfo(context));
 
   Widget _messagesWithUserInfo(BuildContext context) => SafeArea(
         child: Column(
@@ -80,6 +81,7 @@ class _ChatPageState extends State<ChatPage> {
         child: Container(
           padding: const EdgeInsets.only(top: 18),
           decoration: BoxDecoration(
+            color: Colors.black,
             boxShadow: S.innerBoxShadow(),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(S.radius38(context)),

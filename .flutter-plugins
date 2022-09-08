@@ -1,11 +1,11 @@
 # This is a generated file; do not edit or check into version control.
-audio_session=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/audio_session-0.1.6+1/
-audioplayers=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-0.20.1/
-just_audio=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio-0.9.21/
-just_audio_web=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_web-0.4.4/
-path_provider=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
-path_provider_android=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.11/
-path_provider_ios=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.7/
-path_provider_linux=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.5/
-path_provider_macos=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.5/
-path_provider_windows=/Users/mehran/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.5/
+audio_session=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audio_session-0.1.10\\
+audioplayers=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers-0.20.1\\
+just_audio=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\just_audio-0.9.28\\
+just_audio_web=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\just_audio_web-0.4.7\\
+path_provider=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.11\\
+path_provider_android=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_android-2.0.20\\
+path_provider_ios=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_ios-2.0.11\\
+path_provider_linux=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.7\\
+path_provider_macos=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.6\\
+path_provider_windows=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.1.3\\
