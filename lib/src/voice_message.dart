@@ -66,27 +66,24 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   Container _sizerChild(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w(), vertical: 2.8.w()),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _playButton(context),
-            SizedBox(width: 3.w()),
-            _durationWithNoise(context),
-            SizedBox(width: 2.2.w()),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _playButton(context),
+          SizedBox(width: 3.w()),
+          _durationWithNoise(context),
+          SizedBox(width: 2.2.w()),
 
-            /// x2 button will be added here.
-            // _speed(context),
-          ],
-        ),
+          /// x2 button will be added here.
+          // _speed(context),
+        ],
       ),
     );
   }
 
   _playButton(BuildContext context) => InkWell(
     child: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white,
       ),
