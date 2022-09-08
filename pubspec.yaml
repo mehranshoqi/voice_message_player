@@ -13,6 +13,7 @@ dependencies:
   audioplayers: ^0.20.1
   just_audio: ^0.9.21
   syncfusion_flutter_sliders: ^20.1.55
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:

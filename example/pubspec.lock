@@ -128,6 +128,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  iconsax:
+    dependency: transitive
+    description:
+      name: iconsax
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8"
   intl:
     dependency: transitive
     description:
