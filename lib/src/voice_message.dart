@@ -68,28 +68,21 @@ class _VoiceMessageState extends State<VoiceMessage>
   Container _sizerChild(BuildContext context) {
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               _playButton(context),
               SizedBox(width: 3.w()),
+
               _durationWithNoise(context),
+              SizedBox(width: 2.2.w()),
+
+
               /// x2 button will be added here.
               // _speed(context),
             ],
           ),
-           Padding(
-             padding: const EdgeInsets.symmetric(vertical: 5.0),
-             child: Text(_remaingTime,
-          style: TextStyle(
-                 fontSize: 12,
-                 fontWeight: FontWeight.bold,
-                 color: widget.me ? widget.meFgColor : widget.contactFgColor,
-               ),
-             ),
-           )
         ],
       ),
     );
@@ -101,8 +94,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: Colors.white,
           ),
-          width: 6.w(),
-          height: 6.w(),
+          width: 8.w(),
+          height: 8.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -132,23 +125,23 @@ class _VoiceMessageState extends State<VoiceMessage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _noise(context),
-          // SizedBox(height: .3.w()),
-          // Row(
-          //   children: [
-          //     if (!widget.played)
-          //       Widgets.circle(context, 1.w(),
-          //           widget.me ? widget.meFgColor : widget.contactFgColor),
-          //     // SizedBox(width: 1.2.w()),
-          //     // Text(
-              //   _remaingTime,
-              //   style: TextStyle(
-              //     fontSize: 10,
-              //     fontWeight: FontWeight.bold,
-              //     color: widget.me ? widget.meFgColor : widget.contactFgColor,
-              //   ),
-              // )
-          //   ],
-          // ),
+          SizedBox(height: .3.w()),
+          Row(
+            children: [
+              if (!widget.played)
+                Widgets.circle(context, 1.w(),
+                    widget.me ? widget.meFgColor : widget.contactFgColor),
+              SizedBox(width: 1.2.w()),
+              Text(
+                _remaingTime,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: widget.me ? widget.meFgColor : widget.contactFgColor,
+                ),
+              )
+            ],
+          ),
         ],
       );
 
