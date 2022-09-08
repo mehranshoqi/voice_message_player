@@ -79,7 +79,7 @@ class _VoiceMessageState extends State<VoiceMessage>
 
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8))
+              borderRadius: const BorderRadius.all(Radius.circular(8))
             ),
             child: Padding(
               padding: EdgeInsets.all(3),
