@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
@@ -90,8 +91,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: widget.me ? widget.meFgColor : widget.contactFgColor,
           ),
-          width: 8.w(),
-          height: 8.w(),
+          width: 7.w(),
+          height: 7.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -107,7 +108,7 @@ class _VoiceMessageState extends State<VoiceMessage>
                     ),
                   )
                 : Icon(
-                    _isPlaying ? Icons.pause : Icons.play_arrow,
+                    _isPlaying ? Iconsax.pause2 : Iconsax.play2,
                     color: widget.me
                         ? widget.mePlayIconColor
                         : widget.contactPlayIconColor,
@@ -215,7 +216,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
-    _playingStatus = await _player.play(widget.audioSrc,isLocal: true);
+    _playingStatus = await _player.play(widget.audioSrc);
     _setPlayingStatus();
     _controller!.forward();
   }
