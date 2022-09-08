@@ -90,8 +90,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: widget.me ? widget.meFgColor : widget.contactFgColor,
           ),
-          width: 10.w(),
-          height: 10.w(),
+          width: 9.w(),
+          height: 9.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -168,6 +168,9 @@ class _VoiceMessageState extends State<VoiceMessage>
                     child: Container(
                       width: noiseWidth,
                       height: 6.w(),
+                      color: widget.me
+                          ? widget.meBgColor.withOpacity(.4)
+                          : widget.contactBgColor.withOpacity(.35),
                     ),
                   );
                 },
