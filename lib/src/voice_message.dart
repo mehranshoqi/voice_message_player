@@ -215,7 +215,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
-    _playingStatus = await _player.play(widget.audioSrc);
+    _playingStatus = await _player.play(widget.audioSrc,isLocal: true);
     _setPlayingStatus();
     _controller!.forward();
   }
