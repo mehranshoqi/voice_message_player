@@ -67,35 +67,29 @@ class _VoiceMessageState extends State<VoiceMessage>
 
   Container _sizerChild(BuildContext context) {
     return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _playButton(context),
-          SizedBox(width: 3.w()),
-
-          _durationWithNoise(context),
-          SizedBox(width: 2.2.w()),
-          Container(
-
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(8))
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(3),
-              child: Text(
-                _remaingTime,
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: widget.me ? widget.mePlayIconColor : widget.contactPlayIconColor,
-                ),
-              ),
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _playButton(context),
+              SizedBox(width: 3.w()),
+              _durationWithNoise(context),
+              /// x2 button will be added here.
+              // _speed(context),
+            ],
           ),
-
-          /// x2 button will be added here.
-          // _speed(context),
+           Padding(
+             padding: const EdgeInsets.symmetric(vertical: 5.0),
+             child: Text(_remaingTime,
+          style: TextStyle(
+                 fontSize: 12,
+                 fontWeight: FontWeight.bold,
+                 color: widget.me ? widget.meFgColor : widget.contactFgColor,
+               ),
+             ),
+           )
         ],
       ),
     );
@@ -107,8 +101,8 @@ class _VoiceMessageState extends State<VoiceMessage>
             shape: BoxShape.circle,
             color: Colors.white,
           ),
-          width: 8.w(),
-          height: 8.w(),
+          width: 6.w(),
+          height: 6.w(),
           child: InkWell(
             onTap: () =>
                 !_audioConfigurationDone ? null : _changePlayingStatus(),
@@ -138,23 +132,23 @@ class _VoiceMessageState extends State<VoiceMessage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _noise(context),
-        //   SizedBox(height: .3.w()),
-        //   Row(
-        //     children: [
-        //       if (!widget.played)
-        //         Widgets.circle(context, 1.w(),
-        //             widget.me ? widget.meFgColor : widget.contactFgColor),
-        //       SizedBox(width: 1.2.w()),
-        //       Text(
-        //         _remaingTime,
-        //         style: TextStyle(
-        //           fontSize: 10,
-        //           fontWeight: FontWeight.bold,
-        //           color: widget.me ? widget.meFgColor : widget.contactFgColor,
-        //         ),
-        //       )
-        //     ],
-        //   ),
+          // SizedBox(height: .3.w()),
+          // Row(
+          //   children: [
+          //     if (!widget.played)
+          //       Widgets.circle(context, 1.w(),
+          //           widget.me ? widget.meFgColor : widget.contactFgColor),
+          //     // SizedBox(width: 1.2.w()),
+          //     // Text(
+              //   _remaingTime,
+              //   style: TextStyle(
+              //     fontSize: 10,
+              //     fontWeight: FontWeight.bold,
+              //     color: widget.me ? widget.meFgColor : widget.contactFgColor,
+              //   ),
+              // )
+          //   ],
+          // ),
         ],
       );
 
