@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
 import 'package:voice_message_package/src/contact_noise.dart';
@@ -71,8 +72,27 @@ class _VoiceMessageState extends State<VoiceMessage>
         children: [
           _playButton(context),
           SizedBox(width: 3.w()),
+
           _durationWithNoise(context),
           SizedBox(width: 2.2.w()),
+          Container(
+
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8))
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(3),
+              child: Text(
+                _remaingTime,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: widget.me ? widget.mePlayIconColor : widget.contactPlayIconColor,
+                ),
+              ),
+            ),
+          ),
 
           /// x2 button will be added here.
           // _speed(context),
@@ -82,61 +102,61 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   _playButton(BuildContext context) => InkWell(
-    child: Container(
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-      ),
-      width: 8.w(),
-      height: 8.w(),
-      child: InkWell(
-        onTap: () =>
-        !_audioConfigurationDone ? null : _changePlayingStatus(),
-        child: !_audioConfigurationDone
-            ? Container(
-          padding: const EdgeInsets.all(8),
-          width: 10,
-          height: 0,
-          child: CircularProgressIndicator(
-            strokeWidth: 1,
-            color:
-            widget.me ? widget.meFgColor : widget.contactFgColor,
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
           ),
-        )
-            : Icon(
-          _isPlaying ? Icons.pause : Icons.play_arrow,
-          color: widget.me
-              ? widget.mePlayIconColor
-              : widget.contactPlayIconColor,
-          size: 5.w(),
+          width: 8.w(),
+          height: 8.w(),
+          child: InkWell(
+            onTap: () =>
+                !_audioConfigurationDone ? null : _changePlayingStatus(),
+            child: !_audioConfigurationDone
+                ? Container(
+                    padding: const EdgeInsets.all(8),
+                    width: 10,
+                    height: 0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                      color:
+                          widget.me ? widget.meFgColor : widget.contactFgColor,
+                    ),
+                  )
+                : Icon(
+                    _isPlaying ? Icons.pause : Icons.play_arrow,
+                    color: widget.me
+                        ? widget.mePlayIconColor
+                        : widget.contactPlayIconColor,
+                    size: 5.w(),
+                  ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   _durationWithNoise(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      _noise(context),
-      SizedBox(height: .3.w()),
-      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!widget.played)
-            Widgets.circle(context, 1.w(),
-                widget.me ? widget.meFgColor : widget.contactFgColor),
-          SizedBox(width: 1.2.w()),
-          Text(
-            _remaingTime,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: widget.me ? widget.meFgColor : widget.contactFgColor,
-            ),
-          )
+          _noise(context),
+        //   SizedBox(height: .3.w()),
+        //   Row(
+        //     children: [
+        //       if (!widget.played)
+        //         Widgets.circle(context, 1.w(),
+        //             widget.me ? widget.meFgColor : widget.contactFgColor),
+        //       SizedBox(width: 1.2.w()),
+        //       Text(
+        //         _remaingTime,
+        //         style: TextStyle(
+        //           fontSize: 10,
+        //           fontWeight: FontWeight.bold,
+        //           color: widget.me ? widget.meFgColor : widget.contactFgColor,
+        //         ),
+        //       )
+        //     ],
+        //   ),
         ],
-      ),
-    ],
-  );
+      );
 
   /// Noise widget of audio.
   _noise(BuildContext context) {
@@ -162,7 +182,7 @@ class _VoiceMessageState extends State<VoiceMessage>
             if (_audioConfigurationDone)
               AnimatedBuilder(
                 animation:
-                CurvedAnimation(parent: _controller!, curve: Curves.ease),
+                    CurvedAnimation(parent: _controller!, curve: Curves.ease),
                 builder: (context, child) {
                   return Positioned(
                     left: _controller!.value,
@@ -284,7 +304,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     _player.onAudioPositionChanged.listen((Duration p) {
       final _newRemaingTime1 = p.toString().split('.')[0];
       final _newRemaingTime2 =
-      _newRemaingTime1.substring(_newRemaingTime1.length - 5);
+          _newRemaingTime1.substring(_newRemaingTime1.length - 5);
       if (_newRemaingTime2 != _remaingTime) {
         setState(() => _remaingTime = _newRemaingTime2);
       }
