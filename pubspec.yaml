@@ -10,14 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^0.20.1
-  just_audio: ^0.9.21
+  audioplayers: ^1.0.1
+  just_audio: ^0.9.28
   syncfusion_flutter_sliders: ^20.1.55
   iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 

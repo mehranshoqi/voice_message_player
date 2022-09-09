@@ -1,6 +1,11 @@
 # This is a generated file; do not edit or check into version control.
 audio_session=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audio_session-0.1.10\\
-audioplayers=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers-0.20.1\\
+audioplayers=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers-1.0.1\\
+audioplayers_android=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers_android-1.0.1\\
+audioplayers_darwin=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers_darwin-1.0.1\\
+audioplayers_linux=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers_linux-1.0.0\\
+audioplayers_web=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers_web-1.0.0\\
+audioplayers_windows=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\audioplayers_windows-1.0.0\\
 just_audio=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\just_audio-0.9.28\\
 just_audio_web=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\just_audio_web-0.4.7\\
 path_provider=E:\\Flutter\\Src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.11\\
