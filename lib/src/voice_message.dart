@@ -79,7 +79,7 @@ class _VoiceMessageState extends State<VoiceMessage>
               _durationWithNoise(context),
               SizedBox(width: 2.2.w()),
               /// x2 button will be added here.
-              // _speed(context),
+              _speed(context),
             ],
           ),
         ],
