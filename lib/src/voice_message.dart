@@ -231,13 +231,15 @@ class _VoiceMessageState extends State<VoiceMessage>
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
-    _playingStatus = await _player.play(widget.audioSrc);
+    await _player.play(UrlSource(widget.audioSrc));
+    _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
   }
 
   _stopPlaying() async {
-    _playingStatus = await _player.pause();
+    await _player.pause();
+    _playingStatus = 0;
     _controller!.stop();
   }
 
@@ -296,7 +298,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   void _listenToRemaningTime() {
-    _player.onAudioPositionChanged.listen((Duration p) {
+    _player.onPositionChanged.listen((Duration p) {
       final _newRemaingTime1 = p.toString().split('.')[0];
       final _newRemaingTime2 =
           _newRemaingTime1.substring(_newRemaingTime1.length - 5);
