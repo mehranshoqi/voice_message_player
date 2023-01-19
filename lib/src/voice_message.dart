@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 // ignore: library_prefixes
@@ -244,6 +246,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   void _setDuration() async {
+    log(widget.audioSrc);
     _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc);
     duration = _audioDuration!.inSeconds;
     maxDurationForSlider = duration + .0;
