@@ -231,7 +231,11 @@ class _VoiceMessageState extends State<VoiceMessage>
   _setPlayingStatus() => _isPlaying = _playingStatus == 1;
 
   _startPlaying() async {
-    await _player.play(UrlSource(widget.audioSrc));
+    await _player.play(
+      widget.audioSrc.contains('http')
+          ? UrlSource(widget.audioSrc)
+          : DeviceFileSource(widget.audioSrc),
+    );
     _playingStatus = 1;
     _setPlayingStatus();
     _controller!.forward();
