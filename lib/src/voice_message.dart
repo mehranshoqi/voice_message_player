@@ -10,7 +10,6 @@ import 'package:voice_message_package/src/helpers/utils.dart';
 
 import './helpers/widgets.dart';
 import './noises.dart';
-import 'duration.dart';
 import 'helpers/colors.dart';
 
 /// This is the main widget.
@@ -23,6 +22,8 @@ class VoiceMessage extends StatefulWidget {
     this.audioSrc,
     this.audioFile,
     this.duration,
+    this.formatDuration,
+    this.showDuration = false,
     this.waveForm,
     this.noiseCount = 27,
     this.meBgColor = AppColors.pink,
@@ -40,6 +41,7 @@ class VoiceMessage extends StatefulWidget {
   final String? audioSrc;
   Future<File>? audioFile;
   final Duration? duration;
+  final bool showDuration;
   final List<double>? waveForm;
 
   final int noiseCount;
@@ -53,6 +55,7 @@ class VoiceMessage extends StatefulWidget {
       contactPlayIconBgColor;
   final bool played, me;
   Function()? onPlay;
+  String Function(Duration duration)? formatDuration;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -63,19 +66,24 @@ class _VoiceMessageState extends State<VoiceMessage>
     with SingleTickerProviderStateMixin {
   late StreamSubscription stream;
   final AudioPlayer _player = AudioPlayer();
-  final double maxNoiseHeight = 6.w(), noiseWidth = 26.5.w();
+  final double maxNoiseHeight = 6.w(), noiseWidth = 28.5.w();
   Duration? _audioDuration;
   double maxDurationForSlider = .0000001;
   bool _isPlaying = false, x2 = false, _audioConfigurationDone = false;
   int duration = 00;
-  String _remaingTime = '';
+  String _remainingTime = '';
   AnimationController? _controller;
 
   @override
   void initState() {
+    widget.formatDuration ??= (Duration duration) {
+      return duration.toString().substring(2, 11);
+    };
+
     _setDuration();
     super.initState();
     stream = _player.onPlayerStateChanged.listen((event) {
+      debugPrint("> _listen onPlayerStateChanged $event ");
       switch (event) {
         case PlayerState.stopped:
           break;
@@ -90,10 +98,20 @@ class _VoiceMessageState extends State<VoiceMessage>
           });
           break;
         case PlayerState.completed:
+          _player.seek(_audioDuration!);
+          setState(() {
+            duration = _audioDuration!.inMilliseconds;
+            _remainingTime = widget.formatDuration!(_audioDuration!);
+          });
+
           break;
         default:
           break;
       }
+    });
+    _player.onPositionChanged.listen((Duration p) {
+      debugPrint("> _listen onPositionChanged p $p");
+      setState(() => _remainingTime = p.toString().substring(2, 11));
     });
   }
 
@@ -103,7 +121,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   Container _sizerChild(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: .8.w()),
-      constraints: BoxConstraints(maxWidth: 100.w() * .7),
+      constraints: BoxConstraints(maxWidth: 100.w() * .8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(6.w()),
@@ -176,22 +194,24 @@ class _VoiceMessageState extends State<VoiceMessage>
               if (!widget.played)
                 Widgets.circle(context, 1.5.w(),
                     widget.me ? widget.meFgColor : widget.contactCircleColor),
-              if (widget.duration != null)
-                SizedBox(width: 1.2.w()),
-              if (widget.duration != null)
+              if (widget.showDuration) SizedBox(width: 1.2.w()),
+              if (widget.showDuration)
                 Text(
-                  "${widget.duration!.inMilliseconds/1000}''",
+                  widget.formatDuration!(widget.duration!),
                   style: TextStyle(
                     fontSize: 10,
                     color: widget.me ? widget.meFgColor : widget.contactFgColor,
                   ),
                 ),
               SizedBox(width: 1.5.w()),
-              Text(
-                _remaingTime,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: widget.me ? widget.meFgColor : widget.contactFgColor,
+              SizedBox(
+                width: 50,
+                child: Text(
+                  _remainingTime,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: widget.me ? widget.meFgColor : widget.contactFgColor,
+                  ),
                 ),
               ),
             ],
@@ -274,12 +294,17 @@ class _VoiceMessageState extends State<VoiceMessage>
   //       ),
   //     );
 
-
   void _startPlaying() async {
     if (widget.audioFile != null) {
-      await _player.play(DeviceFileSource((await widget.audioFile!).path));
+      String path = (await widget.audioFile!).path;
+      debugPrint("> _startPlaying path $path");
+      await _player.play(DeviceFileSource(path));
     } else if (widget.audioSrc != null) {
       await _player.play(UrlSource(widget.audioSrc!));
+    }
+    if (duration == _audioDuration!.inMilliseconds) {
+      _player.seek(const Duration(milliseconds: 0));
+      // _player.resume();
     }
     _controller!.forward();
   }
@@ -290,13 +315,12 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 
   void _setDuration() async {
-
     if (widget.duration != null) {
       _audioDuration = widget.duration;
     } else {
       _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc!);
     }
-    duration = _audioDuration!.inSeconds;
+    duration = _audioDuration!.inMilliseconds;
     maxDurationForSlider = duration + .0;
 
     /// document will be added
@@ -316,15 +340,14 @@ class _VoiceMessageState extends State<VoiceMessage>
         setState(() {});
       }
     });
-    _setAnimationCunfiguration(_audioDuration);
+    _setAnimationConfiguration(_audioDuration!);
   }
 
-  void _setAnimationCunfiguration(Duration? audioDuration) async {
-    _listenToRemaningTime();
+  void _setAnimationConfiguration(Duration audioDuration) async {
     setState(() {
-      _remaingTime = VoiceDuration.getDuration(duration);
+      _remainingTime = widget.formatDuration!(audioDuration);
     });
-    debugPrint("_setAnimationCunfiguration $_remaingTime");
+    debugPrint("_setAnimationConfiguration $_remainingTime");
     _completeAnimationConfiguration();
   }
 
@@ -352,23 +375,13 @@ class _VoiceMessageState extends State<VoiceMessage>
     super.dispose();
   }
 
-  void _listenToRemaningTime() {
-    _player.onPositionChanged.listen((Duration p) {
-      final newRemaingTime1 = p.toString().split('.')[0];
-      final newRemaingTime2 = newRemaingTime1.substring(newRemaingTime1.length - 5);
-      if (newRemaingTime2 != _remaingTime) {
-        setState(() => _remaingTime = newRemaingTime2);
-      }
-    });
-  }
-
   /// document will be added
   _onChangeSlider(double d) async {
     if (_isPlaying) _changePlayingStatus();
     duration = d.round();
     _controller?.value = (noiseWidth) * duration / maxDurationForSlider;
-    _remaingTime = VoiceDuration.getDuration(duration);
-    await _player.seek(Duration(seconds: duration));
+    _remainingTime = widget.formatDuration!(_audioDuration!);
+    await _player.seek(Duration(milliseconds: duration));
     setState(() {});
   }
 }
