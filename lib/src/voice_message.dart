@@ -98,12 +98,12 @@ class _VoiceMessageState extends State<VoiceMessage>
           });
           break;
         case PlayerState.completed:
-          _player.seek(_audioDuration!);
+          // _player.seek(_audioDuration!);
+          _player.seek(const Duration(milliseconds: 0));
           setState(() {
             duration = _audioDuration!.inMilliseconds;
             _remainingTime = widget.formatDuration!(_audioDuration!);
           });
-
           break;
         default:
           break;
@@ -301,10 +301,6 @@ class _VoiceMessageState extends State<VoiceMessage>
       await _player.play(DeviceFileSource(path));
     } else if (widget.audioSrc != null) {
       await _player.play(UrlSource(widget.audioSrc!));
-    }
-    if (duration == _audioDuration!.inMilliseconds) {
-      _player.seek(const Duration(milliseconds: 0));
-      // _player.resume();
     }
     _controller!.forward();
   }
