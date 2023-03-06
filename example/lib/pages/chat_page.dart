@@ -52,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
             SizedBox(width: 3.7.w),
-            //* name & activity.
+            /// name & activity.
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
