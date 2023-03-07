@@ -9,6 +9,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Sizer(
         builder: (_, __, ___) => const MaterialApp(
-            debugShowCheckedModeBanner: false, home: ChatPage()),
+          debugShowCheckedModeBanner: false,
+          home: ChatPage(),
+        ),
       );
 }
