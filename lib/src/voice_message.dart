@@ -366,6 +366,7 @@ class _VoiceMessageState extends State<VoiceMessage>
   void dispose() {
     stream.cancel();
     _player.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
