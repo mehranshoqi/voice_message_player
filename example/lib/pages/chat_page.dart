@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:voice_message/helpers/constants.dart';
 
 import '../helpers/style.dart';
 import '../helpers/widgets.dart';
@@ -17,16 +18,18 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) =>
       Scaffold(body: _messagesWithUserInfo(context));
 
+  ///
   Widget _messagesWithUserInfo(BuildContext context) => SafeArea(
         child: Column(
           children: [
             _userInformation(context),
             const SizedBox(height: 8),
-            _buildContainer(context),
+            _messages(context),
           ],
         ),
       );
 
+  ///
   Widget _userInformation(BuildContext context) => Padding(
         padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 8.w),
         child: Row(
@@ -41,17 +44,18 @@ class _ChatPageState extends State<ChatPage> {
               child: Icon(Icons.arrow_back_ios_outlined, size: 3.7.w),
             ),
             SizedBox(width: 5.5.w),
-            //* avatar.
+            /// avatar.
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CircleAvatar(
                 radius: 5.w,
                 child: Image.network(
-                  'https://media-exp1.licdn.com/dms/image/C4E03AQEL_Gzug73LaQ/profile-displayphoto-shrink_400_400/0/1645345884553?e=1651104000&v=beta&t=zTI_ZpRBstjAOoCtETIFCANGGjLIm7ueMW7MyDIBLlM',
+                  'https://media.licdn.com/dms/image/D4E03AQFRacif5msAbw/profile-displayphoto-shrink_800_800/0/1678173152110?e=1683763200&v=beta&t=3aLzfUi3sFxcxH5JPz20qorON_s3Sk6qHjFxZ8kHd0I',
                 ),
               ),
             ),
             SizedBox(width: 3.7.w),
+
             /// name & activity.
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +80,8 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
-  Widget _buildContainer(BuildContext context) => Expanded(
+  ///
+  Widget _messages(BuildContext context) => Expanded(
         child: Container(
           padding: const EdgeInsets.only(top: 18),
           decoration: BoxDecoration(
@@ -90,12 +95,14 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
+  ///
   Widget _messagesList(BuildContext context) => ListView.builder(
         itemCount: 7,
         itemBuilder: (BuildContext context, int index) => Bubble(
-          index == 1 || index == 4 || index == 6, // for two chat side.
-          index,
+          me: index % 2 == 0,
+          index: index,
           voice: index == 4 || index == 5,
+          msg: Constants.messages[index],
         ),
       );
 }

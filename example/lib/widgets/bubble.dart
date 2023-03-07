@@ -10,9 +10,16 @@ import '../helpers/style.dart';
 ///
 // ignore: must_be_immutable
 class Bubble extends StatelessWidget {
-  Bubble(this.me, this.index, {Key? key, this.voice = false}) : super(key: key);
-  bool me, voice;
-  int index;
+  Bubble({
+    required this.me,
+    required this.index,
+    Key? key,
+    this.voice = false,
+    this.msg = '',
+  }) : super(key: key);
+  final bool me, voice;
+  final int index;
+  final String msg;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -52,15 +59,11 @@ class Bubble extends StatelessWidget {
                 : [S.boxShadow(context, opacity: .05)],
           ),
           child: Text(
-            me
-                ? 'Hello, How are u?'
-                : Random().nextBool()
-                    ? 'It\'s Rainy!'
-                    : Random().nextBool()
-                        ? 'Ok! got it.'
-                        : 'How was going bro ?',
+            msg,
             style: TextStyle(
-                fontSize: 13.2, color: me ? Colors.white : Colors.black),
+              fontSize: 13.2,
+              color: me ? Colors.white : Colors.black,
+            ),
           ),
         );
 

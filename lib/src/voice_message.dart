@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
-import 'package:voice_message_package/src/contact_noise.dart';
+import 'package:voice_message_package/src/contact_noises.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 
 import './helpers/widgets.dart';
@@ -13,7 +13,6 @@ import './noises.dart';
 import 'helpers/colors.dart';
 
 /// This is the main widget.
-///
 // ignore: must_be_immutable
 class VoiceMessage extends StatefulWidget {
   VoiceMessage({
@@ -83,22 +82,16 @@ class _VoiceMessageState extends State<VoiceMessage>
     _setDuration();
     super.initState();
     stream = _player.onPlayerStateChanged.listen((event) {
-      debugPrint("> _listen onPlayerStateChanged $event ");
       switch (event) {
         case PlayerState.stopped:
           break;
         case PlayerState.playing:
-          setState(() {
-            _isPlaying = true;
-          });
+          setState(() => _isPlaying = true);
           break;
         case PlayerState.paused:
-          setState(() {
-            _isPlaying = false;
-          });
+          setState(() => _isPlaying = false);
           break;
         case PlayerState.completed:
-          // _player.seek(_audioDuration!);
           _player.seek(const Duration(milliseconds: 0));
           setState(() {
             duration = _audioDuration!.inMilliseconds;
@@ -109,49 +102,48 @@ class _VoiceMessageState extends State<VoiceMessage>
           break;
       }
     });
-    _player.onPositionChanged.listen((Duration p) {
-      debugPrint("> _listen onPositionChanged p $p");
-      setState(() => _remainingTime = p.toString().substring(2, 11));
-    });
+    _player.onPositionChanged.listen(
+      (Duration p) => setState(
+        () => _remainingTime = p.toString().substring(2, 11),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) => _sizerChild(context);
 
-  Container _sizerChild(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: .8.w()),
-      constraints: BoxConstraints(maxWidth: 100.w() * .8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(6.w()),
-          bottomLeft:
-              widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
-          bottomRight:
-              !widget.me ? Radius.circular(6.w()) : Radius.circular(1.2.w()),
-          topRight: Radius.circular(6.w()),
+  Container _sizerChild(BuildContext context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: .8.w()),
+        constraints: BoxConstraints(maxWidth: 100.w() * .8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(6.w()),
+            bottomLeft:
+                widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
+            bottomRight:
+                !widget.me ? Radius.circular(6.w()) : Radius.circular(1.2.w()),
+            topRight: Radius.circular(6.w()),
+          ),
+          color: widget.me ? widget.meBgColor : widget.contactBgColor,
         ),
-        color: widget.me ? widget.meBgColor : widget.contactBgColor,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w(), vertical: 2.8.w()),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _playButton(context),
-            SizedBox(width: 3.w()),
-            _durationWithNoise(context),
-            SizedBox(width: 2.2.w()),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.w(), vertical: 2.8.w()),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _playButton(context),
+              SizedBox(width: 3.w()),
+              _durationWithNoise(context),
+              SizedBox(width: 2.2.w()),
 
-            /// x2 button will be added here.
-            // _speed(context),
-          ],
+              /// x2 button will be added here.
+              // _speed(context),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
-  _playButton(BuildContext context) => InkWell(
+  Widget _playButton(BuildContext context) => InkWell(
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -184,23 +176,29 @@ class _VoiceMessageState extends State<VoiceMessage>
         ),
       );
 
-  _durationWithNoise(BuildContext context) => Column(
+  Widget _durationWithNoise(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _noise(context),
           SizedBox(height: .3.w()),
           Row(
             children: [
+              /// show played badge
               if (!widget.played)
                 Widgets.circle(context, 1.5.w(),
                     widget.me ? widget.meFgColor : widget.contactCircleColor),
-              if (widget.showDuration) SizedBox(width: 1.2.w()),
+
+              /// show duration
               if (widget.showDuration)
-                Text(
-                  widget.formatDuration!(widget.duration!),
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: widget.me ? widget.meFgColor : widget.contactFgColor,
+                Padding(
+                  padding: EdgeInsets.only(left: 1.2.w()),
+                  child: Text(
+                    widget.formatDuration!(widget.duration!),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color:
+                          widget.me ? widget.meFgColor : widget.contactFgColor,
+                    ),
                   ),
                 ),
               SizedBox(width: 1.5.w()),
@@ -220,7 +218,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       );
 
   /// Noise widget of audio.
-  _noise(BuildContext context) {
+  Widget _noise(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final newTHeme = theme.copyWith(
       sliderTheme: SliderThemeData(
@@ -230,7 +228,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       ),
     );
 
-    /// document will be added
+    ///
     return Theme(
       data: newTHeme,
       child: SizedBox(
@@ -261,7 +259,7 @@ class _VoiceMessageState extends State<VoiceMessage>
               opacity: .0,
               child: Container(
                 width: noiseWidth,
-                color: Colors.amber.withOpacity(1),
+                color: Colors.amber.withOpacity(0),
                 child: Slider(
                   min: 0.0,
                   max: maxDurationForSlider,
@@ -319,7 +317,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     duration = _audioDuration!.inMilliseconds;
     maxDurationForSlider = duration + .0;
 
-    /// document will be added
+    ///
     _controller = AnimationController(
       vsync: this,
       lowerBound: 0,
@@ -327,7 +325,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       duration: _audioDuration,
     );
 
-    /// document will be added
+    ///
     _controller!.addListener(() {
       if (_controller!.isCompleted) {
         _controller!.reset();
@@ -371,7 +369,7 @@ class _VoiceMessageState extends State<VoiceMessage>
     super.dispose();
   }
 
-  /// document will be added
+  ///
   _onChangeSlider(double d) async {
     if (_isPlaying) _changePlayingStatus();
     duration = d.round();
@@ -382,9 +380,9 @@ class _VoiceMessageState extends State<VoiceMessage>
   }
 }
 
-/// document will be added
+///
 class CustomTrackShape extends RoundedRectSliderTrackShape {
-  /// document will be added
+  ///
   @override
   Rect getPreferredRect({
     required RenderBox parentBox,
@@ -394,9 +392,8 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
     bool isDiscrete = false,
   }) {
     const double trackHeight = 10;
-    final double trackLeft = offset.dx;
-    final double trackTop =
-        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackLeft = offset.dx,
+        trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
