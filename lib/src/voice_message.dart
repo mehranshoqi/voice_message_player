@@ -120,12 +120,10 @@ class _VoiceMessageState extends State<VoiceMessage>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(widget.radius),
-            bottomLeft:
-                widget.me
+            bottomLeft: widget.me
                 ? Radius.circular(widget.radius)
                 : const Radius.circular(4),
-            bottomRight:
-                !widget.me
+            bottomRight: !widget.me
                 ? Radius.circular(widget.radius)
                 : const Radius.circular(4),
             topRight: Radius.circular(widget.radius),
