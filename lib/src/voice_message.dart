@@ -31,6 +31,7 @@ class VoiceMessage extends StatefulWidget {
     this.contactCircleColor = Colors.red,
     this.mePlayIconColor = Colors.black,
     this.contactPlayIconColor = Colors.black26,
+    this.radius = 12,
     this.contactPlayIconBgColor = Colors.grey,
     this.meFgColor = const Color(0xffffffff),
     this.played = false,
@@ -42,6 +43,7 @@ class VoiceMessage extends StatefulWidget {
   final Duration? duration;
   final bool showDuration;
   final List<double>? waveForm;
+  final double radius;
 
   final int noiseCount;
   final Color meBgColor,
@@ -117,12 +119,16 @@ class _VoiceMessageState extends State<VoiceMessage>
         constraints: BoxConstraints(maxWidth: 100.w() * .8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(6.w()),
+            topLeft: Radius.circular(widget.radius),
             bottomLeft:
-                widget.me ? Radius.circular(6.w()) : Radius.circular(2.w()),
+                widget.me
+                ? Radius.circular(widget.radius)
+                : const Radius.circular(4),
             bottomRight:
-                !widget.me ? Radius.circular(6.w()) : Radius.circular(1.2.w()),
-            topRight: Radius.circular(6.w()),
+                !widget.me
+                ? Radius.circular(widget.radius)
+                : const Radius.circular(4),
+            topRight: Radius.circular(widget.radius),
           ),
           color: widget.me ? widget.meBgColor : widget.contactBgColor,
         ),
