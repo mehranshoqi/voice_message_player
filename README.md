@@ -65,7 +65,7 @@ VoiceMessage(
 
 ## Todo
 
-- [x] seeking on audio by drag on noises.
+- [✔️] seeking on audio by drag on noises.
 - [ ] add x2 playback speed.
 - [ ] generate noises according to real voice noise.
 - [ ] dynamic size for voice widget.
