@@ -324,7 +324,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       }
     }
 
-    _audioDuration?? = Duration(seconds: 60);
+    _audioDuration ??= Duration(seconds: 60);
     duration = _audioDuration!.inMilliseconds;
     maxDurationForSlider = duration + .0;
 
