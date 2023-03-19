@@ -316,7 +316,18 @@ class _VoiceMessageState extends State<VoiceMessage>
     if (widget.duration != null) {
       _audioDuration = widget.duration;
     } else {
-      _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc!);
+      if (widget.audioFile != null) {
+        String path = (await widget.audioFile!).path;
+        _audioDuration = await jsAudio.AudioPlayer().setFilePath(path);
+        await _player.play(DeviceFileSource(path));
+      } else if (widget.audioSrc != null) {
+        _audioDuration = await jsAudio.AudioPlayer().setUrl(widget.audioSrc!);
+      }
+
+      if(_audioDuration == null) {
+        print("NULL _audioDuration HELP MEEEE");
+        _audioDuration = Duration(seconds: 60);
+      }
     }
     duration = _audioDuration!.inMilliseconds;
     maxDurationForSlider = duration + .0;
