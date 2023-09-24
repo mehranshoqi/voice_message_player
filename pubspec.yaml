@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^2.0.0
-  just_audio: ^0.9.21
-  syncfusion_flutter_sliders: ^20.4.44
+  audioplayers: ^5.1.0
+  just_audio: ^0.9.35
+  syncfusion_flutter_sliders: ^23.1.36
 
 dev_dependencies:
   flutter_test:
