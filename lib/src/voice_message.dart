@@ -5,11 +5,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 // ignore: library_prefixes
 import 'package:just_audio/just_audio.dart' as jsAudio;
-import 'package:voice_message_package/src/contact_noises.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
+import 'package:voice_message_package/src/widgets/noises.dart';
 
 import './helpers/widgets.dart';
-import './noises.dart';
 import 'helpers/colors.dart';
 
 /// This is the main widget.
@@ -241,7 +240,9 @@ class _VoiceMessageState extends State<VoiceMessage>
         child: Stack(
           clipBehavior: Clip.hardEdge,
           children: [
-            widget.me ? const Noises() : const ContactNoise(),
+            Noises(
+              isFromMe: widget.me,
+            ),
             if (_audioConfigurationDone)
               AnimatedBuilder(
                 animation:
@@ -324,7 +325,7 @@ class _VoiceMessageState extends State<VoiceMessage>
       }
     }
 
-    _audioDuration ??= Duration(seconds: 60);
+    _audioDuration ??= const Duration(seconds: 60);
     duration = _audioDuration!.inMilliseconds;
     maxDurationForSlider = duration + .0;
 
