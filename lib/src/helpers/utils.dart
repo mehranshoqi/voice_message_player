@@ -10,3 +10,17 @@ extension NumberParsing on num {
 
   double h() => this * media.size.height / 100;
 }
+
+extension StringExtension on String {
+  String? get appendZeroPrefix {
+    return length <= 1 ? "0$this" : this;
+  }
+}
+
+extension DurationExtension on Duration {
+  String get formattedTime {
+    int sec = inSeconds % 60;
+    int min = (inSeconds / 60).floor();
+    return "${min.toString().appendZeroPrefix}:${sec.toString().appendZeroPrefix}";
+  }
+}
