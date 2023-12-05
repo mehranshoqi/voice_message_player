@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  VoiceMessage(
+                  VoiceMessageView(
                     controller: VoiceController(
                       audioSrc:
                           'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',

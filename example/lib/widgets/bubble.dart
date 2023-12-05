@@ -34,7 +34,7 @@ class Bubble extends StatelessWidget {
       );
 
   Widget _bubble(BuildContext context) => voice
-      ? VoiceMessage(
+      ? VoiceMessageView(
           controller: VoiceController(
             audioSrc:
                 // 'https://dl.musicdel.ir/Music/1400/08/morteza_pashaei_setayesh%20128.mp3',
