@@ -55,31 +55,38 @@ flutter pub get
 
 All you need is pass your audio file src to VoiceMessage widget:
 ```dart
-VoiceMessage(
-  audioSrc: 'YOUR_AUDIO_URL',
-  played: false, // To show played badge or not.
-  me: true, // Set message side.
-  onPlay: () {}, // Do something when voice played.
-);
+ VoiceMessageView(
+  controller: VoiceController(
+    audioSrc:
+        'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
+    maxDuration: const Duration(seconds: 120),
+    isFile: false,
+    onComplete: () {
+      print('onComplete');
+    },
+    onPause: () {
+      print('onPause');
+    },
+    onPlaying: () {
+      print('onPlaying');
+    },
+  ),
+  innerPadding: 12,
+  cornerRadius: 20,
+),
 ```
 
 ## Todo
 
-- [✔️] seeking on audio by drag on noises.
-- [ ] add x2 playback speed.
-- [ ] generate noises according to real voice noise.
+- [✔️] Seeking on audio by drag on noises.
+- [✔️] Change playback speed.
 - [ ] dynamic size for voice widget.
-- [ ] dynamic size for noises.
 
 <div style="height:40px;"></div>
 
 ## License
 
 Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voice_message_player/blob/master/LICENSE "LICENSE").
-
-<!-- ## Donation
-
-[![Donate with Ripple](https://en.cryptobadges.io/badge/big/r3EazHwqTd7ifeCJj5gm3xdRna71vwmhwp)](https://en.cryptobadges.io/donate/r3EazHwqTd7ifeCJj5gm3xdRna71vwmhwp) -->
 
 
 ## Me

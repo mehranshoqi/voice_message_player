@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -36,9 +34,17 @@ class Bubble extends StatelessWidget {
       );
 
   Widget _bubble(BuildContext context) => voice
-      ? VoiceMessage(
-          audioSrc: 'https://sounds-mp3.com/mp3/0012660.mp3',
-          me: index == 5 ? false : true,
+      ? VoiceMessageView(
+          controller: VoiceController(
+            audioSrc:
+                // 'https://dl.musicdel.ir/Music/1400/08/morteza_pashaei_setayesh%20128.mp3',
+                'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
+            maxDuration: const Duration(seconds: 0),
+            isFile: false,
+            onComplete: () {},
+            onPause: () {},
+            onPlaying: () {},
+          ),
         )
       : Container(
           constraints: BoxConstraints(maxWidth: 100.w * .7),
