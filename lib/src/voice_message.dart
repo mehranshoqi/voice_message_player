@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 import 'package:voice_message_package/src/voice_controller.dart';
@@ -434,10 +433,16 @@ class VoiceMessage extends StatelessWidget {
                   width: 5,
                 ),
                 if (controller.isDownloading)
-                  const SizedBox(
+                  Container(
                     height: 38,
                     width: 38,
-                    child: CupertinoActivityIndicator(),
+                    padding: const EdgeInsets.all(8),
+                    decoration:
+                        BoxDecoration(color: color, shape: BoxShape.circle),
+                    child: CircularProgressIndicator(
+                      color: backgroundColor,
+                      strokeWidth: 2,
+                    ),
                   )
                 else if (controller.isPlaying)
                   InkWell(
@@ -455,7 +460,7 @@ class VoiceMessage extends StatelessWidget {
                   )
                 else if (controller.isDownloadError)
                   InkWell(
-                    onTap: controller.initAndPlay,
+                    onTap: controller.play,
                     child: Container(
                       height: 38,
                       width: 38,
@@ -469,7 +474,7 @@ class VoiceMessage extends StatelessWidget {
                   )
                 else
                   InkWell(
-                    onTap: controller.initAndPlay,
+                    onTap: controller.play,
                     child: Container(
                       height: 38,
                       width: 38,

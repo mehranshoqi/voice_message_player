@@ -66,6 +66,7 @@ class VoiceController extends MyTicker {
       upperBound: noiseWidth,
       duration: maxDuration,
     );
+    init();
     _listenToRemindingTime();
     _listenToPlayerState();
     // animController.addListener(() {
@@ -73,13 +74,16 @@ class VoiceController extends MyTicker {
     // });
   }
 
-  Future initAndPlay() async {
-    playStatus = PlayStatus.downloading;
+  Future init() async {
+    await setMaxDuration(audioSrc);
     _updateUi();
-    try {
-      await setMaxDuration(audioSrc);
-      await startPlaying(audioSrc);
+  }
 
+  Future play() async {
+    try {
+      playStatus = PlayStatus.downloading;
+      _updateUi();
+      await startPlaying(audioSrc);
       onPlaying(id);
     } catch (err) {
       playStatus = PlayStatus.downloadError;
@@ -90,7 +94,9 @@ class VoiceController extends MyTicker {
 
   void _listenToRemindingTime() {
     positionStream = _player.positionStream.listen((Duration p) async {
-      currentDuration = p;
+      if (!isDownloading) {
+        currentDuration = p;
+      }
       final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
       animController.value = value;
       _updateUi();
@@ -223,12 +229,14 @@ class VoiceController extends MyTicker {
 
   String get remindingTime {
     if (currentDuration == Duration.zero) {
+      print(',,m,--->>>');
       return maxDuration.formattedTime;
     }
-    if (isSeeking) {
+    if (isSeeking || isPause) {
       return currentDuration.formattedTime;
     }
-    if (isPause || isInit) {
+    if (isInit) {
+      print('--->>>');
       return maxDuration.formattedTime;
     }
     return currentDuration.formattedTime;
