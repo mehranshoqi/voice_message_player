@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:voice_message_package/src/widgets/loading_widget.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class PlayPauseButton extends StatelessWidget {
@@ -17,16 +18,16 @@ class PlayPauseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: controller.isDownloadError
-            ? controller.initAndPlay
+            ? controller.play
             : controller.isPlaying
                 ? controller.pausePlaying
-                : controller.initAndPlay,
+                : controller.play,
         child: Container(
           height: size,
           width: size,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           child: controller.isDownloading
-              ? const CupertinoActivityIndicator()
+              ? const LoadingWidget()
               : Icon(
                   controller.isDownloadError
                       ? Icons.refresh

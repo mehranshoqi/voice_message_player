@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -23,7 +24,7 @@ class VoiceController extends MyTicker {
   PlayStatus playStatus = PlayStatus.init;
   PlaySpeed speed = PlaySpeed.x1;
   ValueNotifier updater = ValueNotifier(null);
-  final randoms = <double>[];
+  List<double>? randoms;
   StreamSubscription? positionStream;
   StreamSubscription? playerStateStream;
 
@@ -59,27 +60,29 @@ class VoiceController extends MyTicker {
     required this.onComplete,
     required this.onPause,
     required this.onPlaying,
+    this.randoms,
   }) {
-    _setRandoms();
+    if (randoms?.isEmpty ?? true) _setRandoms();
     animController = AnimationController(
       vsync: this,
       upperBound: noiseWidth,
       duration: maxDuration,
     );
+    init();
     _listenToRemindingTime();
     _listenToPlayerState();
-    // animController.addListener(() {
-    //   print("value is "+animController.value.toString());
-    // });
   }
 
-  Future initAndPlay() async {
-    playStatus = PlayStatus.downloading;
+  Future init() async {
+    await setMaxDuration(audioSrc);
     _updateUi();
-    try {
-      await setMaxDuration(audioSrc);
-      await startPlaying(audioSrc);
+  }
 
+  Future play() async {
+    try {
+      playStatus = PlayStatus.downloading;
+      _updateUi();
+      await startPlaying(audioSrc);
       onPlaying(id);
     } catch (err) {
       playStatus = PlayStatus.downloadError;
@@ -90,7 +93,8 @@ class VoiceController extends MyTicker {
 
   void _listenToRemindingTime() {
     positionStream = _player.positionStream.listen((Duration p) async {
-      currentDuration = p;
+      if (!isDownloading) currentDuration = p;
+
       final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
       animController.value = value;
       _updateUi();
@@ -209,8 +213,9 @@ class VoiceController extends MyTicker {
   }
 
   void _setRandoms() {
-    for (var i = 0; i < 50; i++) {
-      randoms.add(5.74.w() * Random().nextDouble() + .26.w());
+    randoms = [];
+    for (var i = 0; i < 44; i++) {
+      randoms!.add(5.74.w() * Random().nextDouble() + .26.w());
     }
   }
 
@@ -225,10 +230,10 @@ class VoiceController extends MyTicker {
     if (currentDuration == Duration.zero) {
       return maxDuration.formattedTime;
     }
-    if (isSeeking) {
+    if (isSeeking || isPause) {
       return currentDuration.formattedTime;
     }
-    if (isPause || isInit) {
+    if (isInit) {
       return maxDuration.formattedTime;
     }
     return currentDuration.formattedTime;
@@ -244,7 +249,7 @@ class VoiceController extends MyTicker {
       }
     } catch (err) {
       if (kDebugMode) {
-        print("cant get the max duration from the path $path");
+        debugPrint("cant get the max duration from the path $path");
       }
     }
   }

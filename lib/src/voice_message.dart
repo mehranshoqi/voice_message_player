@@ -75,7 +75,7 @@ class VoiceMessage extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         Noises(
-                          rList: controller.randoms,
+                          rList: controller.randoms!,
                           activeSliderColor: activeSliderColor,
                         ),
                         AnimatedBuilder(
