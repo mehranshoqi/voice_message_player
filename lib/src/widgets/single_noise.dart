@@ -6,11 +6,12 @@ import 'package:voice_message_package/src/helpers/utils.dart';
 class SingleNoise extends StatefulWidget {
   const SingleNoise({
     super.key,
-    required this.isFromMe,
+    required this.activeSliderColor,
+    required this.height,
   });
 
-  final bool isFromMe;
-
+  final Color activeSliderColor;
+  final double height;
   @override
   State<SingleNoise> createState() => _SingleNoiseState();
 }
@@ -23,10 +24,10 @@ class _SingleNoiseState extends State<SingleNoise> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: .2.w()),
       width: .56.w(),
-      height: height,
+      height: widget.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(1000),
-        color: widget.isFromMe ? Colors.white : Colors.grey,
+        color: widget.activeSliderColor,
       ),
     );
   }
