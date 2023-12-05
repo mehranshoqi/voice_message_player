@@ -1,6 +1,7 @@
 import 'package:voice_message/pages/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,9 +10,33 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => Sizer(
-        builder: (_, __, ___) => const MaterialApp(
+        builder: (_, __, ___) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: ChatPage(),
+          home: Scaffold(
+            backgroundColor: Colors.grey.shade200,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  VoiceMessage(
+                    controller: VoiceController(
+                      id: '1',
+                      audioSrc:
+                          'https://dl.musicdel.ir/Music/1400/08/morteza_pashaei_setayesh%20128.mp3',
+                      maxDuration: const Duration(seconds: 30),
+                      isFile: false,
+                      onComplete: (String id) {},
+                      onPause: (String id) {},
+                      onPlaying: (String id) {},
+                    ),
+                    innerPadding: 12,
+                    cornerRadius: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
 }

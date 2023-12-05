@@ -39,7 +39,7 @@ class Bubble extends StatelessWidget {
             id: '1',
             audioSrc:
                 'https://dl.musicdel.ir/Music/1400/08/morteza_pashaei_setayesh%20128.mp3',
-            maxDuration: Duration(seconds: 30),
+            maxDuration: const Duration(seconds: 30),
             isFile: false,
             onComplete: (String id) {},
             onPause: (String id) {},
