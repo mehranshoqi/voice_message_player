@@ -227,6 +227,7 @@ class VoiceController extends MyTicker {
         this.maxDuration = maxDuration;
         animController.duration = maxDuration;
       }
+
     } catch (err) {
       if (kDebugMode) {
         debugPrint("cant get the max duration from the path $path");
