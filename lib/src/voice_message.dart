@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voice_message_package/src/helpers/play_status.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 import 'package:voice_message_package/src/voice_controller.dart';
 import 'package:voice_message_package/src/widgets/noises.dart';
@@ -111,6 +112,7 @@ class VoiceMessage extends StatelessWidget {
                                   controller.onSeek(
                                     Duration(milliseconds: value.toInt()),
                                   );
+                                  controller.play();
                                 },
                               ),
                             ),
@@ -135,8 +137,10 @@ class VoiceMessage extends StatelessWidget {
                       color: color,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child:
-                        Text(controller.playSpeedStr, style: circlesTextStyle),
+                    child: Text(
+                      controller.speed.playSpeedStr,
+                      style: circlesTextStyle,
+                    ),
                   ),
                 ),
               ),

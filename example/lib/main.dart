@@ -1,4 +1,3 @@
-import 'package:voice_message/pages/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -21,14 +20,19 @@ class MyApp extends StatelessWidget {
                 children: [
                   VoiceMessage(
                     controller: VoiceController(
-                      id: '1',
                       audioSrc:
                           'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
                       maxDuration: const Duration(seconds: 10),
                       isFile: false,
-                      onComplete: (String id) {},
-                      onPause: (String id) {},
-                      onPlaying: (String id) {},
+                      onComplete: () {
+                        print('onComplete');
+                      },
+                      onPause: () {
+                        print('onPause');
+                      },
+                      onPlaying: () {
+                        print('onPlaying');
+                      },
                     ),
                     innerPadding: 12,
                     cornerRadius: 20,

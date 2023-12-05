@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -13,11 +12,10 @@ class VoiceController extends MyTicker {
   final String audioSrc;
   late Duration maxDuration;
   Duration currentDuration = Duration.zero;
-  final Function(String id) onComplete;
-  final Function(String id) onPlaying;
-  final Function(String id) onPause;
+  final Function() onComplete;
+  final Function() onPlaying;
+  final Function() onPause;
   final double noiseWidth = 50.5.w();
-  final String id;
   late AnimationController animController;
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
@@ -53,7 +51,6 @@ class VoiceController extends MyTicker {
   double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
 
   VoiceController({
-    required this.id,
     required this.audioSrc,
     required this.maxDuration,
     required this.isFile,
@@ -83,7 +80,7 @@ class VoiceController extends MyTicker {
       playStatus = PlayStatus.downloading;
       _updateUi();
       await startPlaying(audioSrc);
-      onPlaying(id);
+      onPlaying();
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -104,7 +101,7 @@ class VoiceController extends MyTicker {
         playStatus = PlayStatus.init;
         animController.reset();
         _updateUi();
-        onComplete(id);
+        onComplete();
       }
     });
   }
@@ -146,7 +143,7 @@ class VoiceController extends MyTicker {
     _player.pause();
     playStatus = PlayStatus.pause;
     _updateUi();
-    onPause(id);
+    onPause();
   }
 
   void _listenToPlayerState() {
@@ -163,23 +160,6 @@ class VoiceController extends MyTicker {
         _updateUi();
       }
     });
-  }
-
-  String get playSpeedStr {
-    switch (speed) {
-      case PlaySpeed.x1:
-        return "1.00x";
-      case PlaySpeed.x1_25:
-        return "1.25x";
-      case PlaySpeed.x1_5:
-        return "1.50x";
-      case PlaySpeed.x1_75:
-        return "1.75x";
-      case PlaySpeed.x2:
-        return "2.00x";
-      case PlaySpeed.x2_25:
-        return "2.25x";
-    }
   }
 
   void changeSpeed() {
