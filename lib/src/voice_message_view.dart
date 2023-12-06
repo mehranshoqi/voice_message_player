@@ -33,18 +33,39 @@ class VoiceMessageView extends StatelessWidget {
     ),
   }) : super(key: key);
 
+  /// The controller for the voice message view.
   final VoiceController controller;
+
+  /// The background color of the voice message view.
   final Color backgroundColor;
+
+  ///
   final Color circlesColor;
+
+  /// The color of the active slider.
   final Color activeSliderColor;
+
+  /// The color of the not active slider.
   final Color? notActiveSliderColor;
+
+  /// The text style of the circles.
   final TextStyle circlesTextStyle;
+
+  /// The text style of the counter.
   final TextStyle counterTextStyle;
+
+  /// The padding between the inner content and the outer container.
   final double innerPadding;
+
+  /// The corner radius of the outer container.
   final double cornerRadius;
+
+  /// The size of the play/pause button.
   final double size;
 
   @override
+
+  /// Build voice message view.
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final color = circlesColor;
@@ -64,92 +85,36 @@ class VoiceMessageView extends StatelessWidget {
         borderRadius: BorderRadius.circular(cornerRadius),
       ),
       child: ValueListenableBuilder(
+        /// update ui when change play status
         valueListenable: controller.updater,
         builder: (context, value, child) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              /// play pause button
               PlayPauseButton(controller: controller, color: color, size: size),
+
+              ///
               const SizedBox(width: 10),
+
+              /// slider & noises
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
-                  SizedBox(
-                    height: 30,
-                    width: controller.noiseWidth,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Noises(
-                          rList: controller.randoms!,
-                          activeSliderColor: activeSliderColor,
-                        ),
-                        AnimatedBuilder(
-                          animation: CurvedAnimation(
-                            parent: controller.animController,
-                            curve: Curves.ease,
-                          ),
-                          builder: (BuildContext context, Widget? child) {
-                            return Positioned(
-                              left: controller.animController.value,
-                              child: Container(
-                                width: controller.noiseWidth,
-                                height: 6.w(),
-                                color: notActiveSliderColor ??
-                                    backgroundColor.withOpacity(.4),
-                              ),
-                            );
-                          },
-                        ),
-                        Opacity(
-                          opacity: 0,
-                          child: Container(
-                            width: controller.noiseWidth,
-                            color: Colors.transparent.withOpacity(1),
-                            child: Theme(
-                              data: newTHeme,
-                              child: Slider(
-                                value: controller.currentMillSeconds,
-                                max: controller.maxMillSeconds,
-                                onChangeStart: controller.onChangeSliderStart,
-                                onChanged: controller.onChanging,
-                                onChangeEnd: (value) {
-                                  controller.onSeek(
-                                    Duration(milliseconds: value.toInt()),
-                                  );
-                                  controller.play();
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _noises(newTHeme),
                   const SizedBox(height: 4),
                   Text(controller.remindingTime, style: counterTextStyle),
                 ],
               ),
+
+              ///
               const SizedBox(width: 12),
-              Transform.translate(
-                offset: const Offset(0, -7),
-                child: InkWell(
-                  onTap: controller.changeSpeed,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      controller.speed.playSpeedStr,
-                      style: circlesTextStyle,
-                    ),
-                  ),
-                ),
-              ),
+
+              /// speed button
+              _changeSpeedButton(color),
+
+              ///
               const SizedBox(width: 10),
             ],
           );
@@ -157,6 +122,80 @@ class VoiceMessageView extends StatelessWidget {
       ),
     );
   }
+
+  SizedBox _noises(ThemeData newTHeme) => SizedBox(
+        height: 30,
+        width: controller.noiseWidth,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            /// noises
+            Noises(
+              rList: controller.randoms!,
+              activeSliderColor: activeSliderColor,
+            ),
+
+            /// slider
+            AnimatedBuilder(
+              animation: CurvedAnimation(
+                parent: controller.animController,
+                curve: Curves.ease,
+              ),
+              builder: (BuildContext context, Widget? child) {
+                return Positioned(
+                  left: controller.animController.value,
+                  child: Container(
+                    width: controller.noiseWidth,
+                    height: 6.w(),
+                    color:
+                        notActiveSliderColor ?? backgroundColor.withOpacity(.4),
+                  ),
+                );
+              },
+            ),
+            Opacity(
+              opacity: 0,
+              child: Container(
+                width: controller.noiseWidth,
+                color: Colors.transparent.withOpacity(1),
+                child: Theme(
+                  data: newTHeme,
+                  child: Slider(
+                    value: controller.currentMillSeconds,
+                    max: controller.maxMillSeconds,
+                    onChangeStart: controller.onChangeSliderStart,
+                    onChanged: controller.onChanging,
+                    onChangeEnd: (value) {
+                      controller.onSeek(
+                        Duration(milliseconds: value.toInt()),
+                      );
+                      controller.play();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Transform _changeSpeedButton(Color color) => Transform.translate(
+        offset: const Offset(0, -7),
+        child: InkWell(
+          onTap: controller.changeSpeed,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              controller.speed.playSpeedStr,
+              style: circlesTextStyle,
+            ),
+          ),
+        ),
+      );
 }
 
 ///

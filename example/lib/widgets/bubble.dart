@@ -8,7 +8,7 @@ import '../helpers/style.dart';
 ///
 // ignore: must_be_immutable
 class Bubble extends StatelessWidget {
-  Bubble({
+  const Bubble({
     required this.me,
     required this.index,
     Key? key,

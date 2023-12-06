@@ -6,7 +6,6 @@ import 'package:voice_message_package/voice_message_package.dart';
 ///
 /// This button can be used to control the playback of a media player.
 class PlayPauseButton extends StatelessWidget {
-  
   const PlayPauseButton({
     super.key,
     required this.controller,
@@ -14,8 +13,13 @@ class PlayPauseButton extends StatelessWidget {
     required this.size,
   });
 
+  /// The size of the button.
   final double size;
+
+  /// The controller for the voice message view.
   final VoiceController controller;
+
+  /// The color of the button.
   final Color color;
 
   @override

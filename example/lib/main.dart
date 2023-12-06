@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
                       maxDuration: const Duration(seconds: 10),
                       isFile: false,
                       onComplete: () {
-                        print('onComplete');
+                        /// do something on complete
                       },
                       onPause: () {
-                        print('onPause');
+                        /// do something on pause
                       },
                       onPlaying: () {
-                        print('onPlaying');
+                        /// do something on playing
                       },
                     ),
                     innerPadding: 12,

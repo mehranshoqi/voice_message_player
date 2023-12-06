@@ -12,7 +12,10 @@ class Noises extends StatelessWidget {
     required this.activeSliderColor,
   });
 
+  /// A list of noises value.
   final List<double> rList;
+
+  /// The color of the active slider.
   final Color activeSliderColor;
 
   @override

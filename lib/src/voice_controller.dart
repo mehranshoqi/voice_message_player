@@ -1,3 +1,13 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:voice_message_package/src/helpers/play_status.dart';
+import 'package:voice_message_package/src/helpers/utils.dart';
+
 /// A controller for managing voice playback.
 ///
 /// The [VoiceController] class provides functionality for playing, pausing, stopping, and seeking voice playback.
@@ -18,17 +28,6 @@
 ///   },
 /// );
 ///
-
-import 'dart:async';
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:voice_message_package/src/helpers/play_status.dart';
-import 'package:voice_message_package/src/helpers/utils.dart';
-
 class VoiceController extends MyTicker {
   final String audioSrc;
   late Duration maxDuration;
@@ -47,6 +46,7 @@ class VoiceController extends MyTicker {
   StreamSubscription? positionStream;
   StreamSubscription? playerStateStream;
 
+  /// Gets the current playback position of the voice.
   double get currentMillSeconds {
     final c = currentDuration.inMilliseconds.toDouble();
     if (c >= maxMillSeconds) {
@@ -71,6 +71,7 @@ class VoiceController extends MyTicker {
 
   double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
 
+  /// Creates a new [VoiceController] instance.
   VoiceController({
     required this.audioSrc,
     required this.maxDuration,
@@ -91,6 +92,7 @@ class VoiceController extends MyTicker {
     _listenToPlayerState();
   }
 
+  /// Initializes the voice controller.
   Future init() async {
     await setMaxDuration(audioSrc);
     _updateUi();
@@ -132,11 +134,13 @@ class VoiceController extends MyTicker {
     updater.notifyListeners();
   }
 
+  /// Stops playing the voice.
   Future stopPlaying() async {
     _player.pause();
     playStatus = PlayStatus.stop;
   }
 
+  /// Starts playing the voice.
   Future startPlaying(String path) async {
     Uri audioUri = isFile ? Uri.file(audioSrc) : Uri.parse(audioSrc);
     await _player.setAudioSource(
@@ -154,6 +158,7 @@ class VoiceController extends MyTicker {
     animController.dispose();
   }
 
+  /// Seeks to the given [duration].
   void onSeek(Duration duration) {
     isSeeking = false;
     currentDuration = duration;
@@ -161,6 +166,7 @@ class VoiceController extends MyTicker {
     _player.seek(duration);
   }
 
+  /// Pauses the voice playback.
   void pausePlaying() {
     _player.pause();
     playStatus = PlayStatus.pause;
@@ -168,6 +174,7 @@ class VoiceController extends MyTicker {
     onPause();
   }
 
+  /// Resumes the voice playback.
   void _listenToPlayerState() {
     playerStateStream = _player.playerStateStream.listen((event) async {
       if (event.processingState == ProcessingState.completed) {
@@ -211,8 +218,11 @@ class VoiceController extends MyTicker {
     _updateUi();
   }
 
+  /// Changes the speed of the voice playback.
   void onChangeSliderStart(double value) {
     isSeeking = true;
+
+    /// pause the voice
     pausePlaying();
   }
 
@@ -223,6 +233,7 @@ class VoiceController extends MyTicker {
     }
   }
 
+  /// Changes the speed of the voice playback.
   void onChanging(double d) {
     currentDuration = Duration(milliseconds: d.toInt());
     final value = (noiseWidth * d) / maxMillSeconds;
@@ -230,6 +241,7 @@ class VoiceController extends MyTicker {
     _updateUi();
   }
 
+  ///
   String get remindingTime {
     if (currentDuration == Duration.zero) {
       return maxDuration.formattedTime;
@@ -243,8 +255,10 @@ class VoiceController extends MyTicker {
     return currentDuration.formattedTime;
   }
 
+  /// Sets the maximum duration of the voice.
   Future setMaxDuration(String path) async {
     try {
+      /// get the max duration from the path or cloud
       final maxDuration =
           isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
       if (maxDuration != null) {
@@ -253,6 +267,7 @@ class VoiceController extends MyTicker {
       }
     } catch (err) {
       if (kDebugMode) {
+        ///
         debugPrint("cant get the max duration from the path $path");
       }
     }
@@ -277,6 +292,8 @@ class VoiceController extends MyTicker {
 /// It can be used to create animations or perform actions at regular intervals.
 class MyTicker extends TickerProvider {
   @override
+
+  /// Creates a new ticker.
   Ticker createTicker(TickerCallback onTick) {
     return Ticker(onTick);
   }

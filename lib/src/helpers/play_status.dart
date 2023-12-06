@@ -1,7 +1,10 @@
+/// PlayStatus enum.
 enum PlayStatus { init, playing, pause, stop, downloading, downloadError }
 
+/// PlaySpeed enum.
 enum PlaySpeed { x1, x1_25, x1_5, x1_75, x2, x2_25 }
 
+/// Get the speed of the voice playback.
 extension GetSpeed on PlaySpeed {
   double get getSpeed {
     switch (this) {
@@ -20,6 +23,7 @@ extension GetSpeed on PlaySpeed {
     }
   }
 
+  /// Get the speed of the voice playback.
   String get playSpeedStr {
     switch (this) {
       case PlaySpeed.x1:

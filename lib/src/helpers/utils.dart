@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 /// Get screen media.
 final MediaQueryData media =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    // ignore: deprecated_member_use
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
 
 /// This extention help us to make widget responsive.
 extension NumberParsing on num {
@@ -11,12 +12,14 @@ extension NumberParsing on num {
   double h() => this * media.size.height / 100;
 }
 
+///
 extension StringExtension on String {
   String? get appendZeroPrefix {
     return length <= 1 ? "0$this" : this;
   }
 }
 
+/// This extention help us to make widget responsive.
 extension DurationExtension on Duration {
   String get formattedTime {
     int sec = inSeconds % 60;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A widget that shows a loading indicator.
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
 
