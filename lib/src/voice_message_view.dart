@@ -5,6 +5,12 @@ import 'package:voice_message_package/src/voice_controller.dart';
 import 'package:voice_message_package/src/widgets/noises.dart';
 import 'package:voice_message_package/src/widgets/play_pause_button.dart';
 
+/// A widget that displays a voice message view with play/pause functionality.
+///
+/// The [VoiceMessageView] widget is used to display a voice message with customizable appearance and behavior.
+/// It provides a play/pause button, a progress slider, and a counter for the remaining time.
+/// The appearance of the widget can be customized using various properties such as background color, slider color, and text styles.
+///
 class VoiceMessageView extends StatelessWidget {
   const VoiceMessageView({
     Key? key,
@@ -154,9 +160,18 @@ class VoiceMessageView extends StatelessWidget {
 }
 
 ///
+/// A custom track shape for a slider that is rounded rectangular in shape.
+/// Extends the [RoundedRectSliderTrackShape] class.
 class CustomTrackShape extends RoundedRectSliderTrackShape {
-  ///
   @override
+
+  /// Returns the preferred rectangle for the voice message view.
+  ///
+  /// The preferred rectangle is calculated based on the current state and layout
+  /// of the voice message view. It represents the area where the view should be
+  /// displayed on the screen.
+  ///
+  /// Returns a [Rect] object representing the preferred rectangle.
   Rect getPreferredRect({
     required RenderBox parentBox,
     Offset offset = Offset.zero,

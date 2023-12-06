@@ -88,10 +88,7 @@ All you need is pass your audio file src to VoiceMessage widget:
 
 Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voice_message_player/blob/master/LICENSE "LICENSE").
 
-
-## Me
-
-:pushpin:Find me at [Portfolio](https://mehran.monster)
+:pushpin:Find me at [www.mehran.monster](https://mehran.monster)
 
 
 

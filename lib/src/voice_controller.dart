@@ -1,3 +1,24 @@
+/// A controller for managing voice playback.
+///
+/// The [VoiceController] class provides functionality for playing, pausing, stopping, and seeking voice playback.
+/// It uses the [just_audio](https://pub.dev/packages/just_audio) package for audio playback.
+/// The controller also supports changing the playback speed and provides UI updates through a [ValueNotifier].
+///
+/// Example usage:
+/// ```dart
+/// VoiceController voiceController = VoiceController(
+///   audioSrc: 'path/to/audio.mp3',
+///   maxDuration: Duration(minutes: 5),
+///   isFile: true,
+///   onComplete: () {
+///   },
+///   onPause: () {
+///   },
+///   onPlaying: () {
+///   },
+/// );
+///
+
 import 'dart:async';
 import 'dart:math';
 
@@ -107,6 +128,7 @@ class VoiceController extends MyTicker {
   }
 
   void _updateUi() {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     updater.notifyListeners();
   }
 
@@ -162,7 +184,9 @@ class VoiceController extends MyTicker {
     });
   }
 
+  /// Changes the speed of the voice playback.
   void changeSpeed() {
+    // Function implementation goes here
     switch (speed) {
       case PlaySpeed.x1:
         speed = PlaySpeed.x1_25;
@@ -227,7 +251,6 @@ class VoiceController extends MyTicker {
         this.maxDuration = maxDuration;
         animController.duration = maxDuration;
       }
-
     } catch (err) {
       if (kDebugMode) {
         debugPrint("cant get the max duration from the path $path");
@@ -236,6 +259,22 @@ class VoiceController extends MyTicker {
   }
 }
 
+/// A custom [TickerProvider] implementation for the voice controller.
+///
+/// This class provides the necessary functionality for controlling the voice playback.
+/// It implements the [TickerProvider] interface, allowing it to create [Ticker] objects
+/// that can be used to schedule animations or other periodic tasks.
+///
+/// Example usage:
+/// ```dart
+/// VoiceController voiceController = VoiceController();
+/// voiceController.start();
+/// voiceController.stop();
+/// ```
+
+///
+/// This class extends [TickerProvider] and provides a custom ticker for the voice controller.
+/// It can be used to create animations or perform actions at regular intervals.
 class MyTicker extends TickerProvider {
   @override
   Ticker createTicker(TickerCallback onTick) {
