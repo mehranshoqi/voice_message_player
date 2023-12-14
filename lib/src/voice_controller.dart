@@ -35,6 +35,7 @@ class VoiceController extends MyTicker {
   final Function() onComplete;
   final Function() onPlaying;
   final Function() onPause;
+  final Function(Object)? onError;
   final double noiseWidth = 50.5.w();
   late AnimationController animController;
   final AudioPlayer _player = AudioPlayer();
@@ -79,6 +80,7 @@ class VoiceController extends MyTicker {
     required this.onComplete,
     required this.onPause,
     required this.onPlaying,
+    this.onError,
     this.randoms,
   }) {
     if (randoms?.isEmpty ?? true) _setRandoms();
@@ -107,7 +109,11 @@ class VoiceController extends MyTicker {
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
-      rethrow;
+      if (onError != null) {
+        onError!(err);
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -259,8 +265,7 @@ class VoiceController extends MyTicker {
   Future setMaxDuration(String path) async {
     try {
       /// get the max duration from the path or cloud
-      final maxDuration =
-          isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
+      final maxDuration = isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
       if (maxDuration != null) {
         this.maxDuration = maxDuration;
         animController.duration = maxDuration;
@@ -269,6 +274,9 @@ class VoiceController extends MyTicker {
       if (kDebugMode) {
         ///
         debugPrint("cant get the max duration from the path $path");
+      }
+      if (onError != null) {
+        onError!(err);
       }
     }
   }
