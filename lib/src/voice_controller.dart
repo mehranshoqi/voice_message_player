@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:voice_message_package/src/helpers/play_status.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
@@ -46,6 +47,7 @@ class VoiceController extends MyTicker {
   List<double>? randoms;
   StreamSubscription? positionStream;
   StreamSubscription? playerStateStream;
+  double? downloadProgress = 0;
 
   /// Gets the current playback position of the voice.
   double get currentMillSeconds {
@@ -71,6 +73,8 @@ class VoiceController extends MyTicker {
   bool get isPause => playStatus == PlayStatus.pause;
 
   double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
+
+  StreamSubscription<FileResponse>? downloadStreamSubscription;
 
   /// Creates a new [VoiceController] instance.
   VoiceController({
@@ -104,8 +108,23 @@ class VoiceController extends MyTicker {
     try {
       playStatus = PlayStatus.downloading;
       _updateUi();
-      await startPlaying(audioSrc);
-      onPlaying();
+      if (isFile) {
+        final path = await _getFileFromCache();
+        await startPlaying(path);
+        onPlaying();
+      } else {
+        downloadStreamSubscription = _getFileFromCacheWithProgress()
+            .listen((FileResponse fileResponse) async {
+          if (fileResponse is FileInfo) {
+            await startPlaying(fileResponse.file.path);
+            onPlaying();
+          } else if (fileResponse is DownloadProgress) {
+            _updateUi();
+            print(downloadProgress);
+            downloadProgress = fileResponse.progress;
+          }
+        });
+      }
     } catch (err) {
       playStatus = PlayStatus.downloadError;
       _updateUi();
@@ -148,9 +167,9 @@ class VoiceController extends MyTicker {
 
   /// Starts playing the voice.
   Future startPlaying(String path) async {
-    Uri audioUri = isFile ? Uri.file(audioSrc) : Uri.parse(audioSrc);
+    // Uri audioUri = isFile ? Uri.file(audioSrc) : Uri.parse(audioSrc);
     await _player.setAudioSource(
-      AudioSource.uri(audioUri),
+      AudioSource.uri(Uri.file(path)),
       initialPosition: currentDuration,
     );
     _player.play();
@@ -178,6 +197,27 @@ class VoiceController extends MyTicker {
     playStatus = PlayStatus.pause;
     _updateUi();
     onPause();
+  }
+
+  Future<String> _getFileFromCache() async {
+    if (isFile) {
+      return audioSrc;
+    }
+    final p = await DefaultCacheManager().getSingleFile(audioSrc);
+    return p.path;
+  }
+
+  Stream<FileResponse> _getFileFromCacheWithProgress() {
+    if (isFile) {
+      throw Exception("This method is not applicable for local files.");
+    }
+    return DefaultCacheManager().getFileStream(audioSrc, withProgress: true);
+  }
+
+  void cancelDownload() {
+    downloadStreamSubscription?.cancel();
+    playStatus = PlayStatus.init;
+    _updateUi();
   }
 
   /// Resumes the voice playback.
@@ -265,7 +305,8 @@ class VoiceController extends MyTicker {
   Future setMaxDuration(String path) async {
     try {
       /// get the max duration from the path or cloud
-      final maxDuration = isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
+      final maxDuration =
+          isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
       if (maxDuration != null) {
         this.maxDuration = maxDuration;
         animController.duration = maxDuration;

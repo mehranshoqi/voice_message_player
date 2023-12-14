@@ -38,7 +38,12 @@ class PlayPauseButton extends StatelessWidget {
           width: size,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           child: controller.isDownloading
-              ? const LoadingWidget()
+              ? LoadingWidget(
+                  progress: controller.downloadProgress,
+                  onClose: () {
+                    controller.cancelDownload();
+                  },
+                )
               : Icon(
                   /// faild to load audio
                   controller.isDownloadError
