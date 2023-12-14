@@ -33,6 +33,9 @@ class MyApp extends StatelessWidget {
                       onPlaying: () {
                         /// do something on playing
                       },
+                      onError: (err) {
+                        /// do somethin on error
+                      },
                     ),
                     innerPadding: 12,
                     cornerRadius: 20,
