@@ -72,6 +72,7 @@ VoiceMessageView(
 
 ## Todo
 
+- [✔️] Cache audio and play from cache.
 - [✔️] Seeking on audio by drag on noises.
 - [✔️] Change playback speed.
 - [✔️] Handle exceptions.
