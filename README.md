@@ -1,5 +1,5 @@
-
 ## Voicey - Flutter voice message player
+
 <!-- <p align="center">
     <img src="voicey-logos.jpeg" alt="voice message package" width="200" style="border-radius: 50%; overflow:hidden;">
 </p> -->
@@ -12,7 +12,6 @@
 ![](https://img.shields.io/github/issues/mehranshoqi/voice_message_player?color=E7E393&style=for-the-badge)
 ![](https://img.shields.io/pub/v/voice_message_package?color=D1F5FF&style=for-the-badge)
 ![](https://img.shields.io/github/last-commit/mehranshoqi/voice_message_player?color=F0F600&style=for-the-badge)
-
 
 ## Demo
 
@@ -42,9 +41,11 @@ First add voicey to your pubsbec.yaml file:
 dependencies:
   voice_message_package: <latest-version>
 ```
+
 <div style="height:12px;"></div>
 
 Next, get package from pub dependencies:
+
 ```dart
 flutter pub get
 ```
@@ -54,32 +55,26 @@ flutter pub get
 ## How to use
 
 All you need is pass your audio file src to VoiceMessage widget:
+
 ```dart
- VoiceMessageView(
+VoiceMessageView(
   controller: VoiceController(
-    audioSrc:
-        'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
-    maxDuration: const Duration(seconds: 120),
+    audioSrc: 'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
+    maxDuration: const Duration(seconds: 0),
     isFile: false,
-    onComplete: () {
-      print('onComplete');
-    },
-    onPause: () {
-      print('onPause');
-    },
-    onPlaying: () {
-      print('onPlaying');
-    },
+    onComplete: () {},
+    onPause: () {},
+    onPlaying: () {},
+    onError: (err) {},
   ),
-  innerPadding: 12,
-  cornerRadius: 20,
-),
+)
 ```
 
 ## Todo
 
 - [✔️] Seeking on audio by drag on noises.
 - [✔️] Change playback speed.
+- [✔️] Handle exceptions.
 - [ ] dynamic size for voice widget.
 
 <div style="height:40px;"></div>
@@ -90,6 +85,8 @@ Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voi
 
 :pushpin:Find me at [www.mehran.monster](https://mehran.monster)
 
+### Contributing
 
+##### :beer: Pull requests are welcome!
 
-
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.

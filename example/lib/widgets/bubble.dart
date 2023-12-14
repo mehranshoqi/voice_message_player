@@ -36,14 +36,13 @@ class Bubble extends StatelessWidget {
   Widget _bubble(BuildContext context) => voice
       ? VoiceMessageView(
           controller: VoiceController(
-            audioSrc:
-                // 'https://dl.musicdel.ir/Music/1400/08/morteza_pashaei_setayesh%20128.mp3',
-                'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
+            audioSrc: 'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
             maxDuration: const Duration(seconds: 0),
             isFile: false,
             onComplete: () {},
             onPause: () {},
             onPlaying: () {},
+            onError: (err) {},
           ),
         )
       : Container(
