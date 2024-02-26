@@ -98,14 +98,15 @@ class VoiceMessageView extends StatelessWidget {
               const SizedBox(width: 10),
 
               /// slider & noises
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 8),
-                  _noises(newTHeme),
-                  const SizedBox(height: 4),
-                  Text(controller.remindingTime, style: counterTextStyle),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _noises(newTHeme),
+                    Text(controller.remindingTime, style: counterTextStyle),
+                  ],
+                ),
               ),
 
               ///
@@ -147,8 +148,7 @@ class VoiceMessageView extends StatelessWidget {
                   child: Container(
                     width: controller.noiseWidth,
                     height: 6.w(),
-                    color:
-                        notActiveSliderColor ?? backgroundColor.withOpacity(.4),
+                    color: notActiveSliderColor ?? backgroundColor.withOpacity(.4),
                   ),
                 );
               },
@@ -219,8 +219,7 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
     bool isDiscrete = false,
   }) {
     const double trackHeight = 10;
-    final double trackLeft = offset.dx,
-        trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackLeft = offset.dx, trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
