@@ -41,6 +41,7 @@ class VoiceController extends MyTicker {
   late AnimationController animController;
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
+  final String? cacheKey;
   PlayStatus playStatus = PlayStatus.init;
   PlaySpeed speed = PlaySpeed.x1;
   ValueNotifier updater = ValueNotifier(null);
@@ -86,6 +87,7 @@ class VoiceController extends MyTicker {
     required this.onPlaying,
     this.onError,
     this.randoms,
+    this.cacheKey,
   }) {
     if (randoms?.isEmpty ?? true) _setRandoms();
     animController = AnimationController(
@@ -202,7 +204,7 @@ class VoiceController extends MyTicker {
     if (isFile) {
       return audioSrc;
     }
-    final p = await DefaultCacheManager().getSingleFile(audioSrc);
+    final p = await DefaultCacheManager().getSingleFile(audioSrc, key: cacheKey);
     return p.path;
   }
 
@@ -210,7 +212,7 @@ class VoiceController extends MyTicker {
     if (isFile) {
       throw Exception("This method is not applicable for local files.");
     }
-    return DefaultCacheManager().getFileStream(audioSrc, withProgress: true);
+    return DefaultCacheManager().getFileStream(audioSrc, key: cacheKey, withProgress: true);
   }
 
   void cancelDownload() {
