@@ -22,6 +22,10 @@ class VoiceMessageView extends StatelessWidget {
     this.innerPadding = 12,
     this.cornerRadius = 20,
     this.size = 38,
+    this.refreshIcon = const  Icon( Icons.refresh , color: Colors.white,) ,
+    this.pauseIcon = const  Icon( Icons.pause_rounded , color: Colors.white,) ,
+    this.playIcon = const  Icon( Icons.play_arrow_rounded, color: Colors.white,) ,
+    this.playPauseButtonDecoration  ,
     this.circlesTextStyle = const TextStyle(
       color: Colors.white,
       fontSize: 10,
@@ -63,6 +67,20 @@ class VoiceMessageView extends StatelessWidget {
   /// The size of the play/pause button.
   final double size;
 
+  /// The refresh icon of the play/pause button.
+  final Widget refreshIcon;
+
+  /// The pause icon of the play/pause button.
+  final Widget pauseIcon;
+
+  /// The play icon of the play/pause button.
+  final Widget playIcon;
+  
+  /// The play Decoration of the play/pause button.
+  final Decoration ? playPauseButtonDecoration ;
+
+  
+
   @override
 
   /// Build voice message view.
@@ -92,7 +110,7 @@ class VoiceMessageView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               /// play pause button
-              PlayPauseButton(controller: controller, color: color, size: size),
+              PlayPauseButton(controller: controller, color: color, size: size , refreshIcon: refreshIcon, pauseIcon: pauseIcon, playIcon: playIcon, buttonDecoration: playPauseButtonDecoration,),
 
               ///
               const SizedBox(width: 10),
