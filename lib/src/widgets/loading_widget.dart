@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class LoadingWidget extends StatefulWidget {
   final double? progress;
   final Function onClose;
+  final Widget stopDownloadingIcon ; 
 
   const LoadingWidget({
     Key? key,
     required this.progress,
     required this.onClose,
+    required this.stopDownloadingIcon,
   }) : super(key: key);
 
   @override
@@ -50,10 +52,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
         ),
         Positioned(
           child: IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
+            icon: widget.stopDownloadingIcon ,
             onPressed: () => widget.onClose(),
           ),
         ),

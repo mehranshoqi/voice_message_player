@@ -14,6 +14,7 @@ class PlayPauseButton extends StatelessWidget {
       required this.playIcon,
       required this.pauseIcon,
       required this.refreshIcon , 
+      required this.stopDownloadingIcon ,
       this.buttonDecoration ,
       });
 
@@ -34,6 +35,10 @@ class PlayPauseButton extends StatelessWidget {
 
   /// The button pause Icon
   final Widget refreshIcon;
+
+  /// The button stop Downloading Icon
+  final Widget stopDownloadingIcon;
+
   
   /// The button (container) decoration
   final Decoration ? buttonDecoration ;
@@ -59,6 +64,7 @@ class PlayPauseButton extends StatelessWidget {
                     onClose: () {
                       controller.cancelDownload();
                     },
+                    stopDownloadingIcon: stopDownloadingIcon,
                   )
                 :
 
