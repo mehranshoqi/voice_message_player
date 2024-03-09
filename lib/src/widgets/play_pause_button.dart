@@ -6,12 +6,18 @@ import 'package:voice_message_package/voice_message_package.dart';
 ///
 /// This button can be used to control the playback of a media player.
 class PlayPauseButton extends StatelessWidget {
-  const PlayPauseButton({
-    super.key,
-    required this.controller,
-    required this.color,
-    required this.size,
-  });
+  const PlayPauseButton(
+      {super.key,
+      required this.controller,
+      required this.color,
+      required this.size,
+      required this.playIcon,
+      required this.pauseIcon,
+      required this.refreshIcon , 
+      required this.stopDownloadingIcon ,
+      required this.loadingColor ,
+      this.buttonDecoration ,
+      });
 
   /// The size of the button.
   final double size;
@@ -21,6 +27,25 @@ class PlayPauseButton extends StatelessWidget {
 
   /// The color of the button.
   final Color color;
+
+  /// The button Play Icon
+  final Widget playIcon;
+
+  /// The button pause Icon
+  final Widget pauseIcon;
+
+  /// The button pause Icon
+  final Widget refreshIcon;
+
+  /// The button stop Downloading Icon
+  final Widget stopDownloadingIcon;
+
+  /// The button Loading Color 
+  final Color loadingColor ;
+
+  
+  /// The button (container) decoration
+  final Decoration ? buttonDecoration ;
 
   @override
   Widget build(BuildContext context) => InkWell(
@@ -34,31 +59,29 @@ class PlayPauseButton extends StatelessWidget {
                 ? controller.pausePlaying
                 : controller.play,
         child: Container(
-          height: size,
-          width: size,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          child: controller.isDownloading
-              ? LoadingWidget(
-                  progress: controller.downloadProgress,
-                  onClose: () {
-                    controller.cancelDownload();
-                  },
-                )
-              : Icon(
-                  /// faild to load audio
-                  controller.isDownloadError
+            height: size,
+            width: size,
+            decoration: buttonDecoration ?? BoxDecoration(color: color, shape: BoxShape.circle) ,
+            child: controller.isDownloading
+                ? LoadingWidget(
+                    progress: controller.downloadProgress,
+                    loadingColor: loadingColor,
+                    onClose: () {
+                      controller.cancelDownload();
+                    },
+                    stopDownloadingIcon: stopDownloadingIcon,
+                  )
+                :
 
-                      /// show refresh icon
-                      ? Icons.refresh
+                /// faild to load audio
+                controller.isDownloadError
 
-                      /// playing or pause
-                      : controller.isPlaying
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded,
+                    /// show refresh icon
+                    ?  refreshIcon
+                    : controller.isPlaying
+                        ? pauseIcon
+                        : playIcon
 
-                  /// icon color
-                  color: Colors.white,
-                ),
-        ),
+            ),
       );
 }
