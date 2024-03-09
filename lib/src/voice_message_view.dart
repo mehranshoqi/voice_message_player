@@ -48,6 +48,7 @@ class VoiceMessageView extends StatelessWidget {
       fontSize: 11,
       fontWeight: FontWeight.w500,
     ),
+    this.playPauseButtonLoadingColor = Colors.white
   }) : super(key: key);
 
   /// The controller for the voice message view.
@@ -95,6 +96,9 @@ class VoiceMessageView extends StatelessWidget {
   /// The play Decoration of the play/pause button.
   final Decoration? playPauseButtonDecoration;
 
+  /// The loading Color of the play/pause button.
+  final Color playPauseButtonLoadingColor ; 
+
   @override
 
   /// Build voice message view.
@@ -127,6 +131,7 @@ class VoiceMessageView extends StatelessWidget {
               PlayPauseButton(
                 controller: controller,
                 color: color,
+                loadingColor: playPauseButtonLoadingColor,
                 size: size,
                 refreshIcon: refreshIcon,
                 pauseIcon: pauseIcon,

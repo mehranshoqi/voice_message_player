@@ -15,6 +15,7 @@ class PlayPauseButton extends StatelessWidget {
       required this.pauseIcon,
       required this.refreshIcon , 
       required this.stopDownloadingIcon ,
+      required this.loadingColor ,
       this.buttonDecoration ,
       });
 
@@ -39,6 +40,9 @@ class PlayPauseButton extends StatelessWidget {
   /// The button stop Downloading Icon
   final Widget stopDownloadingIcon;
 
+  /// The button Loading Color 
+  final Color loadingColor ;
+
   
   /// The button (container) decoration
   final Decoration ? buttonDecoration ;
@@ -61,6 +65,7 @@ class PlayPauseButton extends StatelessWidget {
             child: controller.isDownloading
                 ? LoadingWidget(
                     progress: controller.downloadProgress,
+                    loadingColor: loadingColor,
                     onClose: () {
                       controller.cancelDownload();
                     },

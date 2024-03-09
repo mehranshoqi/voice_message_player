@@ -4,12 +4,14 @@ class LoadingWidget extends StatefulWidget {
   final double? progress;
   final Function onClose;
   final Widget stopDownloadingIcon ; 
+  final Color loadingColor ;
 
   const LoadingWidget({
     Key? key,
     required this.progress,
     required this.onClose,
     required this.stopDownloadingIcon,
+    required this.loadingColor
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
                 padding: const EdgeInsets.all(4.0),
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: widget.loadingColor,
                   value: widget.progress ?? 0,
                 ),
               ),
@@ -51,9 +53,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
           },
         ),
         Positioned(
-          child: IconButton(
-            icon: widget.stopDownloadingIcon ,
-            onPressed: () => widget.onClose(),
+          child: InkWell(
+            child: widget.stopDownloadingIcon ,
+            onTap: () => widget.onClose(),
           ),
         ),
       ],
