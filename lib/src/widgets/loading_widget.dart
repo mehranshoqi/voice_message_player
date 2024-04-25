@@ -15,11 +15,10 @@ class LoadingWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoadingWidgetState createState() => _LoadingWidgetState();
+  LoadingWidgetState createState() => LoadingWidgetState();
 }
 
-class _LoadingWidgetState extends State<LoadingWidget>
-    with SingleTickerProviderStateMixin {
+class LoadingWidgetState extends State<LoadingWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
