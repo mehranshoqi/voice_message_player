@@ -90,16 +90,22 @@ VoiceMessageView(
 - [✔️] Customization .
 - [✔️] Dynamic width for voice widget.
 
-<div style="height:40px;"></div>
+<div style="height:32px;"></div>
 
-## License
 
-Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voice_message_player/blob/master/LICENSE "LICENSE").
+<h2>
+<a style="text-decoration: none; color: #0000ff" href="https://mehran.monster/">www.mehran.monster</a>
+</h2>
 
-:pushpin:Find me at [www.mehran.monster](https://mehran.monster)
-
+<div style="height:16px;"></div>
 ### Contributing
 
 ##### :beer: Pull requests are welcome!
 
 Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+
+## License
+
+Licensed under the MIT license. See [LICENSE](https://github.com/mehranshoqi/voice_message_player/blob/master/LICENSE "LICENSE").
+
+بم میگن اوستا حتی سیاها آفریقا
