@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class LoadingWidget extends StatefulWidget {
   final double? progress;
   final Function onClose;
+  final Widget stopDownloadingIcon ; 
+  final Color loadingColor ;
 
   const LoadingWidget({
     Key? key,
     required this.progress,
     required this.onClose,
+    required this.stopDownloadingIcon,
+    required this.loadingColor
   }) : super(key: key);
 
   @override
@@ -40,7 +44,7 @@ class LoadingWidgetState extends State<LoadingWidget> with SingleTickerProviderS
                 padding: const EdgeInsets.all(4.0),
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: widget.loadingColor,
                   value: widget.progress ?? 0,
                 ),
               ),
@@ -48,12 +52,9 @@ class LoadingWidgetState extends State<LoadingWidget> with SingleTickerProviderS
           },
         ),
         Positioned(
-          child: IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onPressed: () => widget.onClose(),
+          child: InkWell(
+            child: widget.stopDownloadingIcon ,
+            onTap: () => widget.onClose(),
           ),
         ),
       ],
