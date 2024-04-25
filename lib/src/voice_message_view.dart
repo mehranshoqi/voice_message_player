@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:voice_message_package/src/helpers/play_status.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 import 'package:voice_message_package/src/voice_controller.dart';
@@ -21,6 +22,7 @@ class VoiceMessageView extends StatelessWidget {
     this.circlesColor = Colors.red,
     this.innerPadding = 12,
     this.cornerRadius = 20,
+    // this.playerWidth = 170,
     this.size = 38,
     this.circlesTextStyle = const TextStyle(
       color: Colors.white,
@@ -79,6 +81,7 @@ class VoiceMessageView extends StatelessWidget {
     );
 
     return Container(
+      width: 160 + (controller.noiseCount * .72.w()),
       padding: EdgeInsets.all(innerPadding),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -98,7 +101,8 @@ class VoiceMessageView extends StatelessWidget {
               const SizedBox(width: 10),
 
               /// slider & noises
-              Expanded(
+              Flexible(
+                fit: FlexFit.loose,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

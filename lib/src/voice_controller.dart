@@ -48,6 +48,7 @@ class VoiceController extends MyTicker {
   StreamSubscription? positionStream;
   StreamSubscription? playerStateStream;
   double? downloadProgress = 0;
+  final int noiseCount;
 
   /// Gets the current playback position of the voice.
   double get currentMillSeconds {
@@ -84,6 +85,7 @@ class VoiceController extends MyTicker {
     required this.onComplete,
     required this.onPause,
     required this.onPlaying,
+    this.noiseCount = 24,
     this.onError,
     this.randoms,
   }) {
@@ -120,7 +122,6 @@ class VoiceController extends MyTicker {
             onPlaying();
           } else if (fileResponse is DownloadProgress) {
             _updateUi();
-            print(downloadProgress);
             downloadProgress = fileResponse.progress;
           }
         });
@@ -274,7 +275,7 @@ class VoiceController extends MyTicker {
 
   void _setRandoms() {
     randoms = [];
-    for (var i = 0; i < 44; i++) {
+    for (var i = 0; i < noiseCount; i++) {
       randoms!.add(5.74.w() * Random().nextDouble() + .26.w());
     }
   }
