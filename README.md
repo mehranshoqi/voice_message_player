@@ -20,7 +20,7 @@
 ![](voice_message_intro.gif)
 
 <div style="height:12px;"></div>
-<p style="font-size: 18px"/>
+<p style="font-size: 18px" >
 Voicey is a flutter package to play voice messages in chats. Also, you can sicking by dragging on voice noises.
 </p>
 <div style="height:40px;"></div>
@@ -59,15 +59,26 @@ All you need is pass your audio file src to VoiceMessage widget:
 ```dart
 VoiceMessageView(
   controller: VoiceController(
-    audioSrc: 'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
-    maxDuration: const Duration(seconds: 0),
-    isFile: false,
-    onComplete: () {},
-    onPause: () {},
-    onPlaying: () {},
-    onError: (err) {},
+    audioSrc:
+        'https://dl.solahangs.com/Music/1403/02/H/128/Hiphopologist%20-%20Shakkak%20%28128%29.mp3',
+    onComplete: () {
+      /// do something on complete
+    },
+    onPause: () {
+      /// do something on pause
+    },
+    onPlaying: () {
+      /// do something on playing
+    },
+    onError: (err) {
+      /// do somethin on error
+    },
   ),
-)
+  maxDuration: const Duration(seconds: 10),
+  isFile: false,
+  innerPadding: 12,
+  cornerRadius: 20,
+),
 ```
 
 ## Todo
@@ -76,7 +87,8 @@ VoiceMessageView(
 - [✔️] Seeking on audio by drag on noises.
 - [✔️] Change playback speed.
 - [✔️] Handle exceptions.
-- [ ] dynamic size for voice widget.
+- [✔️] Customization .
+- [✔️] Dynamic width for voice widget.
 
 <div style="height:40px;"></div>
 

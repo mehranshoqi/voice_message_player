@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(height: 50.h),
+                    SizedBox(height: 50.h),
                     VoiceMessageView(
                       controller: VoiceController(
                         audioSrc:
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
                       innerPadding: 12,
                       cornerRadius: 20,
                     ),
-                    Container(height: 80.h),
+                    SizedBox(height: 80.h),
                   ],
                 ),
               ),

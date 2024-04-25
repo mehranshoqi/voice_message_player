@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:voice_message_package/src/helpers/play_status.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 import 'package:voice_message_package/src/voice_controller.dart';
@@ -198,7 +197,8 @@ class VoiceMessageView extends StatelessWidget {
                   child: Container(
                     width: controller.noiseWidth,
                     height: 6.w(),
-                    color: notActiveSliderColor ?? backgroundColor.withOpacity(.4),
+                    color:
+                        notActiveSliderColor ?? backgroundColor.withOpacity(.4),
                   ),
                 );
               },
@@ -271,7 +271,8 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
     bool isDiscrete = false,
   }) {
     const double trackHeight = 10;
-    final double trackLeft = offset.dx, trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackLeft = offset.dx,
+        trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }

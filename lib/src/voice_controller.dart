@@ -117,7 +117,8 @@ class VoiceController extends MyTicker {
         await startPlaying(path);
         onPlaying();
       } else {
-        downloadStreamSubscription = _getFileFromCacheWithProgress().listen((FileResponse fileResponse) async {
+        downloadStreamSubscription = _getFileFromCacheWithProgress()
+            .listen((FileResponse fileResponse) async {
           if (fileResponse is FileInfo) {
             await startPlaying(fileResponse.file.path);
             onPlaying();
@@ -206,7 +207,8 @@ class VoiceController extends MyTicker {
     if (isFile) {
       return audioSrc;
     }
-    final p = await DefaultCacheManager().getSingleFile(audioSrc, key: cacheKey);
+    final p =
+        await DefaultCacheManager().getSingleFile(audioSrc, key: cacheKey);
     return p.path;
   }
 
@@ -214,7 +216,8 @@ class VoiceController extends MyTicker {
     if (isFile) {
       throw Exception("This method is not applicable for local files.");
     }
-    return DefaultCacheManager().getFileStream(audioSrc, key: cacheKey, withProgress: true);
+    return DefaultCacheManager()
+        .getFileStream(audioSrc, key: cacheKey, withProgress: true);
   }
 
   void cancelDownload() {
@@ -308,7 +311,8 @@ class VoiceController extends MyTicker {
   Future setMaxDuration(String path) async {
     try {
       /// get the max duration from the path or cloud
-      final maxDuration = isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
+      final maxDuration =
+          isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
       if (maxDuration != null) {
         this.maxDuration = maxDuration;
         animController.duration = maxDuration;
