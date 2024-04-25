@@ -24,6 +24,23 @@ class VoiceMessageView extends StatelessWidget {
     this.cornerRadius = 20,
     // this.playerWidth = 170,
     this.size = 38,
+    this.refreshIcon = const Icon(
+      Icons.refresh,
+      color: Colors.white,
+    ),
+    this.pauseIcon = const Icon(
+      Icons.pause_rounded,
+      color: Colors.white,
+    ),
+    this.playIcon = const Icon(
+      Icons.play_arrow_rounded,
+      color: Colors.white,
+    ),
+    this.stopDownloadingIcon = const Icon(
+      Icons.close,
+      color: Colors.white,
+    ),
+    this.playPauseButtonDecoration,
     this.circlesTextStyle = const TextStyle(
       color: Colors.white,
       fontSize: 10,
@@ -33,6 +50,7 @@ class VoiceMessageView extends StatelessWidget {
       fontSize: 11,
       fontWeight: FontWeight.w500,
     ),
+    this.playPauseButtonLoadingColor = Colors.white
   }) : super(key: key);
 
   /// The controller for the voice message view.
@@ -65,6 +83,24 @@ class VoiceMessageView extends StatelessWidget {
   /// The size of the play/pause button.
   final double size;
 
+  /// The refresh icon of the play/pause button.
+  final Widget refreshIcon;
+
+  /// The pause icon of the play/pause button.
+  final Widget pauseIcon;
+
+  /// The play icon of the play/pause button.
+  final Widget playIcon;
+
+  /// The stop downloading icon of the play/pause button.
+  final Widget stopDownloadingIcon;
+
+  /// The play Decoration of the play/pause button.
+  final Decoration? playPauseButtonDecoration;
+
+  /// The loading Color of the play/pause button.
+  final Color playPauseButtonLoadingColor ; 
+
   @override
 
   /// Build voice message view.
@@ -95,7 +131,17 @@ class VoiceMessageView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               /// play pause button
-              PlayPauseButton(controller: controller, color: color, size: size),
+              PlayPauseButton(
+                controller: controller,
+                color: color,
+                loadingColor: playPauseButtonLoadingColor,
+                size: size,
+                refreshIcon: refreshIcon,
+                pauseIcon: pauseIcon,
+                playIcon: playIcon,
+                stopDownloadingIcon: stopDownloadingIcon,
+                buttonDecoration: playPauseButtonDecoration,
+              ),
 
               ///
               const SizedBox(width: 10),
