@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:voice_message_package/src/helpers/play_status.dart';
 import 'package:voice_message_package/src/helpers/utils.dart';
 import 'package:voice_message_package/src/voice_controller.dart';
@@ -13,45 +12,45 @@ import 'package:voice_message_package/src/widgets/play_pause_button.dart';
 /// The appearance of the widget can be customized using various properties such as background color, slider color, and text styles.
 ///
 class VoiceMessageView extends StatelessWidget {
-  const VoiceMessageView({
-    Key? key,
-    required this.controller,
-    this.backgroundColor = Colors.white,
-    this.activeSliderColor = Colors.red,
-    this.notActiveSliderColor,
-    this.circlesColor = Colors.red,
-    this.innerPadding = 12,
-    this.cornerRadius = 20,
-    // this.playerWidth = 170,
-    this.size = 38,
-    this.refreshIcon = const Icon(
-      Icons.refresh,
-      color: Colors.white,
-    ),
-    this.pauseIcon = const Icon(
-      Icons.pause_rounded,
-      color: Colors.white,
-    ),
-    this.playIcon = const Icon(
-      Icons.play_arrow_rounded,
-      color: Colors.white,
-    ),
-    this.stopDownloadingIcon = const Icon(
-      Icons.close,
-      color: Colors.white,
-    ),
-    this.playPauseButtonDecoration,
-    this.circlesTextStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 10,
-      fontWeight: FontWeight.bold,
-    ),
-    this.counterTextStyle = const TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w500,
-    ),
-    this.playPauseButtonLoadingColor = Colors.white
-  }) : super(key: key);
+  const VoiceMessageView(
+      {Key? key,
+      required this.controller,
+      this.backgroundColor = Colors.white,
+      this.activeSliderColor = Colors.red,
+      this.notActiveSliderColor,
+      this.circlesColor = Colors.red,
+      this.innerPadding = 12,
+      this.cornerRadius = 20,
+      // this.playerWidth = 170,
+      this.size = 38,
+      this.refreshIcon = const Icon(
+        Icons.refresh,
+        color: Colors.white,
+      ),
+      this.pauseIcon = const Icon(
+        Icons.pause_rounded,
+        color: Colors.white,
+      ),
+      this.playIcon = const Icon(
+        Icons.play_arrow_rounded,
+        color: Colors.white,
+      ),
+      this.stopDownloadingIcon = const Icon(
+        Icons.close,
+        color: Colors.white,
+      ),
+      this.playPauseButtonDecoration,
+      this.circlesTextStyle = const TextStyle(
+        color: Colors.white,
+        fontSize: 10,
+        fontWeight: FontWeight.bold,
+      ),
+      this.counterTextStyle = const TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+      ),
+      this.playPauseButtonLoadingColor = Colors.white})
+      : super(key: key);
 
   /// The controller for the voice message view.
   final VoiceController controller;
@@ -99,7 +98,7 @@ class VoiceMessageView extends StatelessWidget {
   final Decoration? playPauseButtonDecoration;
 
   /// The loading Color of the play/pause button.
-  final Color playPauseButtonLoadingColor ; 
+  final Color playPauseButtonLoadingColor;
 
   @override
 
@@ -233,8 +232,10 @@ class VoiceMessageView extends StatelessWidget {
 
   Transform _changeSpeedButton(Color color) => Transform.translate(
         offset: const Offset(0, -7),
-        child: InkWell(
-          onTap: controller.changeSpeed,
+        child: GestureDetector(
+          onTap: () {
+            controller.changeSpeed();
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
             decoration: BoxDecoration(

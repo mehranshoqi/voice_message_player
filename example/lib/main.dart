@@ -14,33 +14,37 @@ class MyApp extends StatelessWidget {
           home: Scaffold(
             backgroundColor: Colors.grey.shade200,
             body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  VoiceMessageView(
-                    controller: VoiceController(
-                      audioSrc:
-                          'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
-                      maxDuration: const Duration(seconds: 10),
-                      isFile: false,
-                      onComplete: () {
-                        /// do something on complete
-                      },
-                      onPause: () {
-                        /// do something on pause
-                      },
-                      onPlaying: () {
-                        /// do something on playing
-                      },
-                      onError: (err) {
-                        /// do somethin on error
-                      },
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(height: 50.h),
+                    VoiceMessageView(
+                      controller: VoiceController(
+                        audioSrc:
+                            'https://dl.solahangs.com/Music/1403/02/H/128/Hiphopologist%20-%20Shakkak%20%28128%29.mp3',
+                        maxDuration: const Duration(seconds: 10),
+                        isFile: false,
+                        onComplete: () {
+                          /// do something on complete
+                        },
+                        onPause: () {
+                          /// do something on pause
+                        },
+                        onPlaying: () {
+                          /// do something on playing
+                        },
+                        onError: (err) {
+                          /// do somethin on error
+                        },
+                      ),
+                      innerPadding: 12,
+                      cornerRadius: 20,
                     ),
-                    innerPadding: 12,
-                    cornerRadius: 20,
-                  ),
-                ],
+                    Container(height: 80.h),
+                  ],
+                ),
               ),
             ),
           ),
