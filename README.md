@@ -73,9 +73,9 @@ VoiceMessageView(
     onError: (err) {
       /// do somethin on error
     },
+    maxDuration: const Duration(seconds: 10),
+    isFile: false,
   ),
-  maxDuration: const Duration(seconds: 10),
-  isFile: false,
   innerPadding: 12,
   cornerRadius: 20,
 ),
